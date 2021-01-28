@@ -13,23 +13,29 @@ import {
 } from 'react-bootstrap'
 
 import { addCategoryByText } from '../actions/categoryActions'
+import { loadLetters } from '../actions/alphabetActions'
+import { loadTeams } from '../actions/teamActions'
 
 import TeamName from '../components/TeamName'
 
 const CreateGameScreen = () => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+  // const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   // const commonLetters = 'toiswcbphfmderlnagukvyjqxz'
+  const [numberOfTeams, setNumberOfTeams] = useState(2)
+  const [numberOfRounds, setNumberOfRounds] = useState(10)
 
+  
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
+  const letters = useSelector((state) => state.alphabet)
+  const teams = useSelector((state) => state.teams)
 
-  console.log(categories)
+  console.log(teams)
 
-  const [numberOfTeams, setNumberOfTeams] = useState(1)
-  const [numberOfRounds, setNumberOfRounds] = useState(10)
-  const [teams, setTeams] = useState([])
-  const [letters, setLetters] = useState([])
+  // const [teams, setTeams] = useState([])
   const [category, setCategory] = useState([])
+
+  // dispatch(loadLetters(numberOfRounds))
   // const [categories, setCategories] = useState([])
 
   const handleAddCategoryInput = () => {
@@ -38,47 +44,21 @@ const CreateGameScreen = () => {
     setCategory('')
   }
 
-  const getLetters = (array, size) => {
-    let m = array.length
-    let n = size
-    let t, i
-
-    // While there remain elements to shuffle…
-    while (n) {
-      // Pick a remaining element…
-      i = Math.floor(Math.random() * m--)
-
-      // And swap it with the current element.
-      t = array[m]
-      array[m] = array[i]
-      array[i] = t
-      n--
-    }
-
-    return array.slice(0, size)
-  }
-
-  const changeTeamNamesHandler = (name, index) => {
-    setTeams(() => {
-      const newArray = [...teams]
-      newArray[index] = name
-      return newArray
-    })
-  }
+  // const changeTeamNamesHandler = (name, index) => {
+  //   // setTeams(() => {
+  //   //   const newArray = [...teams]
+  //   //   newArray[index] = name
+  //   //   return newArray
+  //   // })
+  // }
 
   useEffect(() => {
-    setTeams(() => {
-      let newTeams = []
-      for (let i = 0; i < numberOfTeams; i++) {
-        newTeams.push(`team ${i + 1}`)
-      }
-      return newTeams
-    })
+    dispatch(loadLetters(numberOfRounds))
+  }, [numberOfRounds])
+
+  useEffect(() => {
+    dispatch(loadTeams(numberOfTeams))
   }, [numberOfTeams])
-
-  useEffect(() => {
-    setLetters(() => getLetters([...alphabet], numberOfRounds))
-  }, [numberOfRounds, numberOfTeams])
 
   return (
     <Container fluid>
@@ -89,30 +69,24 @@ const CreateGameScreen = () => {
             <thead>
               <tr>
                 <th></th>
-                {!numberOfTeams ? (
-                  <th>Add teams</th>
-                ) : (
+                {teams &&
                   teams.map((team, index) => (
-                    <th key={uuid()}>
-                      <TeamName
-                        changeTeamNamesHandler={changeTeamNamesHandler}
-                        index={index}
-                        teamName={team}
-                      />
+                    <th className='px-1' key={uuid()}>
+                      <TeamName index={index} teamName={team} />
                     </th>
-                  ))
-                )}
+                  ))}
               </tr>
             </thead>
             <tbody>
-              {letters.map((letter, letterIndex) => (
-                <tr key={uuid()}>
-                  <td>{letter}</td>
-                  {teams.map((team, teamIndex) => (
-                    <td key={uuid()}></td>
-                  ))}
-                </tr>
-              ))}
+              {letters &&
+                letters.map((letter) => (
+                  <tr key={uuid()}>
+                    <td>{letter}</td>
+                    {teams.map(() => (
+                      <td key={uuid()}></td>
+                    ))}
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </Col>
@@ -128,6 +102,8 @@ const CreateGameScreen = () => {
                   </Form.Label>
                   <Col sm='10'>
                     <Form.Control
+                      min={1}
+                      max={6}
                       type='number'
                       value={numberOfTeams}
                       onChange={(e) => setNumberOfTeams(e.target.value)}
@@ -144,6 +120,8 @@ const CreateGameScreen = () => {
                     <Form.Control
                       value={numberOfRounds}
                       type='number'
+                      min={5}
+                      max={26}
                       onChange={(e) => setNumberOfRounds(e.target.value)}
                     />
                   </Col>

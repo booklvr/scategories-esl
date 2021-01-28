@@ -1,0 +1,1 @@
+export const LOAD_ALPHABET = 'LOAD_ALPHABET'

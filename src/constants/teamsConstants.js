@@ -1,0 +1,2 @@
+export const LOAD_TEAMS = 'LOAD_TEAMS'
+export const CHANGE_TEAM_NAMES = 'CHANGE_TEAM_NAMES'
