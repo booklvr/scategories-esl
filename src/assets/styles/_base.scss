@@ -5,15 +5,13 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  height: 100vh;
-  margin: 0;
+  // font-family: 'Roboto', sans-serif;
+  // min-height: 100vh;
+  // margin: 0;
 }
 
 #root {
   height: 100%;
-  width: 100%;
-  @include center;
-  overflow: hidden;
+  min-width: 100%;
   margin: 0;
 }
