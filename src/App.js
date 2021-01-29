@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <Header />
       <main className='py-3'>
-        <Container>
+        <Container fluid>
           <Route path='/' component={CreateGameScreen} exact />
           <Route path='/play' component={PlayGameScreen} exact />
         </Container>

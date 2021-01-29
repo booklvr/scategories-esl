@@ -1,7 +1,6 @@
 import { LOAD_ALPHABET } from '../constants/alphabetConstants'
 
 export const loadLetters = (size) => (dispatch) => {
-  console.log('size', size)
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
   const getLetters = ([...array], size) => {

@@ -17,3 +17,5 @@ const setCategories = [
   'toys',
   'things in the bathroom',
 ]
+
+export default setCategories

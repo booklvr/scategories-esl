@@ -12,11 +12,12 @@ import {
   ListGroup,
 } from 'react-bootstrap'
 
-import { addCategoryByText } from '../actions/categoryActions'
+import { addCategory } from '../actions/categoryActions'
 import { loadLetters } from '../actions/alphabetActions'
 import { loadTeams } from '../actions/teamActions'
 
 import TeamName from '../components/TeamName'
+import Categories from '../components/Categories'
 
 const CreateGameScreen = () => {
   // const alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -24,33 +25,23 @@ const CreateGameScreen = () => {
   const [numberOfTeams, setNumberOfTeams] = useState(2)
   const [numberOfRounds, setNumberOfRounds] = useState(10)
 
-  
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
   const letters = useSelector((state) => state.alphabet)
   const teams = useSelector((state) => state.teams)
 
-  console.log(teams)
-
   // const [teams, setTeams] = useState([])
   const [category, setCategory] = useState([])
 
-  // dispatch(loadLetters(numberOfRounds))
-  // const [categories, setCategories] = useState([])
-
   const handleAddCategoryInput = () => {
     // setCategories(() => [...categories, category])
-    dispatch(addCategoryByText(category))
+    dispatch(addCategory(category))
     setCategory('')
   }
 
-  // const changeTeamNamesHandler = (name, index) => {
-  //   // setTeams(() => {
-  //   //   const newArray = [...teams]
-  //   //   newArray[index] = name
-  //   //   return newArray
-  //   // })
-  // }
+  const removeCategory = (id) => {
+    console.log('remove category', id)
+  }
 
   useEffect(() => {
     dispatch(loadLetters(numberOfRounds))
@@ -61,7 +52,7 @@ const CreateGameScreen = () => {
   }, [numberOfTeams])
 
   return (
-    <Container fluid>
+    <Container className='createGameContainer' fluid>
       <Row>
         <Col sm='12' md='6'>
           <h2>Scategories Template</h2>
@@ -151,9 +142,10 @@ const CreateGameScreen = () => {
               </Col>
             </Form.Group>
           </Form>
-          <Row>
+          <Row className='justify-content-md-center'>
             <Col
-              md={6}
+              className='mr-5'
+              md={5}
               style={{ border: '2px solid black', minHeight: '650px' }}
             >
               <h3
@@ -163,21 +155,23 @@ const CreateGameScreen = () => {
               </h3>
               <ListGroup>
                 {categories.length > 0 &&
-                  categories.map((category, index) => (
-                    <ListGroup.Item key={uuid()}>{category}</ListGroup.Item>
+                  categories.map(({ category, id }) => (
+                    <ListGroup.Item
+                      className='d-flex justify-content-between'
+                      key={id}
+                    >
+                      {category}{' '}
+                      <div
+                        className='remove-btn'
+                        onClick={() => removeCategory(id)}
+                      >
+                        <i className='fas fa-times'></i>
+                      </div>
+                    </ListGroup.Item>
                   ))}
               </ListGroup>
             </Col>
-            <Col
-              md={5}
-              style={{ border: '2px solid black', minHeight: '650px' }}
-            >
-              <h3
-                style={{ textAlign: 'center', borderBottom: '1px solid black' }}
-              >
-                Options
-              </h3>
-            </Col>
+            <Categories />
           </Row>
         </Col>
       </Row>
