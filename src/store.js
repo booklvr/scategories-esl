@@ -16,10 +16,29 @@ const reducer = combineReducers({
   teams: teamsReducer,
 })
 
+const categoriesFromLocalStorage = localStorage.getItem('categories')
+  ? JSON.parse(localStorage.getItem('categories'))
+  : []
+
+const teamsFromLocalStorage = localStorage.getItem('teams')
+  ? JSON.parse(localStorage.getItem('teams'))
+  : []
+
+const alphabetFromLocalStorage = localStorage.getItem('alphabet')
+  ? JSON.parse(localStorage.getItem('alphabet'))
+  : []
+
+const initialState = {
+  category: categoriesFromLocalStorage,
+  teams: teamsFromLocalStorage,
+  alphabet: alphabetFromLocalStorage,
+}
+
 const middleware = [thunk]
 
 const store = createStore(
   reducer,
+  initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 )
 

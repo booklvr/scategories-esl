@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import { useHistory } from 'react-router-dom'
 import uuid from 'react-uuid'
 import {
@@ -12,7 +13,7 @@ import {
   ListGroup,
 } from 'react-bootstrap'
 
-import { addCategory } from '../actions/categoryActions'
+import { addCategory, removeCategoryFromList } from '../actions/categoryActions'
 import { loadLetters } from '../actions/alphabetActions'
 import { loadTeams } from '../actions/teamActions'
 
@@ -39,8 +40,14 @@ const CreateGameScreen = () => {
     setCategory('')
   }
 
+  const handleKeyEnter = (event) => {
+    if (event.key === 'Enter') {
+      handleAddCategoryInput()
+    }
+  }
+
   const removeCategory = (id) => {
-    console.log('remove category', id)
+    dispatch(removeCategoryFromList(id))
   }
 
   useEffect(() => {
@@ -121,38 +128,33 @@ const CreateGameScreen = () => {
             </Row>
 
             <Form.Group as={Row} controlId='formHorizontalEmail'>
-              <Form.Label column sm={3}>
+              <Form.Label column sm={2}>
                 Add a category
               </Form.Label>
-              <Col lg={6}>
+              <Col lg={5}>
                 <Form.Control
                   type='text'
                   placeholder='new Category'
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
+                  onKeyPress={handleKeyEnter}
                 />
               </Col>
-              <Col lg={3}>
-                <Button
-                  className='mb-2'
-                  onClick={(e) => handleAddCategoryInput(e)}
-                >
-                  Add
-                </Button>
+              <Col lg={5}>
+                <LinkContainer to={`/play?random=false`}>
+                  <Button className='mb-2 play-btn'>Play</Button>
+                </LinkContainer>
+                <LinkContainer to={`/play?random=true`}>
+                  <Button className='mb-2 play-btn play-random'>
+                    Play Random
+                  </Button>
+                </LinkContainer>
               </Col>
             </Form.Group>
           </Form>
           <Row className='justify-content-md-center'>
-            <Col
-              className='mr-5'
-              md={5}
-              style={{ border: '2px solid black', minHeight: '650px' }}
-            >
-              <h3
-                style={{ textAlign: 'center', borderBottom: '1px solid black' }}
-              >
-                Categories
-              </h3>
+            <Col className='mr-5 category-column' md={5}>
+              <h3>Categories</h3>
               <ListGroup>
                 {categories.length > 0 &&
                   categories.map(({ category, id }) => (

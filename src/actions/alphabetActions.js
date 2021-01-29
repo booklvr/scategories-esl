@@ -1,6 +1,6 @@
 import { LOAD_ALPHABET } from '../constants/alphabetConstants'
 
-export const loadLetters = (size) => (dispatch) => {
+export const loadLetters = (size) => (dispatch, getState) => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
   const getLetters = ([...array], size) => {
@@ -26,4 +26,5 @@ export const loadLetters = (size) => (dispatch) => {
   const randomLetters = getLetters(alphabet, size)
 
   dispatch({ type: LOAD_ALPHABET, payload: randomLetters })
+  localStorage.setItem('alphabet', JSON.stringify(getState().alphabet))
 }

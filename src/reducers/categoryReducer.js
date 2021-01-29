@@ -17,7 +17,6 @@ export const categoryReducer = (state = [], action) => {
     case REMOVE_CATEGORY_BY_CHECKBOX:
     case REMOVE_CATEGORY:
       return state.filter((category) => category.id !== payload)
-
     default:
       return state
   }

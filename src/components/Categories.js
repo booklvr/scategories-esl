@@ -32,10 +32,8 @@ const Categories = () => {
   }, [])
 
   return (
-    <Col md={5} style={{ border: '2px solid black', minHeight: '650px' }}>
-      <h3 style={{ textAlign: 'center', borderBottom: '1px solid black' }}>
-        Options
-      </h3>
+    <Col md={5} className='category-column'>
+      <h3>Options</h3>
       <Form>
         {categoryList &&
           categoryList.map(({ checked, category, id }) => (

@@ -1,8 +1,31 @@
 .createGameContainer {
+  // max-height: calc(100vh - 230px);
+  // overflow: hidden;
   margin: 30px 40px;
 
   h2 {
     text-align: center;
+  }
+
+  h3 {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  .category-column {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    min-height: 650px;
+  }
+
+  .play-btn {
+    // box-sizing: border-box;
+    height: calc(1.5em + 1.5rem);
+    margin: 0 10px;
+    width: 100px;
+  }
+  .play-random {
+    width: 150px;
   }
 }
 
