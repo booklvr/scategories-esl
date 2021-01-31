@@ -53098,8 +53098,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var RandomCategory = function RandomCategory(_ref) {
-  var isRandom = _ref.isRandom;
+var RandomCategory = function RandomCategory() {
   var categories = (0, _reactRedux.useSelector)(function (state) {
     return state.category;
   });
@@ -53120,8 +53119,6 @@ var RandomCategory = function RandomCategory(_ref) {
     });
   };
 
-  console.log('propsrandom', isRandom);
-
   var handleBackClick = function handleBackClick() {
     if (index > 0) {
       setIndex(index - 1);
@@ -53139,12 +53136,6 @@ var RandomCategory = function RandomCategory(_ref) {
   };
 
   (0, _react.useEffect)(function () {
-    if (isRandom === true) {
-      console.log('mother fucker is random');
-    } else {
-      console.log('something fucked here');
-    }
-
     setRandomCategories(shuffle(categories));
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -53410,7 +53401,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49419" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59940" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
