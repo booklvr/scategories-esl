@@ -1,7 +1,17 @@
-import { LOAD_ALPHABET } from '../constants/alphabetConstants'
+import { CHANGE_LETTER, LOAD_ALPHABET } from '../constants/alphabetConstants'
 
 export const loadLetters = (size) => (dispatch, getState) => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+  // const commonLetters = 'toiswcbphfmderlnagukvyjqxz'
+  const easyO = 'toiswcbphfmder'
+  const mediumO = 'lnagukvy'
+  const hardO = 'jqxz'
+
+  let easyN, mediumN, hardN
+
+  hardN = size > 25 ? 4 : size > 23 ? 3 : size > 20 ? 2 : size > 11 ? 1 : 0
+  mediumN = Math.floor(size * 0.33)
+  easyN = size - (hardN + mediumN)
 
   const getLetters = ([...array], size) => {
     let m = array.length
@@ -23,8 +33,21 @@ export const loadLetters = (size) => (dispatch, getState) => {
     return array.slice(array.length - size)
   }
 
-  const randomLetters = getLetters(alphabet, size)
+  const easyLetters = getLetters(easyO, easyN)
+  const mediumLetters = getLetters(mediumO, mediumN)
+  const hardLetters = getLetters(hardO, hardN)
+
+  const randomLetters = [...easyLetters, ...mediumLetters, ...hardLetters]
 
   dispatch({ type: LOAD_ALPHABET, payload: randomLetters })
+  localStorage.setItem('alphabet', JSON.stringify(getState().alphabet))
+  localStorage.setItem('teams', JSON.stringify(getState().teams))
+}
+
+export const changeLetter = (letter, index) => (dispatch, getState) => {
+  console.log('fuck you bitch')
+  console.log('letter', letter)
+  console.log('index', index)
+  dispatch({ type: CHANGE_LETTER, payload: { letter, index } })
   localStorage.setItem('alphabet', JSON.stringify(getState().alphabet))
 }

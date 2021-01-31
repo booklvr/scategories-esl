@@ -6,6 +6,7 @@ import {
   CHECKBOX_CATEGORY_LIST,
   REMOVE_CATEGORY_BY_CHECKBOX,
   REMOVE_CATEGORY,
+  RESET_CATEGORIES,
 } from '../constants/categoryConstants'
 
 export const addCategory = (category) => (dispatch, getState) => {
@@ -46,5 +47,10 @@ export const removeCategoryFromList = (id) => (dispatch, getState) => {
     type: REMOVE_CATEGORY,
     payload: id,
   })
+  localStorage.setItem('categories', JSON.stringify(getState().category))
+}
+
+export const resetCategories = () => (dispatch, getState) => {
+  dispatch({ type: RESET_CATEGORIES })
   localStorage.setItem('categories', JSON.stringify(getState().category))
 }

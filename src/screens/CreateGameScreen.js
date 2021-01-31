@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { useHistory } from 'react-router-dom'
 import uuid from 'react-uuid'
 import {
   Container,
@@ -13,41 +12,42 @@ import {
   ListGroup,
 } from 'react-bootstrap'
 
-import { addCategory, removeCategoryFromList } from '../actions/categoryActions'
+import {
+  removeCategoryFromList,
+  resetCategories,
+} from '../actions/categoryActions'
 import { loadLetters } from '../actions/alphabetActions'
-import { loadTeams } from '../actions/teamActions'
+import {
+  loadTeams,
+  changeNumberOfTeams,
+  resetTeams,
+} from '../actions/teamActions'
 
 import TeamName from '../components/TeamName'
 import Categories from '../components/Categories'
+import LetterInput from '../components/LetterInput'
 
 const CreateGameScreen = () => {
   // const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   // const commonLetters = 'toiswcbphfmderlnagukvyjqxz'
-  const [numberOfTeams, setNumberOfTeams] = useState(2)
-  const [numberOfRounds, setNumberOfRounds] = useState(10)
 
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
   const letters = useSelector((state) => state.alphabet)
   const teams = useSelector((state) => state.teams)
 
-  // const [teams, setTeams] = useState([])
-  const [category, setCategory] = useState([])
-
-  const handleAddCategoryInput = () => {
-    // setCategories(() => [...categories, category])
-    dispatch(addCategory(category))
-    setCategory('')
-  }
-
-  const handleKeyEnter = (event) => {
-    if (event.key === 'Enter') {
-      handleAddCategoryInput()
-    }
-  }
+  const [numberOfTeams, setNumberOfTeams] = useState(teams.length)
+  const [numberOfRounds, setNumberOfRounds] = useState(10)
 
   const removeCategory = (id) => {
     dispatch(removeCategoryFromList(id))
+  }
+
+  const handleReset = () => {
+    setNumberOfRounds(10)
+    setNumberOfTeams(2)
+    dispatch(resetTeams())
+    dispatch(resetCategories())
   }
 
   useEffect(() => {
@@ -55,8 +55,12 @@ const CreateGameScreen = () => {
   }, [numberOfRounds])
 
   useEffect(() => {
-    dispatch(loadTeams(numberOfTeams))
+    dispatch(changeNumberOfTeams(teams.length, numberOfTeams))
   }, [numberOfTeams])
+
+  // useEffect(() => {
+  //   dispatch(loadTeams())
+  // }, [])
 
   return (
     <Container className='createGameContainer' fluid>
@@ -66,20 +70,22 @@ const CreateGameScreen = () => {
           <Table striped bordered>
             <thead>
               <tr>
-                <th></th>
+                <th className='letter-column'></th>
                 {teams &&
-                  teams.map((team, index) => (
+                  teams.map((team) => (
                     <th className='px-1' key={uuid()}>
-                      <TeamName index={index} teamName={team} />
+                      <TeamName id={team.id} teamName={team.name} />
                     </th>
                   ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody className='table-body'>
               {letters &&
-                letters.map((letter) => (
+                letters.map((letter, index) => (
                   <tr key={uuid()}>
-                    <td>{letter}</td>
+                    <td className='letter-column'>
+                      <LetterInput index={index} letter={letter} />
+                    </td>
                     {teams.map(() => (
                       <td key={uuid()}></td>
                     ))}
@@ -89,32 +95,36 @@ const CreateGameScreen = () => {
           </Table>
         </Col>
 
-        <Col sm='12' md='6'>
+        <Col sm={12} md={6}>
           <h2>Create your game</h2>
           <Form>
-            <Row>
-              <Col sm='12' md='6'>
+            <Row className='ml-4'>
+              <Col sm={6} md={3}>
                 <Form.Group as={Row}>
-                  <Form.Label column sm='2'>
+                  <Form.Label column sm={4}>
                     Teams
                   </Form.Label>
-                  <Col sm='10'>
+                  <Col sm={6}>
                     <Form.Control
                       min={1}
                       max={6}
                       type='number'
                       value={numberOfTeams}
-                      onChange={(e) => setNumberOfTeams(e.target.value)}
+                      onChange={(e) =>
+                        setNumberOfTeams(
+                          e.target.value > 6 ? 6 : e.target.value
+                        )
+                      }
                     />
                   </Col>
                 </Form.Group>
               </Col>
-              <Col sm='12' md='6'>
+              <Col sm={6} md={3}>
                 <Form.Group as={Row} controlId='formPlaintextEmail'>
-                  <Form.Label column sm='2'>
+                  <Form.Label column sm={4}>
                     Rounds
                   </Form.Label>
-                  <Col sm='10'>
+                  <Col sm={6}>
                     <Form.Control
                       value={numberOfRounds}
                       type='number'
@@ -125,34 +135,26 @@ const CreateGameScreen = () => {
                   </Col>
                 </Form.Group>
               </Col>
-            </Row>
-
-            <Form.Group as={Row} controlId='formHorizontalEmail'>
-              <Form.Label column sm={2}>
-                Add a category
-              </Form.Label>
-              <Col lg={5}>
-                <Form.Control
-                  type='text'
-                  placeholder='new Category'
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  onKeyPress={handleKeyEnter}
-                />
-              </Col>
-              <Col lg={5}>
+              <Col
+                lg={5}
+                className='px-0 ml-2 d-flex justify-content-around create-game-btn-group'
+              >
                 <LinkContainer to={`/play?random=false`}>
-                  <Button className='mb-2 play-btn'>Play</Button>
+                  <Button className='mb-2  play-btn'>Play</Button>
                 </LinkContainer>
                 <LinkContainer to={`/play?random=true`}>
-                  <Button className='mb-2 play-btn play-random'>
+                  <Button className='mb-2  play-btn play-random'>
                     Play Random
                   </Button>
                 </LinkContainer>
+
+                <Button className='mb-2  play-btn' onClick={handleReset}>
+                  Reset
+                </Button>
               </Col>
-            </Form.Group>
+            </Row>
           </Form>
-          <Row className='justify-content-md-center'>
+          <Row className='mt-3 justify-content-md-center'>
             <Col className='mr-5 category-column' md={5}>
               <h3>Categories</h3>
               <ListGroup>

@@ -5,6 +5,7 @@ import {
   LOAD_CATEGORY_LIST,
   REMOVE_CATEGORY_BY_CHECKBOX,
   REMOVE_CATEGORY,
+  RESET_CATEGORIES,
 } from '../constants/categoryConstants'
 
 export const categoryReducer = (state = [], action) => {
@@ -17,6 +18,8 @@ export const categoryReducer = (state = [], action) => {
     case REMOVE_CATEGORY_BY_CHECKBOX:
     case REMOVE_CATEGORY:
       return state.filter((category) => category.id !== payload)
+    case RESET_CATEGORIES:
+      return []
     default:
       return state
   }

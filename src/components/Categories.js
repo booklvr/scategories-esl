@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import uuid from 'react-uuid'
-import { Col, Form } from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import {
   addCategory,
   loadCategoryList,
@@ -13,6 +13,14 @@ const Categories = () => {
   const dispatch = useDispatch()
 
   const categoryList = useSelector((state) => state.categoryList)
+  const [category, setCategory] = useState([])
+
+  const handleKeyEnter = (event) => {
+    if (event.key === 'Enter') {
+      dispatch(addCategory(category))
+      setCategory('')
+    }
+  }
 
   const onCheckHandler = ({ target: { id, checked, value } }) => {
     // dispatch(handleCheckEvent(e.target.id, e.target.checked, e.target.value))
@@ -33,8 +41,24 @@ const Categories = () => {
 
   return (
     <Col md={5} className='category-column'>
-      <h3>Options</h3>
+      <h3>add to categories</h3>
       <Form>
+        <Form.Row className='my-4'>
+          <Col md={9}>
+            <Form.Control
+              type='text'
+              placeholder='new Category'
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              onKeyPress={handleKeyEnter}
+            />
+          </Col>
+
+          <Col md={3}>
+            <Button>Add</Button>
+          </Col>
+        </Form.Row>
+
         {categoryList &&
           categoryList.map(({ checked, category, id }) => (
             <Form.Group key={uuid()} controlId='formBasicCheckbox'>

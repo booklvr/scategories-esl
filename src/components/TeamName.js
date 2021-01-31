@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { changeTeamName } from '../actions/teamActions'
 
-const TeamName = ({ teamName, index }) => {
+const TeamName = ({ teamName, id }) => {
   const dispatch = useDispatch()
 
   const [name, setName] = useState(teamName)
@@ -15,14 +15,14 @@ const TeamName = ({ teamName, index }) => {
       style={{ textAlign: 'center' }}
       value={name}
       onChange={(e) => setName(e.target.value)}
-      onBlur={() => dispatch(changeTeamName(index, name))}
+      onBlur={() => dispatch(changeTeamName(name, id))}
     ></FormControl>
   )
 }
 
 TeamName.propTypes = {
   teamName: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 }
 
 export default TeamName

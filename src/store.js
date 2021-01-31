@@ -22,7 +22,8 @@ const categoriesFromLocalStorage = localStorage.getItem('categories')
 
 const teamsFromLocalStorage = localStorage.getItem('teams')
   ? JSON.parse(localStorage.getItem('teams'))
-  : []
+  : undefined
+// const teamsFromLocalStorage = undefined
 
 const alphabetFromLocalStorage = localStorage.getItem('alphabet')
   ? JSON.parse(localStorage.getItem('alphabet'))

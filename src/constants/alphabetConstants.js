@@ -1,1 +1,2 @@
 export const LOAD_ALPHABET = 'LOAD_ALPHABET'
+export const CHANGE_LETTER = 'CHANGE_LETTER'

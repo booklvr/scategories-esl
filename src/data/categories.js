@@ -10,7 +10,6 @@ const setCategories = [
   'ice cream flavours',
   'animals in a zoo',
   'things in a park',
-  'countries',
   'fruits',
   'colors',
   'things found in forest',
