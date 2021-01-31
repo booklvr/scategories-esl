@@ -53321,8 +53321,11 @@ var _PlayGameScreen = _interopRequireDefault(require("./screens/PlayGameScreen")
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import { HashRouter as Router } from 'react-router-dom'
 var App = function App() {
-  return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement("main", {
+  return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, {
+    basename: undefined
+  }, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement("main", {
     className: "py-3"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, {
     fluid: true
@@ -53401,7 +53404,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49796" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8727" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
