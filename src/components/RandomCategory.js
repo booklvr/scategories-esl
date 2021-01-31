@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
-const RandomCategory = ({ isRandom }) => {
+const RandomCategory = () => {
   const categories = useSelector((state) => state.category)
   const [randomCategories, setRandomCategories] = useState(null)
   const [index, setIndex] = useState(0)
@@ -10,8 +10,6 @@ const RandomCategory = ({ isRandom }) => {
   let shuffle = (array) => {
     return [...array].sort(() => Math.random() - 0.5)
   }
-
-  console.log('propsrandom', isRandom)
 
   const handleBackClick = () => {
     if (index > 0) {
@@ -30,11 +28,6 @@ const RandomCategory = ({ isRandom }) => {
   }
 
   useEffect(() => {
-    if (isRandom === true) {
-      console.log('mother fucker is random')
-    } else {
-      console.log('something fucked here')
-    }
     setRandomCategories(shuffle(categories))
   }, [])
 
