@@ -79,6 +79,31 @@
   padding: 0px 20px;
 }
 
+.form-input-container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.form-input-container div {
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.form-input-container div input {
+  padding-right: 0;
+  margin-right: 0;
+}
+.form-input-container .form-label {
+  padding: 0;
+  margin: 0;
+}
+.form-input-container .form-input-column {
+  padding: 0;
+  margin: 0;
+  background-color: orange;
+}
+
 .playGameContainer {
   box-sizing: border-box;
   min-width: 100%;
@@ -88,22 +113,24 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+  border: 1px solid #000;
 }
 .playGameContainer .header-container .random-category {
   display: flex;
+  flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 100%;
   font-size: 60px;
   margin: 0 30px;
-  width: 500px;
 }
 .playGameContainer .header-container .header-btn {
   width: 150px;
   font-size: 20px;
   padding: 20px 10px;
+  margin: 0 20px;
 }
 .playGameContainer table {
   text-align: center;
@@ -158,6 +185,17 @@
 }
 .playGameContainer .letter-col {
   width: 40px;
+}
+
+.timer {
+  height: 92px;
+  font-size: 50px;
+}
+.timer .seconds {
+  text-align: left;
+}
+.timer .minutes {
+  text-align: right;
 }
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */

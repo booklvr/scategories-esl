@@ -33457,7 +33457,6 @@ var alphabetReducer = function alphabetReducer() {
       return _toConsumableArray(payload);
 
     case _alphabetConstants.CHANGE_LETTER:
-      console.log(payload.index, payload.letter);
       return _toConsumableArray(state).map(function (letter, index) {
         if (payload.index === index) {
           return payload.letter;
@@ -33549,8 +33548,6 @@ var _reactUuid = _interopRequireDefault(require("react-uuid"));
 
 var _teamsConstants = require("../constants/teamsConstants");
 
-var _alphabetConstants = require("../constants/alphabetConstants");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -33571,6 +33568,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+// import { LOAD_ALPHABET } from '../constants/alphabetConstants'
 var teamsReducer = function teamsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [{
     name: 'team 1',
@@ -33694,7 +33692,42 @@ var teamsReducer = function teamsReducer() {
 };
 
 exports.teamsReducer = teamsReducer;
-},{"react-uuid":"../node_modules/react-uuid/uuid.js","../constants/teamsConstants":"../src/constants/teamsConstants.js","../constants/alphabetConstants":"../src/constants/alphabetConstants.js"}],"../src/store.js":[function(require,module,exports) {
+},{"react-uuid":"../node_modules/react-uuid/uuid.js","../constants/teamsConstants":"../src/constants/teamsConstants.js"}],"../src/constants/timerConstants.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SET_SECONDS = void 0;
+var SET_SECONDS = 'SET_SECONDS';
+exports.SET_SECONDS = SET_SECONDS;
+},{}],"../src/reducers/timerReducer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.timerReducer = void 0;
+
+var _timerConstants = require("../constants/timerConstants");
+
+var timerReducer = function timerReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  var type = action.type,
+      payload = action.payload;
+
+  switch (type) {
+    case _timerConstants.SET_SECONDS:
+      return payload;
+
+    default:
+      return state;
+  }
+};
+
+exports.timerReducer = timerReducer;
+},{"../constants/timerConstants":"../src/constants/timerConstants.js"}],"../src/store.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33714,28 +33747,33 @@ var _alphabetReducer = require("./reducers/alphabetReducer");
 
 var _teamsReducer = require("./reducers/teamsReducer");
 
+var _timerReducer = require("./reducers/timerReducer");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var reducer = (0, _redux.combineReducers)({
   category: _categoryReducer.categoryReducer,
   categoryList: _categoryReducer.categoryListReducer,
   alphabet: _alphabetReducer.alphabetReducer,
-  teams: _teamsReducer.teamsReducer
+  teams: _teamsReducer.teamsReducer,
+  timer: _timerReducer.timerReducer
 });
 var categoriesFromLocalStorage = localStorage.getItem('categories') ? JSON.parse(localStorage.getItem('categories')) : [];
 var teamsFromLocalStorage = localStorage.getItem('teams') ? JSON.parse(localStorage.getItem('teams')) : undefined; // const teamsFromLocalStorage = undefined
 
 var alphabetFromLocalStorage = localStorage.getItem('alphabet') ? JSON.parse(localStorage.getItem('alphabet')) : [];
+var timerFromLocalStorage = localStorage.getItem('timer') ? JSON.parse(localStorage.getItem('timer')) : undefined;
 var initialState = {
   category: categoriesFromLocalStorage,
   teams: teamsFromLocalStorage,
-  alphabet: alphabetFromLocalStorage
+  alphabet: alphabetFromLocalStorage,
+  timer: timerFromLocalStorage
 };
 var middleware = [_reduxThunk.default];
 var store = (0, _redux.createStore)(reducer, initialState, (0, _reduxDevtoolsExtension.composeWithDevTools)(_redux.applyMiddleware.apply(void 0, middleware)));
 var _default = store;
 exports.default = _default;
-},{"redux":"../node_modules/redux/es/redux.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","redux-devtools-extension":"../node_modules/redux-devtools-extension/index.js","./reducers/categoryReducer":"../src/reducers/categoryReducer.js","./reducers/alphabetReducer":"../src/reducers/alphabetReducer.js","./reducers/teamsReducer":"../src/reducers/teamsReducer.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","redux-devtools-extension":"../node_modules/redux-devtools-extension/index.js","./reducers/categoryReducer":"../src/reducers/categoryReducer.js","./reducers/alphabetReducer":"../src/reducers/alphabetReducer.js","./reducers/teamsReducer":"../src/reducers/teamsReducer.js","./reducers/timerReducer":"../src/reducers/timerReducer.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -52136,21 +52174,7 @@ var Header = function Header() {
     collapseOnSelect: true
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
     to: "/"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Brand, null, "Scategories ESL")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Toggle, {
-    "aria-controls": "basic-navbar-nav"
-  }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Collapse, {
-    id: "basic-navbar-nav"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav, {
-    className: "ml-auto"
-  }, /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
-    to: "/createGame"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
-    eventKey: "1",
-    href: "/createGame"
-  }, "Play")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.NavDropdown, {
-    title: 'other sites',
-    id: "username"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.NavDropdown.Item, null, /*#__PURE__*/_react.default.createElement("p", null, "Classpoint")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.NavDropdown.Item, null, /*#__PURE__*/_react.default.createElement("p", null, "ConnectFour")))))))));
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Brand, null, "Scategories ESL")))));
 };
 
 var _default = Header;
@@ -52346,9 +52370,6 @@ exports.loadLetters = loadLetters;
 
 var changeLetter = function changeLetter(letter, index) {
   return function (dispatch, getState) {
-    console.log('fuck you bitch');
-    console.log('letter', letter);
-    console.log('index', index);
     dispatch({
       type: _alphabetConstants.CHANGE_LETTER,
       payload: {
@@ -52591,7 +52612,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var setCategories = ['animals', 'vegetables', 'things in the fridge', 'insects', 'sports', 'human body', 'transportation', 'halloween costumes', 'ice cream flavours', 'animals in a zoo', 'things in a park', 'fruits', 'colors', 'things found in forest', 'toys', 'things in the bathroom', 'things that are black', 'musical instruments', 'bodies of water', 'countries', 'holidays', 'things that are square', 'clothing', 'relatives', 'games', 'school supplies', 'things that are hot', 'tools', "girl's names", 'ocean things', 'school subjects', 'things that jump or bounce', 'things in the sky', 'pizza toppings', 'something your afraid of', 'items in this room', 'fictional characters', 'candy', 'footware', 'items in a suitcase', 'things with tails', 'things that are sticky', 'reptiles', 'insects', 'leisure activities', 'halloween costumes', 'things that are round', 'things found in a desk', 'things you wear', 'things you throw away', 'jobs', 'electronics', 'things in a grocery store', 'things that have stripes', 'things found in a hospital', 'things found in a school', 'weekend activities', 'action words', 'verbs', 'adjectives', 'words ending in -n', 'seafood', 'food that is green', 'words with double letters', 'sports played outdoors', 'things at a zoo', 'things you do at school', 'things you make', 'winter words', 'summer words', 'spring words', 'fall words', 'things you sit on', 'things you do everyday', 'weather', 'items to take on a road trip', 'things that have wheels', 'hobbies'];
+var setCategories = ['animals', 'vegetables', 'things in the fridge', 'insects', 'sports', 'human body', 'transportation', 'halloween costumes', 'ice cream flavours', 'animals in a zoo', 'things in a park', 'fruits', 'colors', 'things found in forest', 'toys', 'things in the bathroom', 'things that are black', 'musical instruments', 'bodies of water', 'countries', 'holidays', 'things that are square', 'clothing', 'relatives', 'games', 'school supplies', 'things that are hot', 'tools', "girl's names", 'ocean things', 'school subjects', 'things that jump or bounce', 'things in the sky', 'pizza toppings', 'something your afraid of', 'items in this room', 'fictional characters', 'candy', 'footware', 'items in a suitcase', 'things with tails', 'things that are sticky', 'reptiles', 'leisure activities', 'things that are round', 'things found in a desk', 'things you wear', 'things you throw away', 'jobs', 'electronics', 'things in a grocery store', 'things that have stripes', 'things found in a hospital', 'things found in a school', 'weekend activities', 'action words', 'verbs', 'adjectives', 'words ending in -n', 'seafood', 'food that is green', 'words with double letters', 'sports played outdoors', 'things at a zoo', 'things you do at school', 'things you make', 'winter words', 'summer words', 'spring words', 'fall words', 'things you sit on', 'things you do everyday', 'weather', 'items to take on a road trip', 'things that have wheels', 'hobbies'];
 
 var _default = setCategories.sort();
 
@@ -52639,6 +52660,9 @@ var Categories = function Categories() {
   var categoryList = (0, _reactRedux.useSelector)(function (state) {
     return state.categoryList;
   });
+  var activeList = (0, _reactRedux.useSelector)(function (state) {
+    return state.category;
+  });
 
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -52646,7 +52670,14 @@ var Categories = function Categories() {
       setCategory = _useState2[1];
 
   var handleKeyEnter = function handleKeyEnter(event) {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && category !== '') {
+      dispatch((0, _categoryActions.addCategory)(category));
+      setCategory('');
+    }
+  };
+
+  var handleAddButtonClick = function handleAddButtonClick() {
+    if (category !== '') {
       dispatch((0, _categoryActions.addCategory)(category));
       setCategory('');
     }
@@ -52657,21 +52688,22 @@ var Categories = function Categories() {
         id = _ref$target.id,
         checked = _ref$target.checked,
         value = _ref$target.value;
-    // dispatch(handleCheckEvent(e.target.id, e.target.checked, e.target.value))
     dispatch((0, _categoryActions.handleCheckEvent)(id, checked, value));
   };
 
   (0, _react.useEffect)(function () {
     var categoryList = _categories.default.map(function (category) {
       return {
-        checked: false,
+        checked: activeList.map(function (item) {
+          return item.category;
+        }).includes(category) ? true : false,
         category: category,
         id: (0, _reactUuid.default)()
       };
     });
 
     dispatch((0, _categoryActions.loadCategoryList)(categoryList));
-  }, []);
+  }, [activeList]);
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     md: 5,
     className: "category-column"
@@ -52689,7 +52721,9 @@ var Categories = function Categories() {
     onKeyPress: handleKeyEnter
   })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     md: 3
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, null, "Add"))), categoryList && categoryList.map(function (_ref2) {
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    onClick: handleAddButtonClick
+  }, "Add"))), categoryList && categoryList.map(function (_ref2) {
     var checked = _ref2.checked,
         category = _ref2.category,
         id = _ref2.id;
@@ -52846,8 +52880,17 @@ var CreateGameScreen = function CreateGameScreen() {
       numberOfRounds = _useState4[0],
       setNumberOfRounds = _useState4[1];
 
+  var _useState5 = (0, _react.useState)(30),
+      _useState6 = _slicedToArray(_useState5, 2),
+      seconds = _useState6[0],
+      setSeconds = _useState6[1];
+
   var removeCategory = function removeCategory(id) {
     dispatch((0, _categoryActions.removeCategoryFromList)(id));
+  };
+
+  var handleSecondsBlurEvent = function handleSecondsBlurEvent() {
+    console.log('fucking blurred');
   };
 
   var handleReset = function handleReset() {
@@ -52907,14 +52950,16 @@ var CreateGameScreen = function CreateGameScreen() {
     className: "ml-4"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     sm: 6,
-    md: 3
+    lg: 2,
+    className: "form-input-container"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
     as: _reactBootstrap.Row
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, {
     column: true,
-    sm: 4
+    sm: 5
   }, "Teams"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    sm: 6
+    className: "form-input-col",
+    sm: 4
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control, {
     min: 1,
     max: 6,
@@ -52925,15 +52970,16 @@ var CreateGameScreen = function CreateGameScreen() {
     }
   })))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     sm: 6,
-    md: 3
+    lg: 2,
+    className: "form-input-container"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
-    as: _reactBootstrap.Row,
-    controlId: "formPlaintextEmail"
+    as: _reactBootstrap.Row
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, {
     column: true,
-    sm: 4
+    sm: 5
   }, "Rounds"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    sm: 6
+    sm: 4,
+    className: "form-input-col"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control, {
     value: numberOfRounds,
     type: "number",
@@ -52943,11 +52989,32 @@ var CreateGameScreen = function CreateGameScreen() {
       return setNumberOfRounds(e.target.value);
     }
   })))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    sm: 6,
+    lg: 2,
+    className: "form-input-container"
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
+    as: _reactBootstrap.Row
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, {
+    column: true,
+    sm: 5
+  }, "Timer(sec)"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    className: "form-input-col",
+    sm: 4
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control, {
+    value: seconds,
+    type: "number",
+    min: 5,
+    onChange: function onChange(e) {
+      return setSeconds(e.target.value);
+    },
+    onBlur: handleSecondsBlurEvent
+  })))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     lg: 5,
     className: "px-0 ml-2 d-flex justify-content-around create-game-btn-group"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
     to: "/play?random=false"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    disabled: categories.length === 0 ? true : false,
     className: "mb-2  play-btn"
   }, "Play")), /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
     to: "/play?random=true"
@@ -53042,6 +53109,12 @@ var TableInput = function TableInput(_ref) {
     }
   };
 
+  var handleKeyEnter = function handleKeyEnter(event) {
+    if (event.key === 'Enter' && word) {
+      dispatch((0, _teamActions.changeWord)(teamId, word, letter));
+    }
+  };
+
   return /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
     className: "px-2 table-input",
     value: word,
@@ -53050,7 +53123,8 @@ var TableInput = function TableInput(_ref) {
     },
     onBlur: function onBlur() {
       return handleBlurEvent();
-    }
+    },
+    onKeyPress: handleKeyEnter
   }));
 };
 
@@ -53060,7 +53134,39 @@ TableInput.propTypes = {
 };
 var _default = TableInput;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/components/RandomCategory.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/actions/timerActions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.reloadSeconds = exports.loadSeconds = void 0;
+
+var _timerConstants = require("../constants/timerConstants");
+
+var loadSeconds = function loadSeconds(seconds) {
+  return function (dispatch) {
+    dispatch({
+      type: _timerConstants.SET_SECONDS,
+      payload: seconds
+    });
+  };
+};
+
+exports.loadSeconds = loadSeconds;
+
+var reloadSeconds = function reloadSeconds() {
+  return function (dispatch, getState) {
+    var seconds = getState().timer;
+    dispatch({
+      type: _timerConstants.SET_SECONDS,
+      payload: seconds
+    });
+  };
+};
+
+exports.reloadSeconds = reloadSeconds;
+},{"../constants/timerConstants":"../src/constants/timerConstants.js"}],"../src/components/RandomCategory.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53074,17 +53180,11 @@ var _reactBootstrap = require("react-bootstrap");
 
 var _reactRedux = require("react-redux");
 
+var _timerActions = require("../actions/timerActions");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -53098,9 +53198,14 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var RandomCategory = function RandomCategory() {
+var RandomCategory = function RandomCategory(_ref) {
+  var isRandom = _ref.isRandom;
+  var dispatch = (0, _reactRedux.useDispatch)();
   var categories = (0, _reactRedux.useSelector)(function (state) {
     return state.category;
+  });
+  var categoryList = (0, _reactRedux.useSelector)(function (state) {
+    return state.categoryList;
   });
 
   var _useState = (0, _react.useState)(null),
@@ -53108,27 +53213,46 @@ var RandomCategory = function RandomCategory() {
       randomCategories = _useState2[0],
       setRandomCategories = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(0),
+  var _useState3 = (0, _react.useState)(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      index = _useState4[0],
-      setIndex = _useState4[1];
+      arrayLength = _useState4[0],
+      setArrayLength = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      index = _useState6[0],
+      setIndex = _useState6[1];
 
   var shuffle = function shuffle(array) {
-    return _toConsumableArray(array).sort(function () {
-      return Math.random() - 0.5;
-    });
+    var currentIndex = array.length,
+        temporaryValue,
+        randomIndex; // While there remain elements to shuffle...
+
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1; // And swap it with the current element.
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   };
 
   var handleBackClick = function handleBackClick() {
     if (index > 0) {
       setIndex(index - 1);
     } else {
-      setIndex(categories.length - 1);
+      setIndex(arrayLength - 1);
     }
+
+    dispatch((0, _timerActions.reloadSeconds)());
   };
 
   var handleNextClick = function handleNextClick() {
-    if (index < categories.length - 1) {
+    if (index < arrayLength - 1) {
       setIndex(index + 1);
     } else {
       setIndex(0);
@@ -53136,8 +53260,25 @@ var RandomCategory = function RandomCategory() {
   };
 
   (0, _react.useEffect)(function () {
-    setRandomCategories(shuffle(categories));
-  }, []);
+    if (isRandom) {
+      setRandomCategories(function () {
+        var fullSet = categoryList.map(function (_ref2) {
+          var id = _ref2.id,
+              category = _ref2.category;
+          return {
+            id: id,
+            category: category
+          };
+        });
+        return shuffle(fullSet);
+      });
+    } else {
+      setRandomCategories(shuffle(categories));
+    }
+  }, [isRandom]);
+  (0, _react.useEffect)(function () {
+    if (randomCategories) setArrayLength(randomCategories.length);
+  }, [randomCategories]);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "header-container"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
@@ -53153,7 +53294,80 @@ var RandomCategory = function RandomCategory() {
 
 var _default = RandomCategory;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js"}],"../src/screens/PlayGameScreen.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/timerActions":"../src/actions/timerActions.js"}],"../src/components/Timer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _reactBootstrap = require("react-bootstrap");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Timer = function Timer() {
+  var seconds = (0, _reactRedux.useSelector)(function (state) {
+    return state.timer;
+  });
+
+  var _useState = (0, _react.useState)(seconds),
+      _useState2 = _slicedToArray(_useState, 2),
+      timeLeft = _useState2[0],
+      setTimeLeft = _useState2[1];
+
+  console.log(timeLeft);
+  (0, _react.useEffect)(function () {
+    // exit early when we reach 0
+    if (!timeLeft) return; // save intervalId to clear the interval when the
+    // component re-renders
+
+    var intervalId = setInterval(function () {
+      setTimeLeft(timeLeft - 1);
+    }, 1000); // clear interval on re-render to avoid memory leaks
+
+    return function () {
+      return clearInterval(intervalId);
+    }; // add timeLeft as a dependency to re-rerun the effect
+    // when we update it
+  }, [timeLeft]);
+  return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    md: 2
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+    as: _reactBootstrap.Row,
+    className: "timer header-container"
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    className: "minutes",
+    md: 5
+  }, Math.floor(timeLeft / 60)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    md: 1
+  }, ":"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    className: "seconds",
+    md: 5
+  }, timeLeft % 60)));
+};
+
+var _default = Timer;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"../src/screens/PlayGameScreen.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53178,6 +53392,8 @@ var _teamActions = require("../actions/teamActions");
 var _TableInput = _interopRequireDefault(require("../components/TableInput"));
 
 var _RandomCategory = _interopRequireDefault(require("../components/RandomCategory"));
+
+var _Timer = _interopRequireDefault(require("../components/Timer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53216,15 +53432,12 @@ var PlayGameScreen = function PlayGameScreen() {
       isRandom = _useState4[0],
       setIsRandom = _useState4[1];
 
-  console.log(isRandom);
-
   function useQuery() {
     return new URLSearchParams((0, _reactRouterDom.useLocation)().search);
   }
 
   var query = useQuery();
   var queryResult = query.get('random');
-  console.log('queryResult', queryResult);
   (0, _react.useEffect)(function () {
     dispatch((0, _teamActions.startNewGame)());
     setLoadTeams(true);
@@ -53238,17 +53451,17 @@ var PlayGameScreen = function PlayGameScreen() {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "playGameContainer"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    md: 1,
+    md: 2,
     className: "header-container"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
     to: "/"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
     className: "header-btn"
-  }, "Go Back"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    md: 10
+  }, "Settings"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    md: 8
   }, /*#__PURE__*/_react.default.createElement(_RandomCategory.default, {
     isRandom: isRandom
-  }))), loadTeams && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Table, {
+  })), /*#__PURE__*/_react.default.createElement(_Timer.default, null)), loadTeams && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Table, {
     striped: true,
     bordered: true
   }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", {
@@ -53297,7 +53510,7 @@ var PlayGameScreen = function PlayGameScreen() {
 
 var _default = PlayGameScreen;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TableInput":"../src/components/TableInput.js","../components/RandomCategory":"../src/components/RandomCategory.js"}],"../src/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TableInput":"../src/components/TableInput.js","../components/RandomCategory":"../src/components/RandomCategory.js","../components/Timer":"../src/components/Timer.js"}],"../src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53321,9 +53534,9 @@ var _PlayGameScreen = _interopRequireDefault(require("./screens/PlayGameScreen")
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { HashRouter as Router } from 'react-router-dom'
+// import { BrowserRouter as Router, Route } from 'react-router-dom'
 var App = function App() {
-  return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, {
+  return /*#__PURE__*/_react.default.createElement(_reactRouterDom.HashRouter, {
     basename: undefined
   }, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement("main", {
     className: "py-3"
@@ -53404,7 +53617,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8727" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9847" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
