@@ -8,13 +8,31 @@ const LetterInput = ({ letter, index }) => {
   const dispatch = useDispatch()
 
   const [newLetter, setNewLetter] = useState(letter)
+  const [previousLetter, setPreviousLetter] = useState(letter)
+
+  const handleLetterChange = (e) => {
+    if (e.nativeEvent.inputType === 'deleteContentBackward') {
+      setNewLetter('')
+    } else setNewLetter(e.nativeEvent.data)
+
+    // else if (!newLetter) setNewLetter(e.target.value)
+    // else setNewLetter(mem)
+  }
+
+  const handleBlurEvent = () => {
+    if (newLetter === '') {
+      dispatch(changeLetter(previousLetter, index))
+    } else {
+      dispatch(changeLetter(newLetter, index))
+    }
+  }
 
   return (
     <FormControl
       className='letter-input'
       value={newLetter}
-      onChange={(e) => setNewLetter(e.target.value)}
-      onBlur={() => dispatch(changeLetter(newLetter, index))}
+      onChange={(e) => handleLetterChange(e)}
+      onBlur={handleBlurEvent}
     ></FormControl>
   )
 }
