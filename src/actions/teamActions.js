@@ -11,21 +11,6 @@ import {
   RESET_TEAMS,
 } from '../constants/teamsConstants'
 
-// export const loadTeams = (nTeams) => (dispatch, getState) => {
-//   let newTeams = []
-//   for (let i = 0; i < nTeams; i++) {
-//     newTeams.push(`team ${i + 1}`)
-//   }
-// export const loadTeams = (nTeams) => (dispatch, getState) => {
-//   let newTeams = []
-//   for (let i = 0; i < nTeams; i++) {
-//     newTeams.push(`team ${i + 1}`)
-//   }
-
-//   dispatch({ type: LOAD_TEAMS, payload: newTeams })
-//   localStorage.setItem('teams', JSON.stringify(getState().teams))
-// }
-
 export const loadTeams = () => (dispatch) => {
   dispatch({ type: LOAD_TEAMS })
 }

@@ -36,10 +36,11 @@ const CreateGameScreen = () => {
   const categories = useSelector((state) => state.category)
   const letters = useSelector((state) => state.alphabet)
   const teams = useSelector((state) => state.teams)
+  const timer = useSelector((state) => state.timer)
 
   const [numberOfTeams, setNumberOfTeams] = useState(teams.length)
   const [numberOfRounds, setNumberOfRounds] = useState(10)
-  const [seconds, setSeconds] = useState(30)
+  const [seconds, setSeconds] = useState(timer.timeLeft)
 
   const removeCategory = (id) => {
     dispatch(removeCategoryFromList(id))
