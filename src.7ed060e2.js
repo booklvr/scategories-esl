@@ -53303,7 +53303,7 @@ var RandomCategory = function RandomCategory() {
     if (index > 0) {
       setIndex(index - 1);
     } else {
-      setIndex(categories.length - 1);
+      setIndex(randomCategories.length - 1);
     }
 
     dispatch((0, _timerActions.reloadSeconds)());
@@ -53316,7 +53316,7 @@ var RandomCategory = function RandomCategory() {
       return;
     }
 
-    if (index < categories.length - 1) {
+    if (index < randomCategories.length - 1) {
       setIndex(index + 1);
     } else {
       setIndex(0);
@@ -53682,7 +53682,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55473" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52007" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
