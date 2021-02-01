@@ -38,7 +38,7 @@ const RandomCategory = () => {
     if (index > 0) {
       setIndex(index - 1)
     } else {
-      setIndex(categories.length - 1)
+      setIndex(randomCategories.length - 1)
     }
 
     dispatch(reloadSeconds())
@@ -51,7 +51,7 @@ const RandomCategory = () => {
       return
     }
 
-    if (index < categories.length - 1) {
+    if (index < randomCategories.length - 1) {
       setIndex(index + 1)
     } else {
       setIndex(0)
