@@ -33309,7 +33309,45 @@ exports.devToolsEnhancer = (
     function() { return function(noop) { return noop; } }
 );
 
-},{"redux":"../node_modules/redux/es/redux.js"}],"../src/constants/categoryConstants.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js"}],"../node_modules/react-uuid/uuid.js":[function(require,module,exports) {
+/**
+A function that returns a universally unique identifier (uuid).  
+example: 1b83fd69-abe7-468c-bea1-306a8aa1c81d
+@returns `string` : 32 character uuid (see example)
+*/
+function uuid() {
+  const hashTable = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9'
+  ]
+  let uuid = []
+  for (let i = 0; i < 35; i++) {
+    if (i === 7 || i === 12 || i === 17 || i === 22) {
+      uuid[i] = '-'
+    } else {
+      uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)]
+    }
+  }
+  return uuid.join('')
+}
+
+module.exports = uuid
+
+},{}],"../src/constants/categoryConstants.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33330,6 +33368,18 @@ var REMOVE_CATEGORY = 'REMOVE_CATEGORY';
 exports.REMOVE_CATEGORY = REMOVE_CATEGORY;
 var RESET_CATEGORIES = 'RESET_CATEGORIES';
 exports.RESET_CATEGORIES = RESET_CATEGORIES;
+},{}],"../src/data/categories.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var setCategories = ['animals', 'vegetables', 'things in the fridge', 'insects', 'sports', 'human body', 'transportation', 'halloween costumes', 'ice cream flavours', 'animals in a zoo', 'things in a park', 'fruits', 'colors', 'things found in forest', 'toys', 'things in the bathroom', 'things that are black', 'musical instruments', 'bodies of water', 'countries', 'holidays', 'things that are square', 'clothing', 'relatives', 'games', 'school supplies', 'things that are hot', 'tools', "girl's names", 'ocean things', 'school subjects', 'things that jump or bounce', 'things in the sky', 'pizza toppings', 'something your afraid of', 'items in this room', 'fictional characters', 'candy', 'footware', 'items in a suitcase', 'things with tails', 'things that are sticky', 'reptiles', 'leisure activities', 'things that are round', 'things found in a desk', 'things you wear', 'things you throw away', 'jobs', 'electronics', 'things in a grocery store', 'things that have stripes', 'things found in a hospital', 'things found in a school', 'weekend activities', 'action words', 'verbs', 'adjectives', 'words ending in -n', 'seafood', 'food that is green', 'words with double letters', 'sports played outdoors', 'things at a zoo', 'things you do at school', 'things you make', 'winter words', 'summer words', 'spring words', 'fall words', 'things you sit on', 'things you do everyday', 'weather', 'items to take on a road trip', 'things that have wheels', 'hobbies'];
+
+var _default = setCategories.sort();
+
+exports.default = _default;
 },{}],"../src/reducers/categoryReducer.js":[function(require,module,exports) {
 "use strict";
 
@@ -33338,7 +33388,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.categoryListReducer = exports.categoryReducer = void 0;
 
+var _reactUuid = _interopRequireDefault(require("react-uuid"));
+
 var _categoryConstants = require("../constants/categoryConstants");
+
+var _categories = _interopRequireDefault(require("../data/categories"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -33368,8 +33424,8 @@ var categoryReducer = function categoryReducer() {
     case _categoryConstants.ADD_CATEGORY:
     case _categoryConstants.ADD_CATEGORY_BY_CHECKBOX:
       return [payload].concat(_toConsumableArray(state));
+    // case REMOVE_CATEGORY_BY_CHECKBOX:
 
-    case _categoryConstants.REMOVE_CATEGORY_BY_CHECKBOX:
     case _categoryConstants.REMOVE_CATEGORY:
       return state.filter(function (category) {
         return category.id !== payload;
@@ -33386,25 +33442,45 @@ var categoryReducer = function categoryReducer() {
 exports.categoryReducer = categoryReducer;
 
 var categoryListReducer = function categoryListReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _categories.default.map(function (category) {
+    return {
+      category: category,
+      checked: false,
+      id: (0, _reactUuid.default)()
+    };
+  });
   var action = arguments.length > 1 ? arguments[1] : undefined;
   var type = action.type,
       payload = action.payload;
 
   switch (type) {
-    case _categoryConstants.LOAD_CATEGORY_LIST:
-      return _toConsumableArray(payload);
+    case _categoryConstants.ADD_CATEGORY_BY_CHECKBOX:
+      return _toConsumableArray(state).map(function (category) {
+        if (category.id === payload.id) {
+          return _objectSpread(_objectSpread({}, category), {}, {
+            checked: true
+          });
+        } else {
+          return category;
+        }
+      });
 
-    case _categoryConstants.CHECKBOX_CATEGORY_LIST:
     case _categoryConstants.REMOVE_CATEGORY:
-      return state.map(function (category) {
+      return _toConsumableArray(state).map(function (category) {
         if (category.id === payload) {
           return _objectSpread(_objectSpread({}, category), {}, {
-            checked: !category.checked
+            checked: false
           });
+        } else {
+          return category;
         }
+      });
 
-        return category;
+    case _categoryConstants.RESET_CATEGORIES:
+      return _toConsumableArray(state).map(function (category) {
+        return _objectSpread(_objectSpread({}, category), {}, {
+          checked: false
+        });
       });
 
     default:
@@ -33413,7 +33489,7 @@ var categoryListReducer = function categoryListReducer() {
 };
 
 exports.categoryListReducer = categoryListReducer;
-},{"../constants/categoryConstants":"../src/constants/categoryConstants.js"}],"../src/constants/alphabetConstants.js":[function(require,module,exports) {
+},{"react-uuid":"../node_modules/react-uuid/uuid.js","../constants/categoryConstants":"../src/constants/categoryConstants.js","../data/categories":"../src/data/categories.js"}],"../src/constants/alphabetConstants.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33471,45 +33547,7 @@ var alphabetReducer = function alphabetReducer() {
 };
 
 exports.alphabetReducer = alphabetReducer;
-},{"../constants/alphabetConstants":"../src/constants/alphabetConstants.js"}],"../node_modules/react-uuid/uuid.js":[function(require,module,exports) {
-/**
-A function that returns a universally unique identifier (uuid).  
-example: 1b83fd69-abe7-468c-bea1-306a8aa1c81d
-@returns `string` : 32 character uuid (see example)
-*/
-function uuid() {
-  const hashTable = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9'
-  ]
-  let uuid = []
-  for (let i = 0; i < 35; i++) {
-    if (i === 7 || i === 12 || i === 17 || i === 22) {
-      uuid[i] = '-'
-    } else {
-      uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)]
-    }
-  }
-  return uuid.join('')
-}
-
-module.exports = uuid
-
-},{}],"../src/constants/teamsConstants.js":[function(require,module,exports) {
+},{"../constants/alphabetConstants":"../src/constants/alphabetConstants.js"}],"../src/constants/teamsConstants.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33777,12 +33815,14 @@ var reducer = (0, _redux.combineReducers)({
   timer: _timerReducer.timerReducer
 });
 var categoriesFromLocalStorage = localStorage.getItem('categories') ? JSON.parse(localStorage.getItem('categories')) : [];
+var categoryListFromLocalStorage = localStorage.getItem('categoryList') ? JSON.parse(localStorage.getItem('categoryList')) : undefined;
 var teamsFromLocalStorage = localStorage.getItem('teams') ? JSON.parse(localStorage.getItem('teams')) : undefined; // const teamsFromLocalStorage = undefined
 
 var alphabetFromLocalStorage = localStorage.getItem('alphabet') ? JSON.parse(localStorage.getItem('alphabet')) : [];
 var timerFromLocalStorage = localStorage.getItem('timer') ? JSON.parse(localStorage.getItem('timer')) : undefined;
 var initialState = {
   category: categoriesFromLocalStorage,
+  categoryList: categoryListFromLocalStorage,
   teams: teamsFromLocalStorage,
   alphabet: alphabetFromLocalStorage,
   timer: timerFromLocalStorage
@@ -52225,7 +52265,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetCategories = exports.removeCategoryFromList = exports.handleCheckEvent = exports.loadCategoryList = exports.addCategory = void 0;
+exports.resetCategories = exports.removeCategoryFromList = exports.handleCheckEvent = exports.addCategory = void 0;
 
 var _reactUuid = _interopRequireDefault(require("react-uuid"));
 
@@ -52245,28 +52285,16 @@ var addCategory = function addCategory(category) {
     });
     localStorage.setItem('categories', JSON.stringify(getState().category));
   };
-};
+}; // export const loadCategoryList = (categoryList) => (dispatch) => {
+//   dispatch({ type: LOAD_CATEGORY_LIST, payload: categoryList })
+// }
+
 
 exports.addCategory = addCategory;
 
-var loadCategoryList = function loadCategoryList(categoryList) {
-  return function (dispatch) {
-    dispatch({
-      type: _categoryConstants.LOAD_CATEGORY_LIST,
-      payload: categoryList
-    });
-  };
-};
-
-exports.loadCategoryList = loadCategoryList;
-
 var handleCheckEvent = function handleCheckEvent(id, checked, value) {
   return function (dispatch, getState) {
-    dispatch({
-      type: _categoryConstants.CHECKBOX_CATEGORY_LIST,
-      payload: id
-    });
-
+    // dispatch({ type: CHECKBOX_CATEGORY_LIST, payload: id })
     if (checked) {
       dispatch({
         type: _categoryConstants.ADD_CATEGORY_BY_CHECKBOX,
@@ -52276,12 +52304,14 @@ var handleCheckEvent = function handleCheckEvent(id, checked, value) {
         }
       });
       localStorage.setItem('categories', JSON.stringify(getState().category));
+      localStorage.setItem('categoryList', JSON.stringify(getState().categoryList));
     } else {
       dispatch({
-        type: _categoryConstants.REMOVE_CATEGORY_BY_CHECKBOX,
+        type: _categoryConstants.REMOVE_CATEGORY,
         payload: id
       });
       localStorage.setItem('categories', JSON.stringify(getState().category));
+      localStorage.setItem('categoryList', JSON.stringify(getState().categoryList));
     }
   };
 };
@@ -52610,19 +52640,7 @@ TeamName.propTypes = {
 };
 var _default = TeamName;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/data/categories.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var setCategories = ['animals', 'vegetables', 'things in the fridge', 'insects', 'sports', 'human body', 'transportation', 'halloween costumes', 'ice cream flavours', 'animals in a zoo', 'things in a park', 'fruits', 'colors', 'things found in forest', 'toys', 'things in the bathroom', 'things that are black', 'musical instruments', 'bodies of water', 'countries', 'holidays', 'things that are square', 'clothing', 'relatives', 'games', 'school supplies', 'things that are hot', 'tools', "girl's names", 'ocean things', 'school subjects', 'things that jump or bounce', 'things in the sky', 'pizza toppings', 'something your afraid of', 'items in this room', 'fictional characters', 'candy', 'footware', 'items in a suitcase', 'things with tails', 'things that are sticky', 'reptiles', 'leisure activities', 'things that are round', 'things found in a desk', 'things you wear', 'things you throw away', 'jobs', 'electronics', 'things in a grocery store', 'things that have stripes', 'things found in a hospital', 'things found in a school', 'weekend activities', 'action words', 'verbs', 'adjectives', 'words ending in -n', 'seafood', 'food that is green', 'words with double letters', 'sports played outdoors', 'things at a zoo', 'things you do at school', 'things you make', 'winter words', 'summer words', 'spring words', 'fall words', 'things you sit on', 'things you do everyday', 'weather', 'items to take on a road trip', 'things that have wheels', 'hobbies'];
-
-var _default = setCategories.sort();
-
-exports.default = _default;
-},{}],"../src/components/Categories.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/components/Categories.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52694,21 +52712,20 @@ var Categories = function Categories() {
         checked = _ref$target.checked,
         value = _ref$target.value;
     dispatch((0, _categoryActions.handleCheckEvent)(id, checked, value));
-  };
+  }; // useEffect(() => {
+  //   const categoryList = categories.map((category) => {
+  //     return {
+  //       checked: activeList.map((item) => item.category).includes(category)
+  //         ? true
+  //         : false,
+  //       category,
+  //       id: uuid(),
+  //     }
+  //   })
+  //   dispatch(loadCategoryList(categoryList))
+  // }, [activeList])
 
-  (0, _react.useEffect)(function () {
-    var categoryList = _categories.default.map(function (category) {
-      return {
-        checked: activeList.map(function (item) {
-          return item.category;
-        }).includes(category) ? true : false,
-        category: category,
-        id: (0, _reactUuid.default)()
-      };
-    });
 
-    dispatch((0, _categoryActions.loadCategoryList)(categoryList));
-  }, [activeList]);
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     md: 5,
     className: "category-column"
@@ -52797,9 +52814,8 @@ var LetterInput = function LetterInput(_ref) {
       setNewLetter = _useState2[1];
 
   var _useState3 = (0, _react.useState)(letter),
-      _useState4 = _slicedToArray(_useState3, 2),
-      previousLetter = _useState4[0],
-      setPreviousLetter = _useState4[1];
+      _useState4 = _slicedToArray(_useState3, 1),
+      previousLetter = _useState4[0];
 
   var handleLetterChange = function handleLetterChange(e) {
     if (e.nativeEvent.inputType === 'deleteContentBackward') {
@@ -52828,7 +52844,8 @@ var LetterInput = function LetterInput(_ref) {
 };
 
 LetterInput.propTypes = {
-  letter: _propTypes.default.string.isRequired
+  letter: _propTypes.default.string.isRequired,
+  index: _propTypes.default.number.isRequired
 };
 var _default = LetterInput;
 exports.default = _default;
@@ -53204,6 +53221,8 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _reactRouterDom = require("react-router-dom");
+
 var _reactBootstrap = require("react-bootstrap");
 
 var _reactRedux = require("react-redux");
@@ -53239,6 +53258,9 @@ var RandomCategory = function RandomCategory() {
   var categories = (0, _reactRedux.useSelector)(function (state) {
     return state.category;
   });
+  var categoryList = (0, _reactRedux.useSelector)(function (state) {
+    return state.categoryList;
+  });
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -53254,6 +53276,22 @@ var RandomCategory = function RandomCategory() {
       _useState6 = _slicedToArray(_useState5, 2),
       start = _useState6[0],
       setStart = _useState6[1];
+
+  function useQuery() {
+    return new URLSearchParams((0, _reactRouterDom.useLocation)().search);
+  }
+
+  var query = useQuery();
+  var isRandom = query.get('random');
+  console.log('queryResult', isRandom); // useEffect(() => {
+  //   dispatch(startNewGame())
+  //   setLoadTeams(true)
+  //   if (queryResult === 'true') {
+  //     setIsRandom(true)
+  //   } else {
+  //     setIsRandom(false)
+  //   }
+  // }, [])
 
   var shuffle = function shuffle(array) {
     return _toConsumableArray(array).sort(function () {
@@ -53288,7 +53326,11 @@ var RandomCategory = function RandomCategory() {
   };
 
   (0, _react.useEffect)(function () {
-    setRandomCategories(shuffle(categories));
+    if (isRandom === 'true') {
+      setRandomCategories(shuffle(categoryList));
+    } else {
+      setRandomCategories(shuffle(categories));
+    }
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "header-container"
@@ -53306,7 +53348,7 @@ var RandomCategory = function RandomCategory() {
 
 var _default = RandomCategory;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/timerActions":"../src/actions/timerActions.js"}],"../src/components/Timer.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/timerActions":"../src/actions/timerActions.js"}],"../src/components/Timer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53340,7 +53382,6 @@ var Timer = function Timer() {
   var timer = (0, _reactRedux.useSelector)(function (state) {
     return state.timer;
   });
-  console.log(timer);
 
   var _useState = (0, _react.useState)(timer.timeLeft),
       _useState2 = _slicedToArray(_useState, 2),
@@ -53350,13 +53391,11 @@ var Timer = function Timer() {
   var _useState3 = (0, _react.useState)(timer.start),
       _useState4 = _slicedToArray(_useState3, 2),
       start = _useState4[0],
-      setStart = _useState4[1]; // console.log(timeLeft)
-
+      setStart = _useState4[1];
 
   (0, _react.useEffect)(function () {
     // exit early when we reach 0
     if (!timeLeft) return;
-    console.log(timer.start);
     if (!timer.start) return; // save intervalId to clear the interval when the
     // component re-renders
 
@@ -53490,14 +53529,14 @@ var PlayGameScreen = function PlayGameScreen() {
     bordered: true
   }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", {
     className: "letter-col"
-  }), teams.map(function (_ref, i) {
+  }), teams.map(function (_ref) {
     var name = _ref.name,
         index = _ref.index,
         id = _ref.id,
         alphabet = _ref.alphabet;
     return /*#__PURE__*/_react.default.createElement("th", {
       className: "px-1",
-      key: id
+      key: (0, _reactUuid.default)()
     }, name, /*#__PURE__*/_react.default.createElement("div", {
       className: "header-letter"
     }, alphabet[index].letter.toLowerCase()));
@@ -53643,7 +53682,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60849" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55473" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
