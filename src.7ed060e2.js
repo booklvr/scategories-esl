@@ -52796,15 +52796,34 @@ var LetterInput = function LetterInput(_ref) {
       newLetter = _useState2[0],
       setNewLetter = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(letter),
+      _useState4 = _slicedToArray(_useState3, 2),
+      previousLetter = _useState4[0],
+      setPreviousLetter = _useState4[1];
+
+  var handleLetterChange = function handleLetterChange(e) {
+    if (e.nativeEvent.inputType === 'deleteContentBackward') {
+      setNewLetter('');
+    } else setNewLetter(e.nativeEvent.data); // else if (!newLetter) setNewLetter(e.target.value)
+    // else setNewLetter(mem)
+
+  };
+
+  var handleBlurEvent = function handleBlurEvent() {
+    if (newLetter === '') {
+      dispatch((0, _alphabetActions.changeLetter)(previousLetter, index));
+    } else {
+      dispatch((0, _alphabetActions.changeLetter)(newLetter, index));
+    }
+  };
+
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
     className: "letter-input",
     value: newLetter,
     onChange: function onChange(e) {
-      return setNewLetter(e.target.value);
+      return handleLetterChange(e);
     },
-    onBlur: function onBlur() {
-      return dispatch((0, _alphabetActions.changeLetter)(newLetter, index));
-    }
+    onBlur: handleBlurEvent
   });
 };
 
@@ -53624,7 +53643,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59530" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60849" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
