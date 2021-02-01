@@ -38,9 +38,14 @@ const CreateGameScreen = () => {
 
   const [numberOfTeams, setNumberOfTeams] = useState(teams.length)
   const [numberOfRounds, setNumberOfRounds] = useState(10)
+  const [seconds, setSeconds] = useState(30)
 
   const removeCategory = (id) => {
     dispatch(removeCategoryFromList(id))
+  }
+
+  const handleSecondsBlurEvent = () => {
+    console.log('fucking blurred')
   }
 
   const handleReset = () => {
@@ -99,12 +104,12 @@ const CreateGameScreen = () => {
           <h2>Create your game</h2>
           <Form>
             <Row className='ml-4'>
-              <Col sm={6} md={3}>
+              <Col sm={6} lg={2} className='form-input-container'>
                 <Form.Group as={Row}>
-                  <Form.Label column sm={4}>
+                  <Form.Label column sm={5}>
                     Teams
                   </Form.Label>
-                  <Col sm={6}>
+                  <Col className='form-input-col' sm={4}>
                     <Form.Control
                       min={1}
                       max={6}
@@ -119,12 +124,12 @@ const CreateGameScreen = () => {
                   </Col>
                 </Form.Group>
               </Col>
-              <Col sm={6} md={3}>
-                <Form.Group as={Row} controlId='formPlaintextEmail'>
-                  <Form.Label column sm={4}>
+              <Col sm={6} lg={2} className='form-input-container'>
+                <Form.Group as={Row}>
+                  <Form.Label column sm={5}>
                     Rounds
                   </Form.Label>
-                  <Col sm={6}>
+                  <Col sm={4} className='form-input-col'>
                     <Form.Control
                       value={numberOfRounds}
                       type='number'
@@ -135,12 +140,33 @@ const CreateGameScreen = () => {
                   </Col>
                 </Form.Group>
               </Col>
+              <Col sm={6} lg={2} className='form-input-container'>
+                <Form.Group as={Row}>
+                  <Form.Label column sm={5}>
+                    Timer(sec)
+                  </Form.Label>
+                  <Col className='form-input-col' sm={4}>
+                    <Form.Control
+                      value={seconds}
+                      type='number'
+                      min={5}
+                      onChange={(e) => setSeconds(e.target.value)}
+                      onBlur={handleSecondsBlurEvent}
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
               <Col
                 lg={5}
                 className='px-0 ml-2 d-flex justify-content-around create-game-btn-group'
               >
                 <LinkContainer to={`/play?random=false`}>
-                  <Button className='mb-2  play-btn'>Play</Button>
+                  <Button
+                    disabled={categories.length === 0 ? true : false}
+                    className='mb-2  play-btn'
+                  >
+                    Play
+                  </Button>
                 </LinkContainer>
                 <LinkContainer to={`/play?random=true`}>
                   <Button className='mb-2  play-btn play-random'>

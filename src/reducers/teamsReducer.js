@@ -8,10 +8,9 @@ import {
   CHANGE_INDEX,
   START_NEW_GAME,
   RESET_TEAMS,
-  // LOAD_TEAMS_FOR_GAME,
 } from '../constants/teamsConstants'
 
-import { LOAD_ALPHABET } from '../constants/alphabetConstants'
+// import { LOAD_ALPHABET } from '../constants/alphabetConstants'
 
 export const teamsReducer = (
   state = [

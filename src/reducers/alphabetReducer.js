@@ -7,7 +7,6 @@ export const alphabetReducer = (state = null, action) => {
     case LOAD_ALPHABET:
       return [...payload]
     case CHANGE_LETTER:
-      console.log(payload.index, payload.letter)
       return [...state].map((letter, index) => {
         if (payload.index === index) {
           return payload.letter

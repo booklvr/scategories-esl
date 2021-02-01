@@ -8,12 +8,14 @@ import {
 } from './reducers/categoryReducer'
 import { alphabetReducer } from './reducers/alphabetReducer'
 import { teamsReducer } from './reducers/teamsReducer'
+import { timerReducer } from './reducers/timerReducer'
 
 const reducer = combineReducers({
   category: categoryReducer,
   categoryList: categoryListReducer,
   alphabet: alphabetReducer,
   teams: teamsReducer,
+  timer: timerReducer,
 })
 
 const categoriesFromLocalStorage = localStorage.getItem('categories')
@@ -29,10 +31,15 @@ const alphabetFromLocalStorage = localStorage.getItem('alphabet')
   ? JSON.parse(localStorage.getItem('alphabet'))
   : []
 
+const timerFromLocalStorage = localStorage.getItem('timer')
+  ? JSON.parse(localStorage.getItem('timer'))
+  : undefined
+
 const initialState = {
   category: categoriesFromLocalStorage,
   teams: teamsFromLocalStorage,
   alphabet: alphabetFromLocalStorage,
+  timer: timerFromLocalStorage,
 }
 
 const middleware = [thunk]

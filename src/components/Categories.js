@@ -13,31 +13,40 @@ const Categories = () => {
   const dispatch = useDispatch()
 
   const categoryList = useSelector((state) => state.categoryList)
+  const activeList = useSelector((state) => state.category)
   const [category, setCategory] = useState([])
 
   const handleKeyEnter = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && category !== '') {
+      dispatch(addCategory(category))
+      setCategory('')
+    }
+  }
+
+  const handleAddButtonClick = () => {
+    if (category !== '') {
       dispatch(addCategory(category))
       setCategory('')
     }
   }
 
   const onCheckHandler = ({ target: { id, checked, value } }) => {
-    // dispatch(handleCheckEvent(e.target.id, e.target.checked, e.target.value))
     dispatch(handleCheckEvent(id, checked, value))
   }
 
   useEffect(() => {
     const categoryList = categories.map((category) => {
       return {
-        checked: false,
+        checked: activeList.map((item) => item.category).includes(category)
+          ? true
+          : false,
         category,
         id: uuid(),
       }
     })
 
     dispatch(loadCategoryList(categoryList))
-  }, [])
+  }, [activeList])
 
   return (
     <Col md={5} className='category-column'>
@@ -55,7 +64,7 @@ const Categories = () => {
           </Col>
 
           <Col md={3}>
-            <Button>Add</Button>
+            <Button onClick={handleAddButtonClick}>Add</Button>
           </Col>
         </Form.Row>
 

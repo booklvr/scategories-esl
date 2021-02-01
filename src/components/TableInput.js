@@ -19,11 +19,17 @@ const TableInput = ({ teamId, letter }) => {
     }
     if (e.target.value.startsWith(letter)) {
       setWord(e.target.value)
-    } 
+    }
   }
 
   const handleBlurEvent = () => {
     if (word) {
+      dispatch(changeWord(teamId, word, letter))
+    }
+  }
+
+  const handleKeyEnter = (event) => {
+    if (event.key === 'Enter' && word) {
       dispatch(changeWord(teamId, word, letter))
     }
   }
@@ -35,6 +41,7 @@ const TableInput = ({ teamId, letter }) => {
         value={word}
         onChange={(e) => handleChangeWord(e)}
         onBlur={() => handleBlurEvent()}
+        onKeyPress={handleKeyEnter}
       ></FormControl>
     </td>
   )

@@ -45,9 +45,6 @@ export const loadLetters = (size) => (dispatch, getState) => {
 }
 
 export const changeLetter = (letter, index) => (dispatch, getState) => {
-  console.log('fuck you bitch')
-  console.log('letter', letter)
-  console.log('index', index)
   dispatch({ type: CHANGE_LETTER, payload: { letter, index } })
   localStorage.setItem('alphabet', JSON.stringify(getState().alphabet))
 }

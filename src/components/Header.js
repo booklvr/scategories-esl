@@ -10,7 +10,7 @@ const Header = () => {
           <LinkContainer to='/'>
             <Navbar.Brand>Scategories ESL</Navbar.Brand>
           </LinkContainer>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          {/* <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
               <Fragment>
@@ -31,7 +31,7 @@ const Header = () => {
                 </NavDropdown>
               </Fragment>
             </Nav>
-          </Navbar.Collapse>
+          </Navbar.Collapse> */}
         </Container>
       </Navbar>
     </header>

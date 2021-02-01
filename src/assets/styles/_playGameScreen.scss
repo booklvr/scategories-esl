@@ -7,22 +7,24 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 20px;
+    border: 1px solid #000;
 
     .random-category {
       display: flex;
+      flex: 1;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
       height: 100%;
       font-size: 60px;
       margin: 0 30px;
-      width: 500px;
     }
     .header-btn {
       width: 150px;
       font-size: 20px;
       padding: 20px 10px;
+      margin: 0 20px;
     }
   }
 
@@ -87,5 +89,18 @@
 
   .letter-col {
     width: 40px;
+  }
+}
+
+.timer {
+  height: 92px;
+  font-size: 50px;
+
+  .seconds {
+    text-align: left;
+  }
+
+  .minutes {
+    text-align: right;
   }
 }

@@ -1,6 +1,4 @@
 .createGameContainer {
-  // max-height: calc(100vh - 230px);
-  // overflow: hidden;
   margin: 30px 40px;
 
   h2 {
@@ -63,5 +61,33 @@
       height: 48px;
       padding: 0px 20px;
     }
+  }
+}
+
+.form-input-container {
+  padding-left: 0;
+  padding-right: 0;
+
+  div {
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    input {
+      padding-right: 0;
+      margin-right: 0;
+    }
+  }
+
+  .form-label {
+    padding: 0;
+    margin: 0;
+  }
+  .form-input-column {
+    padding: 0;
+    margin: 0;
+    background-color: orange;
   }
 }

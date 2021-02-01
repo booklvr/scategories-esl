@@ -8,6 +8,7 @@ import { removeWord, startNewGame } from '../actions/teamActions'
 
 import TableInput from '../components/TableInput'
 import RandomCategory from '../components/RandomCategory'
+import Timer from '../components/Timer'
 
 const PlayGameScreen = () => {
   const dispatch = useDispatch()
@@ -16,14 +17,11 @@ const PlayGameScreen = () => {
   const [loadTeams, setLoadTeams] = useState(false)
   const [isRandom, setIsRandom] = useState(false)
 
-  console.log(isRandom)
-
   function useQuery() {
     return new URLSearchParams(useLocation().search)
   }
   let query = useQuery()
   const queryResult = query.get('random')
-  console.log('queryResult', queryResult)
 
   useEffect(() => {
     dispatch(startNewGame())
@@ -38,15 +36,16 @@ const PlayGameScreen = () => {
   return (
     <div className='playGameContainer'>
       <Row>
-        <Col md={1} className='header-container'>
+        <Col md={2} className='header-container'>
           <LinkContainer to='/'>
-            <Button className='header-btn'>Go Back</Button>
+            <Button className='header-btn'>Settings</Button>
           </LinkContainer>
         </Col>
 
-        <Col md={10}>
+        <Col md={8}>
           <RandomCategory isRandom={isRandom} />
         </Col>
+        <Timer />
       </Row>
       {loadTeams && (
         <Table striped bordered>
