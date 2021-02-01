@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { reloadSeconds } from '../actions/timerActions'
@@ -6,9 +8,27 @@ import { reloadSeconds } from '../actions/timerActions'
 const RandomCategory = () => {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
+  const categoryList = useSelector((state) => state.categoryList)
   const [randomCategories, setRandomCategories] = useState(null)
   const [index, setIndex] = useState(0)
   const [start, setStart] = useState(false)
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search)
+  }
+  let query = useQuery()
+  const isRandom = query.get('random')
+  console.log('queryResult', isRandom)
+
+  // useEffect(() => {
+  //   dispatch(startNewGame())
+  //   setLoadTeams(true)
+  //   if (queryResult === 'true') {
+  //     setIsRandom(true)
+  //   } else {
+  //     setIsRandom(false)
+  //   }
+  // }, [])
 
   let shuffle = (array) => {
     return [...array].sort(() => Math.random() - 0.5)
@@ -41,7 +61,11 @@ const RandomCategory = () => {
   }
 
   useEffect(() => {
-    setRandomCategories(shuffle(categories))
+    if (isRandom === 'true') {
+      setRandomCategories(shuffle(categoryList))
+    } else {
+      setRandomCategories(shuffle(categories))
+    }
   }, [])
 
   return (

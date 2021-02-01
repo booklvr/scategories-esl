@@ -8,7 +8,7 @@ const LetterInput = ({ letter, index }) => {
   const dispatch = useDispatch()
 
   const [newLetter, setNewLetter] = useState(letter)
-  const [previousLetter, setPreviousLetter] = useState(letter)
+  const [previousLetter] = useState(letter)
 
   const handleLetterChange = (e) => {
     if (e.nativeEvent.inputType === 'deleteContentBackward') {
@@ -39,6 +39,7 @@ const LetterInput = ({ letter, index }) => {
 
 LetterInput.propTypes = {
   letter: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 export default LetterInput

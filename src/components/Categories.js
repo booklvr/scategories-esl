@@ -34,19 +34,19 @@ const Categories = () => {
     dispatch(handleCheckEvent(id, checked, value))
   }
 
-  useEffect(() => {
-    const categoryList = categories.map((category) => {
-      return {
-        checked: activeList.map((item) => item.category).includes(category)
-          ? true
-          : false,
-        category,
-        id: uuid(),
-      }
-    })
+  // useEffect(() => {
+  //   const categoryList = categories.map((category) => {
+  //     return {
+  //       checked: activeList.map((item) => item.category).includes(category)
+  //         ? true
+  //         : false,
+  //       category,
+  //       id: uuid(),
+  //     }
+  //   })
 
-    dispatch(loadCategoryList(categoryList))
-  }, [activeList])
+  //   dispatch(loadCategoryList(categoryList))
+  // }, [activeList])
 
   return (
     <Col md={5} className='category-column'>

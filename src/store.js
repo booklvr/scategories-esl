@@ -22,6 +22,10 @@ const categoriesFromLocalStorage = localStorage.getItem('categories')
   ? JSON.parse(localStorage.getItem('categories'))
   : []
 
+const categoryListFromLocalStorage = localStorage.getItem('categoryList')
+  ? JSON.parse(localStorage.getItem('categoryList'))
+  : undefined
+
 const teamsFromLocalStorage = localStorage.getItem('teams')
   ? JSON.parse(localStorage.getItem('teams'))
   : undefined
@@ -37,6 +41,7 @@ const timerFromLocalStorage = localStorage.getItem('timer')
 
 const initialState = {
   category: categoriesFromLocalStorage,
+  categoryList: categoryListFromLocalStorage,
   teams: teamsFromLocalStorage,
   alphabet: alphabetFromLocalStorage,
   timer: timerFromLocalStorage,

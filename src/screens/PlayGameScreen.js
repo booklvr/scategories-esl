@@ -52,8 +52,8 @@ const PlayGameScreen = () => {
           <thead>
             <tr>
               <th className='letter-col'></th>
-              {teams.map(({ name, index, id, alphabet }, i) => (
-                <th className='px-1' key={id}>
+              {teams.map(({ name, index, id, alphabet }) => (
+                <th className='px-1' key={uuid()}>
                   {name}
                   <div className='header-letter'>
                     {alphabet[index].letter.toLowerCase()}

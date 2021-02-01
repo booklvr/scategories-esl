@@ -4,18 +4,15 @@ import { Col, Form, Row } from 'react-bootstrap'
 
 const Timer = () => {
   const timer = useSelector((state) => state.timer)
-  console.log(timer)
 
   const [timeLeft, setTimeLeft] = useState(timer.timeLeft)
   const [start, setStart] = useState(timer.start)
 
-  // console.log(timeLeft)
 
   useEffect(() => {
     // exit early when we reach 0
     if (!timeLeft) return
 
-    console.log(timer.start)
 
     if (!timer.start) return
 
