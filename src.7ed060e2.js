@@ -33698,9 +33698,11 @@ exports.teamsReducer = teamsReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SET_SECONDS = void 0;
+exports.RESET_TIMER = exports.SET_SECONDS = void 0;
 var SET_SECONDS = 'SET_SECONDS';
 exports.SET_SECONDS = SET_SECONDS;
+var RESET_TIMER = 'RESET_TIMER';
+exports.RESET_TIMER = RESET_TIMER;
 },{}],"../src/reducers/timerReducer.js":[function(require,module,exports) {
 "use strict";
 
@@ -33711,15 +33713,31 @@ exports.timerReducer = void 0;
 
 var _timerConstants = require("../constants/timerConstants");
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var timerReducer = function timerReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30;
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    timeLeft: 30,
+    start: false
+  };
   var action = arguments.length > 1 ? arguments[1] : undefined;
   var type = action.type,
       payload = action.payload;
 
   switch (type) {
     case _timerConstants.SET_SECONDS:
-      return payload;
+      return _objectSpread(_objectSpread({}, state), {}, {
+        timeLeft: payload
+      });
+
+    case _timerConstants.RESET_TIMER:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        start: true
+      });
 
     default:
       return state;
@@ -52808,7 +52826,39 @@ LetterInput.propTypes = {
 };
 var _default = LetterInput;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/alphabetActions":"../src/actions/alphabetActions.js"}],"../src/screens/CreateGameScreen.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/alphabetActions":"../src/actions/alphabetActions.js"}],"../src/actions/timerActions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.reloadSeconds = exports.loadSeconds = void 0;
+
+var _timerConstants = require("../constants/timerConstants");
+
+var loadSeconds = function loadSeconds(seconds) {
+  return function (dispatch) {
+    dispatch({
+      type: _timerConstants.SET_SECONDS,
+      payload: seconds
+    });
+  };
+};
+
+exports.loadSeconds = loadSeconds;
+
+var reloadSeconds = function reloadSeconds() {
+  return function (dispatch, getState) {
+    var timeLeft = getState().timer.timeLeft;
+    console.log('getStateSeconds', timeLeft);
+    dispatch({
+      type: _timerConstants.RESET_TIMER
+    });
+  };
+};
+
+exports.reloadSeconds = reloadSeconds;
+},{"../constants/timerConstants":"../src/constants/timerConstants.js"}],"../src/screens/CreateGameScreen.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52837,6 +52887,8 @@ var _TeamName = _interopRequireDefault(require("../components/TeamName"));
 var _Categories = _interopRequireDefault(require("../components/Categories"));
 
 var _LetterInput = _interopRequireDefault(require("../components/LetterInput"));
+
+var _timerActions = require("../actions/timerActions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52890,7 +52942,7 @@ var CreateGameScreen = function CreateGameScreen() {
   };
 
   var handleSecondsBlurEvent = function handleSecondsBlurEvent() {
-    console.log('fucking blurred');
+    dispatch((0, _timerActions.loadSeconds)(seconds));
   };
 
   var handleReset = function handleReset() {
@@ -53047,7 +53099,7 @@ var CreateGameScreen = function CreateGameScreen() {
 
 var _default = CreateGameScreen;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/categoryActions":"../src/actions/categoryActions.js","../actions/alphabetActions":"../src/actions/alphabetActions.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TeamName":"../src/components/TeamName.js","../components/Categories":"../src/components/Categories.js","../components/LetterInput":"../src/components/LetterInput.js"}],"../src/components/TableInput.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/categoryActions":"../src/actions/categoryActions.js","../actions/alphabetActions":"../src/actions/alphabetActions.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TeamName":"../src/components/TeamName.js","../components/Categories":"../src/components/Categories.js","../components/LetterInput":"../src/components/LetterInput.js","../actions/timerActions":"../src/actions/timerActions.js"}],"../src/components/TableInput.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53134,39 +53186,7 @@ TableInput.propTypes = {
 };
 var _default = TableInput;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/actions/timerActions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.reloadSeconds = exports.loadSeconds = void 0;
-
-var _timerConstants = require("../constants/timerConstants");
-
-var loadSeconds = function loadSeconds(seconds) {
-  return function (dispatch) {
-    dispatch({
-      type: _timerConstants.SET_SECONDS,
-      payload: seconds
-    });
-  };
-};
-
-exports.loadSeconds = loadSeconds;
-
-var reloadSeconds = function reloadSeconds() {
-  return function (dispatch, getState) {
-    var seconds = getState().timer;
-    dispatch({
-      type: _timerConstants.SET_SECONDS,
-      payload: seconds
-    });
-  };
-};
-
-exports.reloadSeconds = reloadSeconds;
-},{"../constants/timerConstants":"../src/constants/timerConstants.js"}],"../src/components/RandomCategory.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/components/RandomCategory.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53186,6 +53206,14 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -53198,14 +53226,10 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var RandomCategory = function RandomCategory(_ref) {
-  var isRandom = _ref.isRandom;
+var RandomCategory = function RandomCategory() {
   var dispatch = (0, _reactRedux.useDispatch)();
   var categories = (0, _reactRedux.useSelector)(function (state) {
     return state.category;
-  });
-  var categoryList = (0, _reactRedux.useSelector)(function (state) {
-    return state.categoryList;
   });
 
   var _useState = (0, _react.useState)(null),
@@ -53213,83 +53237,63 @@ var RandomCategory = function RandomCategory(_ref) {
       randomCategories = _useState2[0],
       setRandomCategories = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(null),
+  var _useState3 = (0, _react.useState)(0),
       _useState4 = _slicedToArray(_useState3, 2),
-      arrayLength = _useState4[0],
-      setArrayLength = _useState4[1];
+      index = _useState4[0],
+      setIndex = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(0),
+  var _useState5 = (0, _react.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      index = _useState6[0],
-      setIndex = _useState6[1];
+      start = _useState6[0],
+      setStart = _useState6[1];
 
   var shuffle = function shuffle(array) {
-    var currentIndex = array.length,
-        temporaryValue,
-        randomIndex; // While there remain elements to shuffle...
-
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1; // And swap it with the current element.
-
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
+    return _toConsumableArray(array).sort(function () {
+      return Math.random() - 0.5;
+    });
   };
 
   var handleBackClick = function handleBackClick() {
     if (index > 0) {
       setIndex(index - 1);
     } else {
-      setIndex(arrayLength - 1);
+      setIndex(categories.length - 1);
     }
 
     dispatch((0, _timerActions.reloadSeconds)());
   };
 
   var handleNextClick = function handleNextClick() {
-    if (index < arrayLength - 1) {
+    if (!start) {
+      setStart(true);
+      dispatch((0, _timerActions.reloadSeconds)());
+      return;
+    }
+
+    if (index < categories.length - 1) {
       setIndex(index + 1);
     } else {
       setIndex(0);
     }
+
+    dispatch((0, _timerActions.reloadSeconds)());
   };
 
   (0, _react.useEffect)(function () {
-    if (isRandom) {
-      setRandomCategories(function () {
-        var fullSet = categoryList.map(function (_ref2) {
-          var id = _ref2.id,
-              category = _ref2.category;
-          return {
-            id: id,
-            category: category
-          };
-        });
-        return shuffle(fullSet);
-      });
-    } else {
-      setRandomCategories(shuffle(categories));
-    }
-  }, [isRandom]);
-  (0, _react.useEffect)(function () {
-    if (randomCategories) setArrayLength(randomCategories.length);
-  }, [randomCategories]);
+    setRandomCategories(shuffle(categories));
+  }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "header-container"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
     className: "header-btn",
+    disabled: start === false ? true : false,
     onClick: handleBackClick
   }, "Back"), randomCategories && /*#__PURE__*/_react.default.createElement("div", {
     className: "random-category"
   }, randomCategories[index].category), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
     className: "header-btn",
     onClick: handleNextClick
-  }, "Next"));
+  }, start ? 'Next' : 'Start'));
 };
 
 var _default = RandomCategory;
@@ -53325,19 +53329,27 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Timer = function Timer() {
-  var seconds = (0, _reactRedux.useSelector)(function (state) {
+  var timer = (0, _reactRedux.useSelector)(function (state) {
     return state.timer;
   });
+  console.log(timer);
 
-  var _useState = (0, _react.useState)(seconds),
+  var _useState = (0, _react.useState)(timer.timeLeft),
       _useState2 = _slicedToArray(_useState, 2),
       timeLeft = _useState2[0],
       setTimeLeft = _useState2[1];
 
-  console.log(timeLeft);
+  var _useState3 = (0, _react.useState)(timer.start),
+      _useState4 = _slicedToArray(_useState3, 2),
+      start = _useState4[0],
+      setStart = _useState4[1]; // console.log(timeLeft)
+
+
   (0, _react.useEffect)(function () {
     // exit early when we reach 0
-    if (!timeLeft) return; // save intervalId to clear the interval when the
+    if (!timeLeft) return;
+    console.log(timer.start);
+    if (!timer.start) return; // save intervalId to clear the interval when the
     // component re-renders
 
     var intervalId = setInterval(function () {
@@ -53348,7 +53360,11 @@ var Timer = function Timer() {
       return clearInterval(intervalId);
     }; // add timeLeft as a dependency to re-rerun the effect
     // when we update it
-  }, [timeLeft]);
+  }, [timeLeft, timer]);
+  (0, _react.useEffect)(function () {
+    setTimeLeft(timer.timeLeft);
+    setStart(timer.start);
+  }, [timer]);
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     md: 2
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
@@ -53466,7 +53482,7 @@ var PlayGameScreen = function PlayGameScreen() {
     bordered: true
   }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", {
     className: "letter-col"
-  }), teams.map(function (_ref) {
+  }), teams.map(function (_ref, i) {
     var name = _ref.name,
         index = _ref.index,
         id = _ref.id,
@@ -53495,7 +53511,7 @@ var PlayGameScreen = function PlayGameScreen() {
         }, /*#__PURE__*/_react.default.createElement("i", {
           className: "fas fa-times"
         })));
-      } else {
+      } else if (letterIndex === 0 || team.alphabet[letterIndex - 1].complete) {
         return /*#__PURE__*/_react.default.createElement(_TableInput.default // changeCurrentLetter={changeCurrentLetter}
         // tabIndex='1'
         , {
@@ -53503,6 +53519,8 @@ var PlayGameScreen = function PlayGameScreen() {
           letter: letter,
           key: (0, _reactUuid.default)()
         });
+      } else {
+        return /*#__PURE__*/_react.default.createElement("td", null);
       }
     }));
   }))));
@@ -53617,7 +53635,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9847" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52355" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

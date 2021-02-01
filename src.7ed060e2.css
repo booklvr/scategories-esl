@@ -164,6 +164,7 @@
   padding: 0;
   margin: 0;
   text-align: center;
+  border: 3px solid lightgrey;
 }
 .playGameContainer table .table-word {
   font-size: 60px;
