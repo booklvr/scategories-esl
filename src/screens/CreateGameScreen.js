@@ -26,6 +26,7 @@ import {
 import TeamName from '../components/TeamName'
 import Categories from '../components/Categories'
 import LetterInput from '../components/LetterInput'
+import { loadSeconds } from '../actions/timerActions'
 
 const CreateGameScreen = () => {
   // const alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -45,7 +46,7 @@ const CreateGameScreen = () => {
   }
 
   const handleSecondsBlurEvent = () => {
-    console.log('fucking blurred')
+    dispatch(loadSeconds(seconds))
   }
 
   const handleReset = () => {

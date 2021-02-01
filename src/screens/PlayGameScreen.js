@@ -52,7 +52,7 @@ const PlayGameScreen = () => {
           <thead>
             <tr>
               <th className='letter-col'></th>
-              {teams.map(({ name, index, id, alphabet }) => (
+              {teams.map(({ name, index, id, alphabet }, i) => (
                 <th className='px-1' key={id}>
                   {name}
                   <div className='header-letter'>
@@ -82,7 +82,10 @@ const PlayGameScreen = () => {
                           </Button>
                         </td>
                       )
-                    } else {
+                    } else if (
+                      letterIndex === 0 ||
+                      team.alphabet[letterIndex - 1].complete
+                    ) {
                       return (
                         <TableInput
                           // changeCurrentLetter={changeCurrentLetter}
@@ -92,6 +95,8 @@ const PlayGameScreen = () => {
                           key={uuid()}
                         />
                       )
+                    } else {
+                      return <td></td>
                     }
                   })}
                 </tr>

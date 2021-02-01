@@ -3,73 +3,54 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { reloadSeconds } from '../actions/timerActions'
 
-const RandomCategory = ({ isRandom }) => {
+const RandomCategory = () => {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
-  const categoryList = useSelector((state) => state.categoryList)
-
   const [randomCategories, setRandomCategories] = useState(null)
-  const [arrayLength, setArrayLength] = useState(null)
   const [index, setIndex] = useState(0)
+  const [start, setStart] = useState(false)
 
   let shuffle = (array) => {
-    var currentIndex = array.length,
-      temporaryValue,
-      randomIndex
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex)
-      currentIndex -= 1
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex]
-      array[currentIndex] = array[randomIndex]
-      array[randomIndex] = temporaryValue
-    }
-
-    return array
+    return [...array].sort(() => Math.random() - 0.5)
   }
 
   const handleBackClick = () => {
     if (index > 0) {
       setIndex(index - 1)
     } else {
-      setIndex(arrayLength - 1)
+      setIndex(categories.length - 1)
     }
+
     dispatch(reloadSeconds())
   }
 
   const handleNextClick = () => {
-    if (index < arrayLength - 1) {
+    if (!start) {
+      setStart(true)
+      dispatch(reloadSeconds())
+      return
+    }
+
+    if (index < categories.length - 1) {
       setIndex(index + 1)
     } else {
       setIndex(0)
     }
+
+    dispatch(reloadSeconds())
   }
 
   useEffect(() => {
-    if (isRandom) {
-      setRandomCategories(() => {
-        const fullSet = categoryList.map(({ id, category }) => ({
-          id,
-          category,
-        }))
-        return shuffle(fullSet)
-      })
-    } else {
-      setRandomCategories(shuffle(categories))
-    }
-  }, [isRandom])
-
-  useEffect(() => {
-    if (randomCategories) setArrayLength(randomCategories.length)
-  }, [randomCategories])
+    setRandomCategories(shuffle(categories))
+  }, [])
 
   return (
     <div className='header-container'>
-      <Button className='header-btn' onClick={handleBackClick}>
+      <Button
+        className='header-btn'
+        disabled={start === false ? true : false}
+        onClick={handleBackClick}
+      >
         Back
       </Button>
       {randomCategories && (
@@ -78,7 +59,7 @@ const RandomCategory = ({ isRandom }) => {
         </div>
       )}
       <Button className='header-btn' onClick={handleNextClick}>
-        Next
+        {start ? 'Next' : 'Start'}
       </Button>
     </div>
   )
