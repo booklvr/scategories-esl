@@ -52414,19 +52414,6 @@ var _teamsConstants = require("../constants/teamsConstants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// export const loadTeams = (nTeams) => (dispatch, getState) => {
-//   let newTeams = []
-//   for (let i = 0; i < nTeams; i++) {
-//     newTeams.push(`team ${i + 1}`)
-//   }
-// export const loadTeams = (nTeams) => (dispatch, getState) => {
-//   let newTeams = []
-//   for (let i = 0; i < nTeams; i++) {
-//     newTeams.push(`team ${i + 1}`)
-//   }
-//   dispatch({ type: LOAD_TEAMS, payload: newTeams })
-//   localStorage.setItem('teams', JSON.stringify(getState().teams))
-// }
 var loadTeams = function loadTeams() {
   return function (dispatch) {
     dispatch({
@@ -52837,20 +52824,19 @@ exports.reloadSeconds = exports.loadSeconds = void 0;
 var _timerConstants = require("../constants/timerConstants");
 
 var loadSeconds = function loadSeconds(seconds) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     dispatch({
       type: _timerConstants.SET_SECONDS,
       payload: seconds
     });
+    localStorage.setItem('timer', JSON.stringify(getState().timer));
   };
 };
 
 exports.loadSeconds = loadSeconds;
 
 var reloadSeconds = function reloadSeconds() {
-  return function (dispatch, getState) {
-    var timeLeft = getState().timer.timeLeft;
-    console.log('getStateSeconds', timeLeft);
+  return function (dispatch) {
     dispatch({
       type: _timerConstants.RESET_TIMER
     });
@@ -52921,6 +52907,9 @@ var CreateGameScreen = function CreateGameScreen() {
   var teams = (0, _reactRedux.useSelector)(function (state) {
     return state.teams;
   });
+  var timer = (0, _reactRedux.useSelector)(function (state) {
+    return state.timer;
+  });
 
   var _useState = (0, _react.useState)(teams.length),
       _useState2 = _slicedToArray(_useState, 2),
@@ -52932,7 +52921,7 @@ var CreateGameScreen = function CreateGameScreen() {
       numberOfRounds = _useState4[0],
       setNumberOfRounds = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(30),
+  var _useState5 = (0, _react.useState)(timer.timeLeft),
       _useState6 = _slicedToArray(_useState5, 2),
       seconds = _useState6[0],
       setSeconds = _useState6[1];
@@ -53635,7 +53624,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52355" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59530" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
