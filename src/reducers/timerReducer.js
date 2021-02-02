@@ -1,7 +1,11 @@
-import { RESET_TIMER, SET_SECONDS } from '../constants/timerConstants'
+import {
+  RESET_TIMER,
+  SET_SECONDS,
+  TOGGLE_SHOW_TIMER,
+} from '../constants/timerConstants'
 
 export const timerReducer = (
-  state = { timeLeft: 30, start: false },
+  state = { timeLeft: 30, start: false, showTimer: false },
   action
 ) => {
   const { type, payload } = action
@@ -11,6 +15,8 @@ export const timerReducer = (
       return { ...state, timeLeft: payload }
     case RESET_TIMER:
       return { ...state, start: true }
+    case TOGGLE_SHOW_TIMER:
+      return { ...state, showTimer: payload === true ? true : false }
     default:
       return state
   }

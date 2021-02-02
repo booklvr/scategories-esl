@@ -5,10 +5,11 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { reloadSeconds } from '../actions/timerActions'
 
-const RandomCategory = () => {
+const RandomCategory = ({ isModal }) => {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
   const categoryList = useSelector((state) => state.categoryList)
+  const timer = useSelector((state) => state.timer)
   const [randomCategories, setRandomCategories] = useState(null)
   const [index, setIndex] = useState(0)
   const [start, setStart] = useState(false)
@@ -17,18 +18,7 @@ const RandomCategory = () => {
     return new URLSearchParams(useLocation().search)
   }
   let query = useQuery()
-  const isRandom = query.get('random')
-  console.log('queryResult', isRandom)
-
-  // useEffect(() => {
-  //   dispatch(startNewGame())
-  //   setLoadTeams(true)
-  //   if (queryResult === 'true') {
-  //     setIsRandom(true)
-  //   } else {
-  //     setIsRandom(false)
-  //   }
-  // }, [])
+  let isRandom = query.get('random')
 
   let shuffle = (array) => {
     return [...array].sort(() => Math.random() - 0.5)
@@ -41,14 +31,17 @@ const RandomCategory = () => {
       setIndex(randomCategories.length - 1)
     }
 
-    dispatch(reloadSeconds())
+    if (timer.showTimer) {
+      dispatch(reloadSeconds())
+    }
   }
 
   const handleNextClick = () => {
     if (!start) {
       setStart(true)
-      dispatch(reloadSeconds())
-      return
+      if (timer.showTimer) {
+        dispatch(reloadSeconds())
+      }
     }
 
     if (index < randomCategories.length - 1) {
@@ -57,11 +50,13 @@ const RandomCategory = () => {
       setIndex(0)
     }
 
-    dispatch(reloadSeconds())
+    if (timer.showTimer) {
+      dispatch(reloadSeconds())
+    }
   }
 
   useEffect(() => {
-    if (isRandom === 'true') {
+    if (isRandom === 'true' || isModal) {
       setRandomCategories(shuffle(categoryList))
     } else {
       setRandomCategories(shuffle(categories))

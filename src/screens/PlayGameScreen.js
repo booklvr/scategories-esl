@@ -96,7 +96,7 @@ const PlayGameScreen = () => {
                         />
                       )
                     } else {
-                      return <td></td>
+                      return <td key={uuid()}></td>
                     }
                   })}
                 </tr>

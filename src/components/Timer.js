@@ -8,11 +8,11 @@ const Timer = () => {
   const [timeLeft, setTimeLeft] = useState(timer.timeLeft)
   const [start, setStart] = useState(timer.start)
 
+  console.log(timer)
 
   useEffect(() => {
     // exit early when we reach 0
     if (!timeLeft) return
-
 
     if (!timer.start) return
 
@@ -35,15 +35,29 @@ const Timer = () => {
 
   return (
     <Col md={2}>
-      <Form as={Row} className='timer header-container'>
-        <Col className='minutes' md={5}>
-          {Math.floor(timeLeft / 60)}
-        </Col>
-        <Col md={1}>:</Col>
-        <Col className='seconds' md={5}>
-          {timeLeft % 60}
-        </Col>
-      </Form>
+      {timer.showTimer ? (
+        <Row className='timer header-container'>
+          <Col className='minutes' md={5}>
+            {Math.floor(timeLeft / 60)}
+          </Col>
+          <Col md={1}>:</Col>
+          <Col className='seconds' md={5}>
+            {timeLeft % 60}
+          </Col>
+        </Row>
+      ) : (
+        <Row
+          className='header-container'
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '92px',
+          }}
+        >
+          <h2 style={{ fontSize: '30px' }}>Scategories</h2>
+        </Row>
+      )}
     </Col>
   )
 }
