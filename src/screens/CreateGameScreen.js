@@ -81,13 +81,8 @@ const CreateGameScreen = () => {
   useEffect(() => {
     if (seconds == 60) {
       setSeconds(0)
-      setMinutes(minutes + 1)
     }
   }, [seconds])
-
-  // useEffect(() => {
-  //   dispatch(loadTeams())
-  // }, [])
 
   return (
     <Container className='createGameContainer' fluid>
@@ -166,8 +161,26 @@ const CreateGameScreen = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md={3} className='timer-check-group'>
-                    <Form.Group
+                  <Col md={4} className='timer-check-group'>
+                    <Form.Group>
+                      <Row className='timer-row'>
+                        <Col md={4}>
+                          <Form.Label>Timer</Form.Label>
+                        </Col>
+                        <Col md={4}>
+                          <label className='switch'>
+                            <input
+                              checked={timer.showTimer}
+                              onChange={handleCheckboxClick}
+                              type='checkbox'
+                            />
+                            <span className='slider'></span>
+                          </label>
+                        </Col>
+                      </Row>
+                    </Form.Group>
+
+                    {/*<Form.Group
                       as={Row}
                       checked={timer.showTimer}
                       controlId='formBasicCheckbox'
@@ -178,7 +191,7 @@ const CreateGameScreen = () => {
                         Timer
                       </Form.Label>
                       <Form.Check type='checkbox' />
-                    </Form.Group>
+                    </Form.Group>*/}
                   </Col>
                   {timer.showTimer && (
                     <Fragment>
@@ -214,9 +227,10 @@ const CreateGameScreen = () => {
                                 className='timer-input'
                                 value={seconds}
                                 type='number'
-                                min={5}
+                                min={0}
                                 onChange={(e) => setSeconds(e.target.value)}
                                 onBlur={handleTimerBlurEvent}
+                                step={5}
                               />
                             </Col>
                           </Row>
@@ -301,7 +315,7 @@ const CreateGameScreen = () => {
         </Modal.Header>
         <Modal.Body>
           <h3 style={{ textAlign: 'center' }}>Scategories</h3>
-          <p className='fz-2'>
+          <p className='mb-2 px-5 mx-5'>
             Scategories is a great classroom game that requires almost no prep.
             Students really enjoy it and it is a great use of production english
             in the classroom.
@@ -362,7 +376,7 @@ const CreateGameScreen = () => {
             </Row>
           </Container>
           <Container className='instruction-group'>
-            <h4>Step 3</h4>
+            <h4>Step 2</h4>
             <p>Choose whether or not to use a timer, and set your countdown.</p>
             <Row>
               <Col md={3} className='timer-check-group'>
@@ -423,9 +437,9 @@ const CreateGameScreen = () => {
               </Fragment>
             </Row>
           </Container>
-          <h3 style={{ textAlign: 'center' }}>How to play</h3>
+
           <Container className='instruction-group'>
-            <h4>Step 2</h4>
+            <h4>Step 3</h4>
             <p>
               Choose which categories you wish to use, and click{' '}
               <Button style={{ cursor: 'default' }}>Play</Button>
@@ -435,16 +449,47 @@ const CreateGameScreen = () => {
               <Button style={{ cursor: 'default' }}>play random</Button>
             </p>
           </Container>
+          <h3 style={{ textAlign: 'center' }}>How to play</h3>
           <Container className='instruction-group'>
-            <h4>Step 4</h4>
+            <h4>Instructions</h4>
             <Row>
-              <Col md={4}>
-                <p>
-                  Press <Button>Start</Button> to begin the game
-                </p>
+              <Col md={6}>
+                <ul>
+                  <li>
+                    Press <Button>Start</Button> to begin the game
+                  </li>
+                  <li>
+                    The goal of the game is to write down words that match the
+                    category at the top of the screen.
+                  </li>
+                  <li>
+                    The first team to reach to reach the bottom of their column
+                    wins.
+                  </li>
+                  <li>
+                    For each round you can only write down a word that starts
+                    with that rows letter.
+                  </li>
+                </ul>
+                <p>For Example</p>
+                <ul>
+                  <li>
+                    In the first round each team must write down a letter
+                    starting with the letter <span>{letters[0]}</span> that
+                    matches the category.
+                  </li>
+                  <li>
+                    In round two, if {teams[0].name} was able to write down a
+                    word starting with <span>{letters[0]}</span> than{' '}
+                    {teams[0].name} would have to write down a word starting
+                    with <span>{letters[1]}</span> but the other teams would
+                    still have to write down a word starting with the letter{' '}
+                    <span>{letters[0]}</span>
+                  </li>
+                </ul>
                 <p></p>
               </Col>
-              <Col md={8}>
+              <Col md={6}>
                 <RandomCategory isModal={true} />
 
                 <Table striped bordered>
@@ -471,17 +516,6 @@ const CreateGameScreen = () => {
                       ))}
                   </tbody>
                 </Table>
-              </Col>
-            </Row>
-          </Container>
-
-          <Container>
-            <Row>
-              <Col xs={12} md={8}>
-                .col-xs-12 .col-md-8
-              </Col>
-              <Col xs={6} md={4}>
-                .col-xs-6 .col-md-4
               </Col>
             </Row>
           </Container>

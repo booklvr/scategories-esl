@@ -72,11 +72,26 @@
 }
 
 .timer-check-group {
+  height: 45px;
+  padding: 15px 0;
   padding-right: 0;
   margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
-  .timer-label {
+  .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    margin-bottom: 0;
     margin-right: 10px;
+    display: inline-block;
   }
 }
 
@@ -99,12 +114,19 @@
 }
 
 .modal {
+  padding: 50px;
+  font-size: 20px;
   h3 {
-    margin: 30px 0;
+    margin: 60px 0;
+  }
+
+  h4 {
+    font-weight: bold;
   }
   .instruction-group {
     border-bottom: 1px solid lightgrey;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    padding: 0 40px;
 
     .btn {
       display: inline-block;
@@ -134,6 +156,72 @@
       align-items: center;
       justify-content: space-around;
       width: 100%;
+      margin-bottom: 10px;
+    }
+
+    span {
+      background-color: lightgrey;
+      padding: 5px 10px;
     }
   }
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 25px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .slider {
+      background-color: #1a1a1a;
+
+      &:before {
+        -webkit-transform: translateX(18px);
+        -ms-transform: translateX(18px);
+        transform: translateX(18px);
+      }
+    }
+
+    &:focus + .slider {
+      box-shadow: 0 0 1px#1a1a1a;
+    }
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+
+    &:before {
+      position: absolute;
+      content: '';
+      height: 15px;
+      width: 15px;
+      left: 3px;
+      bottom: 5px;
+      background-color: white;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+    }
+  }
+}
+
+/* The slider */
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
 }
