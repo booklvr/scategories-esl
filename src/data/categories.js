@@ -33,7 +33,7 @@ const setCategories = [
   'things that jump or bounce',
   'things in the sky',
   'pizza toppings',
-  'something your afraid of',
+  "something you're afraid of",
   'items in this room',
   'fictional characters',
   'candy',

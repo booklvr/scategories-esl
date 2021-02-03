@@ -11,8 +11,8 @@ const App = () => {
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <Header />
-      <main className='py-3'>
-        <Container fluid>
+      <main className='p-3'>
+        <Container fluid className='main'>
           <Route path='/' component={CreateGameScreen} exact />
           <Route path='/play' component={PlayGameScreen} exact />
         </Container>

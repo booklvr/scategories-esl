@@ -11,8 +11,7 @@ const TeamName = ({ teamName, id }) => {
 
   return (
     <FormControl
-      className='px-2'
-      style={{ textAlign: 'center' }}
+      className='team-name'
       value={name}
       onChange={(e) => setName(e.target.value)}
       onBlur={() => dispatch(changeTeamName(name, id))}
