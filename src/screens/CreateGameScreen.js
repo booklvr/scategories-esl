@@ -161,7 +161,7 @@ const CreateGameScreen = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md={4} className='timer-check-group'>
+                  <Col md={3} className='timer-check-group'>
                     <Form.Group>
                       <Row className='timer-row'>
                         <Col md={4}>
@@ -179,19 +179,6 @@ const CreateGameScreen = () => {
                         </Col>
                       </Row>
                     </Form.Group>
-
-                    {/*<Form.Group
-                      as={Row}
-                      checked={timer.showTimer}
-                      controlId='formBasicCheckbox'
-                      className='timerAndCheckbox'
-                      onChange={handleCheckboxClick}
-                    >
-                      <Form.Label className='timer-label' column sm={12} md={6}>
-                        Timer
-                      </Form.Label>
-                      <Form.Check type='checkbox' />
-                    </Form.Group>*/}
                   </Col>
                   {timer.showTimer && (
                     <Fragment>
@@ -201,7 +188,7 @@ const CreateGameScreen = () => {
                             <Col md={3}>
                               <Form.Label>Min</Form.Label>
                             </Col>
-                            <Col md={9}>
+                            <Col md={7} className='timer-input-column'>
                               <Form.Control
                                 className='timer-input'
                                 md={8}
@@ -215,6 +202,7 @@ const CreateGameScreen = () => {
                           </Row>
                         </Form.Group>
                       </Col>
+                      <Col md={1}></Col>
 
                       <Col md={4} className='timer-seconds'>
                         <Form.Group>
@@ -222,7 +210,7 @@ const CreateGameScreen = () => {
                             <Col md={3}>
                               <Form.Label>Sec</Form.Label>
                             </Col>
-                            <Col md={9}>
+                            <Col md={7} className='timer-input-column'>
                               <Form.Control
                                 className='timer-input'
                                 value={seconds}
@@ -242,7 +230,7 @@ const CreateGameScreen = () => {
               </Col>
 
               <Col sm={12} md={5}>
-                <Row className='mb-3' className='play-btn-row'>
+                <Row key='1' className='mb-3' className='play-btn-row'>
                   <Col md={6} className={'play-btn-container'}>
                     <LinkContainer to={`/play?random=false`}>
                       <Button
@@ -259,7 +247,7 @@ const CreateGameScreen = () => {
                     </LinkContainer>
                   </Col>
                 </Row>
-                <Row className='play-btn-row'>
+                <Row key='2' className='play-btn-row'>
                   <Col md={6} className={'play-btn-container'}>
                     <Button className='play-btn' onClick={handleReset}>
                       Reset
@@ -379,7 +367,7 @@ const CreateGameScreen = () => {
             <h4>Step 2</h4>
             <p>Choose whether or not to use a timer, and set your countdown.</p>
             <Row>
-              <Col md={3} className='timer-check-group'>
+              <Col md={4} className='timer-check-group'>
                 <Form.Group
                   as={Row}
                   checked={timer.showTimer}
@@ -390,7 +378,7 @@ const CreateGameScreen = () => {
                   <Form.Label className='timer-label' column sm={12} md={6}>
                     Timer
                   </Form.Label>
-                  <Form.Check disabled type='checkbox' />
+                  <Col></Col>
                 </Form.Group>
               </Col>
 
