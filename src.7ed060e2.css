@@ -62,46 +62,178 @@
   width: 25px;
   background-color: #f7f7f9;
 }
-.remove-btn .create-game-btn-group {
-  padding-right: 0;
-  padding-left: 0;
+
+.play-btn-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
 }
-.remove-btn .create-game-btn-group .play-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 10px;
-  height: 48px;
-  padding: 0px 20px;
+.play-btn-row .play-btn-container {
+  padding: 10px 20px;
+  display: flex;
+}
+.play-btn-row .play-btn-container .play-btn {
+  flex: 1;
 }
 
-.form-input-container {
-  padding-left: 0;
-  padding-right: 0;
+.timerAndCheckbox {
+  display: flex;
+  align-items: center;
 }
-.form-input-container div {
-  padding-left: 0;
+
+.form-input-container .form-input-col {
+  padding: 0;
+  margin: 0;
+}
+
+.timer-check-group {
+  height: 45px;
+  padding: 15px 0;
   padding-right: 0;
+  margin-right: 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-.form-input-container div input {
-  padding-right: 0;
-  margin-right: 0;
-}
-.form-input-container .form-label {
+.timer-check-group .form-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
   padding: 0;
+}
+.timer-check-group .form-group .form-label {
+  margin-top: 10px;
+}
+.timer-check-group p {
+  margin-bottom: 0;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.timer-minutes,
+.timer-seconds {
+  display: flex;
+}
+.timer-minutes .timer-row,
+.timer-seconds .timer-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f9;
+}
+.timer-minutes .timer-row .form-label,
+.timer-seconds .timer-row .form-label {
+  margin-bottom: 0;
+}
+.timer-minutes .timer-row .timer-input,
+.timer-seconds .timer-row .timer-input {
+  padding: 0 0 0 10px !important;
   margin: 0;
 }
-.form-input-container .form-input-column {
+
+.timer-minutes {
+  padding-right: 10px;
+}
+
+.modal {
+  padding: 50px;
+  font-size: 20px;
+}
+.modal h3 {
+  margin: 60px 0;
+}
+.modal h4 {
+  font-weight: bold;
+}
+.modal .instruction-group {
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 40px;
+  padding: 0 40px;
+}
+.modal .instruction-group .btn {
+  display: inline-block;
+  cursor: default;
+  margin: 0 20px;
+}
+.modal .instruction-group table .letter-column {
+  text-align: center;
+  width: 50px;
   padding: 0;
-  margin: 0;
-  background-color: orange;
+}
+.modal .instruction-group table .letter-column .letter-input {
+  text-align: center;
+  font-size: 20px;
+}
+.modal .instruction-group table tr {
+  text-align: center;
+  height: 20px;
+  padding: 0 20px;
+}
+.modal .instruction-group .header-container {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.modal .instruction-group span {
+  background-color: lightgrey;
+  padding: 5px 10px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 25px;
+  margin-top: 9px;
+  margin-left: 5px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch input:checked + .slider {
+  background-color: #1a1a1a;
+}
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
+}
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #1a1a1a;
+}
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 3px;
+  bottom: 5px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+/* The slider */
+input:checked + .slider:before {
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
 }
 
 .playGameContainer {
