@@ -32,7 +32,7 @@ const SettingsForm = ({
     <Container>
       <Form>
         <Row>
-          <Col md={12} xxl={6} className='p-3 pb-xl-0'>
+          <Col lg={12} xl={6} className='p-2 p-xl-3'>
             <Form.Group as={Row} className='align-items-center'>
               <Col md={4}>
                 <Form.Label>Teams</Form.Label>
@@ -50,7 +50,7 @@ const SettingsForm = ({
               </Col>
             </Form.Group>
           </Col>
-          <Col md={12} xxl={6} className='p-3 py-xl-0'>
+          <Col lg={12} xl={6} className='p-2 p-xl-3'>
             <Form.Group as={Row} className='align-items-center'>
               <Col md={4}>
                 <Form.Label>Rounds</Form.Label>
@@ -68,13 +68,13 @@ const SettingsForm = ({
           </Col>
         </Row>
         <Row>
-          <Col md={4} className='p-3 py-xl-0'>
+          <Col xl={12} xxl={4} className='p-3 py-xl-0'>
             <Form.Group>
               <Row className='d-flex align-items-center'>
-                <Col md={4}>
-                  <Form.Label>Timer</Form.Label>
+                <Col md={6} xl={3} className=''>
+                  <Form.Label className=''>Timer</Form.Label>
                 </Col>
-                <Col md={4}>
+                <Col md={6} xl={3} className='ml-3'>
                   <label className='switch'>
                     <input
                       checked={timer.showTimer}
@@ -88,50 +88,50 @@ const SettingsForm = ({
             </Form.Group>
           </Col>
           {timer.showTimer && (
-            <Fragment>
-              <Col md={4} className=''>
-                <Form.Group>
-                  <Row className='d-flex align-items-center'>
-                    <Col md={3}>
-                      <Form.Label>Min</Form.Label>
-                    </Col>
-                    <Col md={7} className=''>
-                      <Form.Control
-                        className=''
-                        md={8}
-                        value={minutes}
-                        min={0}
-                        type='number'
-                        onChange={(e) => setMinutes(e.target.value)}
-                        onBlur={handleTimerBlurEvent}
-                      />
-                    </Col>
-                  </Row>
-                </Form.Group>
-              </Col>
-              <Col md={1}></Col>
+            <Col xl={12} xxl={8} className=''>
+              <Row>
+                <Col md={6} className=''>
+                  <Form.Group>
+                    <Row className='d-flex align-items-center'>
+                      <Col md={4} className=''>
+                        <Form.Label className=''>Min</Form.Label>
+                      </Col>
+                      <Col md={8} className='pl-0'>
+                        <Form.Control
+                          className=''
+                          value={minutes}
+                          min={0}
+                          type='number'
+                          onChange={(e) => setMinutes(e.target.value)}
+                          onBlur={handleTimerBlurEvent}
+                        />
+                      </Col>
+                    </Row>
+                  </Form.Group>
+                </Col>
 
-              <Col md={4} className=''>
-                <Form.Group>
-                  <Row className='d-flex align-items-center'>
-                    <Col md={3}>
-                      <Form.Label>Sec</Form.Label>
-                    </Col>
-                    <Col md={7} className=''>
-                      <Form.Control
-                        className=''
-                        value={seconds}
-                        type='number'
-                        min={0}
-                        onChange={(e) => setSeconds(e.target.value)}
-                        onBlur={handleTimerBlurEvent}
-                        step={5}
-                      />
-                    </Col>
-                  </Row>
-                </Form.Group>
-              </Col>
-            </Fragment>
+                <Col md={6} className=''>
+                  <Form.Group>
+                    <Row className='d-flex align-items-center'>
+                      <Col md={4}>
+                        <Form.Label>Sec</Form.Label>
+                      </Col>
+                      <Col md={8} className='pl-0'>
+                        <Form.Control
+                          className=''
+                          value={seconds}
+                          type='number'
+                          min={0}
+                          onChange={(e) => setSeconds(e.target.value)}
+                          onBlur={handleTimerBlurEvent}
+                          step={5}
+                        />
+                      </Col>
+                    </Row>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Col>
           )}
         </Row>
       </Form>

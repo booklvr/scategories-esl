@@ -48,36 +48,36 @@ h3 {
 //   }
 // }
 
-.timer-minutes,
-.timer-seconds {
-  display: flex;
-  .timer-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f7f7f9;
+// .timer-minutes,
+// .timer-seconds {
+//   display: flex;
+//   .timer-row {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background-color: #f7f7f9;
 
-    .form-label {
-      margin-bottom: 0;
-    }
+//     .form-label {
+//       margin-bottom: 0;
+//     }
 
-    .timer-input {
-      padding: 0 0 0 10px !important;
-      margin: 0;
-    }
-  }
-}
+//     .timer-input {
+//       padding: 0 0 0 10px !important;
+//       margin: 0;
+//     }
+//   }
+// }
 
-.timer-minutes {
-  padding-right: 10px;
-}
+// .timer-minutes {
+//   padding-right: 10px;
+// }
 
 .modal {
   padding: 50px;
   font-size: 20px;
-  h3 {
-    margin: 60px 0;
-  }
+  // h3 {
+  //   margin: 60px 0;
+  // }
 
   h4 {
     font-weight: bold;
@@ -120,7 +120,7 @@ h3 {
 
     span {
       background-color: lightgrey;
-      padding: 5px 10px;
+      // padding: 5px 10px;
     }
   }
 }
@@ -132,7 +132,7 @@ h3 {
   width: 40px;
   height: 25px;
   margin-top: 9px;
-  margin-left: 5px;
+  // margin-left: 5px;
 
   input {
     opacity: 0;
