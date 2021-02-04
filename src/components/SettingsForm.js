@@ -32,13 +32,14 @@ const SettingsForm = ({
     <Container>
       <Form>
         <Row>
-          <Col lg={12} xl={6} className='p-2 p-xl-3'>
+          <Col lg={12} xl={6} className='p-md-2 p-xl-3'>
             <Form.Group as={Row} className='align-items-center'>
-              <Col md={4}>
+              <Col md={4} className='pl-1'>
                 <Form.Label>Teams</Form.Label>
               </Col>
               <Col md={8}>
                 <Form.Control
+                  className='p-1'
                   min={1}
                   max={6}
                   type='number'
@@ -52,11 +53,12 @@ const SettingsForm = ({
           </Col>
           <Col lg={12} xl={6} className='p-2 p-xl-3'>
             <Form.Group as={Row} className='align-items-center'>
-              <Col md={4}>
+              <Col md={4} className='pl-1'>
                 <Form.Label>Rounds</Form.Label>
               </Col>
               <Col md={8}>
                 <Form.Control
+                  className='p-1'
                   value={numberOfRounds}
                   type='number'
                   min={5}
@@ -98,7 +100,7 @@ const SettingsForm = ({
                       </Col>
                       <Col md={8} className='pl-0'>
                         <Form.Control
-                          className=''
+                          className='p-2'
                           value={minutes}
                           min={0}
                           type='number'
@@ -118,7 +120,7 @@ const SettingsForm = ({
                       </Col>
                       <Col md={8} className='pl-0'>
                         <Form.Control
-                          className=''
+                          className='p-2'
                           value={seconds}
                           type='number'
                           min={0}

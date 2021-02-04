@@ -36,7 +36,7 @@ const PlayGameScreen = () => {
   return (
     <div className='playGameContainer'>
       <Row>
-        <Col md={2} className='header-container'>
+        <Col md={2} className='header-container d-flex justify-content-center'>
           <LinkContainer to='/'>
             <Button className='header-btn'>Settings</Button>
           </LinkContainer>
@@ -55,9 +55,9 @@ const PlayGameScreen = () => {
               {teams.map(({ name, index, id, alphabet }) => (
                 <th className='px-1' key={uuid()}>
                   {name}
-                  <div className='header-letter'>
+                  {/* <div className='header-letter'>
                     {alphabet[index].letter.toLowerCase()}
-                  </div>
+                  </div> */}
                 </th>
               ))}
             </tr>

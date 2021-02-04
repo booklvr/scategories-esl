@@ -36,7 +36,7 @@ const Timer = () => {
   return (
     <Col md={2}>
       {timer.showTimer ? (
-        <Row className='timer header-container'>
+        <Row className='timer header-container d-flex justify-content-center'>
           <Col className='minutes' md={5}>
             {Math.floor(timeLeft / 60)}
           </Col>
@@ -52,10 +52,10 @@ const Timer = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: '92px',
+            height: '120px',
           }}
         >
-          <h2 style={{ fontSize: '30px' }}>Scategories</h2>
+          <h2 style={{ fontSize: '20px' }}>Scategories</h2>
         </Row>
       )}
     </Col>

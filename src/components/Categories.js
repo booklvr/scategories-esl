@@ -48,7 +48,7 @@ const Categories = () => {
               {categories &&
                 categories.map(({ category, id }) => (
                   <ListGroup.Item
-                    className='d-flex justify-content-between mx-3'
+                    className='d-flex justify-content-between mx-2'
                     key={id}
                   >
                     {category}{' '}

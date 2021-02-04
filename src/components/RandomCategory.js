@@ -64,7 +64,7 @@ const RandomCategory = ({ isModal }) => {
   }, [])
 
   return (
-    <div className='header-container'>
+    <div className='header-container p-3'>
       <Button
         className='header-btn'
         disabled={start === false ? true : false}

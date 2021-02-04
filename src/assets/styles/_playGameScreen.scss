@@ -10,6 +10,7 @@
     justify-content: space-between;
     margin-bottom: 20px;
     border: 1px solid #000;
+    height: 120px;
 
     .random-category {
       display: flex;
@@ -17,7 +18,7 @@
       align-items: center;
       justify-content: space-around;
       height: 100%;
-      font-size: 60px;
+      font-size: 40px;
       margin: 0 30px;
     }
     .header-btn {
@@ -95,7 +96,7 @@
 
 .timer {
   height: 92px;
-  font-size: 50px;
+  font-size: 40px;
 
   .seconds {
     text-align: left;
