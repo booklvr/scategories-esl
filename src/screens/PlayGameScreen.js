@@ -38,7 +38,7 @@ const PlayGameScreen = () => {
       <Row>
         <Col md={2} className='header-container d-flex justify-content-center'>
           <LinkContainer to='/'>
-            <Button className='header-btn'>Settings</Button>
+            <Button className='header-btn btn-info'>Settings</Button>
           </LinkContainer>
         </Col>
 

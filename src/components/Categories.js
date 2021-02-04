@@ -79,7 +79,9 @@ const Categories = () => {
                 </Col>
 
                 <Col md={3}>
-                  <Button onClick={handleAddButtonClick}>Add</Button>
+                  <Button className='bg-primary' onClick={handleAddButtonClick}>
+                    Add
+                  </Button>
                 </Col>
               </Form.Row>
 

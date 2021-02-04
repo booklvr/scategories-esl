@@ -147,14 +147,18 @@ const InstructionModal = ({ handleCloseModal, showModal }) => {
               <p>
                 {' '}
                 After you have chosen all your categories click{' '}
-                <Button style={{ cursor: 'default' }}>Play</Button> to begin the
-                game.
+                <Button className='btn-success' style={{ cursor: 'default' }}>
+                  Play
+                </Button>{' '}
+                to begin the game.
               </p>
               <p>Or</p>
               <p>
                 Click the{' '}
-                <Button style={{ cursor: 'default' }}>play random</Button> to
-                play the game using all the categories from the list.
+                <Button className='btn-success' style={{ cursor: 'default' }}>
+                  play random
+                </Button>{' '}
+                to play the game using all the categories from the list.
               </p>
             </Col>
             <Col md={8}>
@@ -169,7 +173,8 @@ const InstructionModal = ({ handleCloseModal, showModal }) => {
             <Col md={6}>
               <ul>
                 <li>
-                  Press <Button>Start</Button> to begin the game
+                  Press <Button className='btn-success'>Start</Button> to begin
+                  the game
                 </li>
                 <li>
                   The goal of the game is to write down words that match the

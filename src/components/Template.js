@@ -11,7 +11,7 @@ const Template = () => {
 
   return (
     <Fragment>
-      <h2>Scategories Template</h2>
+      <h2 className='text-dark'>Scategories Template</h2>
       <Table striped bordered>
         <thead>
           <tr>

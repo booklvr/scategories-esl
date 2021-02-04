@@ -30,7 +30,7 @@ const PlayGameButtons = ({
           >
             <Button
               disabled={categories.length === 0 ? true : false}
-              className='flex-grow-1'
+              className='flex-grow-1 bg-success'
             >
               Play
             </Button>
@@ -41,18 +41,18 @@ const PlayGameButtons = ({
             to={`/play?random=true`}
             className='d-flex justify-content-center align-items-center'
           >
-            <Button className='flex-grow-1'>Play Random</Button>
+            <Button className='flex-grow-1 btn-success'>Play Random</Button>
           </LinkContainer>
         </Col>
       </Row>
       <Row>
         <Col xl={6} className='py-2 d-flex'>
-          <Button className='flex-grow-1' onClick={handleReset}>
+          <Button className='flex-grow-1 btn-danger' onClick={handleReset}>
             Reset
           </Button>
         </Col>
         <Col xl={6} className='py-2 d-flex'>
-          <Button onClick={handleShowModal} className='flex-grow-1'>
+          <Button onClick={handleShowModal} className='flex-grow-1 btn-info'>
             how to play
           </Button>
         </Col>
