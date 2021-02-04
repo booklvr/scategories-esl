@@ -39,7 +39,7 @@ const Categories = () => {
   }
 
   return (
-    <Container className='container-container p-3'>
+    <Container className='container-container pt-0'>
       <Row className='justify-content-md-center'>
         <Col className='category-column p-3' lg={12} xl={6}>
           <div className='category-container p-3'>
@@ -67,8 +67,8 @@ const Categories = () => {
           <div className='category-container p-3'>
             <h3>add to categories</h3>
             <Form>
-              <Form.Row className='my-4'>
-                <Col md={9}>
+              <Form.Row className='py-4 d-flex justify-content-center'>
+                <Col md={8}>
                   <Form.Control
                     type='text'
                     placeholder='new Category'

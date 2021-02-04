@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Form, Row, Col, Container } from 'react-bootstrap'
@@ -6,18 +6,19 @@ import { Form, Row, Col, Container } from 'react-bootstrap'
 // Actions
 // import { changeNumberOfTeams } from '../actions/teamActions'
 import { loadSeconds, toggleShowTimer } from '../actions/timerActions'
+import { changeNumberOfTeams } from '../actions/teamActions'
+import { loadLetters } from '../actions/alphabetActions'
 
-const SettingsForm = ({
-  numberOfTeams,
-  setNumberOfTeams,
-  numberOfRounds,
-  setNumberOfRounds,
-}) => {
+const SettingsForm = () => {
   const dispatch = useDispatch()
   const timer = useSelector((state) => state.timer)
   const teams = useSelector((state) => state.teams)
+  const letters = useSelector((state) => state.alphabet)
   const [minutes, setMinutes] = useState(Math.floor(timer.timeLeft / 60))
   const [seconds, setSeconds] = useState(timer.timeLeft % 60)
+
+  const [numberOfTeams, setNumberOfTeams] = useState(teams.length)
+  const [numberOfRounds, setNumberOfRounds] = useState(letters.length)
 
   const handleTimerBlurEvent = () => {
     const totalSeconds = parseInt(seconds) + parseInt(minutes * 60)
@@ -28,14 +29,28 @@ const SettingsForm = ({
     dispatch(toggleShowTimer(!timer.showTimer))
   }
 
+  useEffect(() => {
+    dispatch(loadLetters(numberOfRounds))
+  }, [numberOfRounds])
+
+  useEffect(() => {
+    dispatch(changeNumberOfTeams(teams.length, numberOfTeams))
+  }, [numberOfTeams])
+
+  useEffect(() => {
+    if (seconds == 60) {
+      setSeconds(0)
+    }
+  }, [seconds])
+
   return (
     <Container>
       <Form>
         <Row>
-          <Col lg={12} xl={6} className='p-md-2 p-xl-3'>
-            <Form.Group as={Row} className='align-items-center'>
+          <Col lg={12} xl={6} className='p-md-2 p-xl-3 pb-0 pb-md-0'>
+            <Form.Group as={Row} className='d-flex align-items-center'>
               <Col md={4} className='pl-1'>
-                <Form.Label>Teams</Form.Label>
+                <Form.Label className='settings-label'>Teams</Form.Label>
               </Col>
               <Col md={8}>
                 <Form.Control
@@ -54,7 +69,7 @@ const SettingsForm = ({
           <Col lg={12} xl={6} className='p-2 p-xl-3'>
             <Form.Group as={Row} className='align-items-center'>
               <Col md={4} className='pl-1'>
-                <Form.Label>Rounds</Form.Label>
+                <Form.Label className='settings-label'>Rounds</Form.Label>
               </Col>
               <Col md={8}>
                 <Form.Control
@@ -74,7 +89,7 @@ const SettingsForm = ({
             <Form.Group>
               <Row className='d-flex align-items-center'>
                 <Col md={6} xl={3} className=''>
-                  <Form.Label className=''>Timer</Form.Label>
+                  <Form.Label className='settings-label'>Timer</Form.Label>
                 </Col>
                 <Col md={6} xl={3} className='ml-3'>
                   <label className='switch'>
@@ -90,13 +105,13 @@ const SettingsForm = ({
             </Form.Group>
           </Col>
           {timer.showTimer && (
-            <Col xl={12} xxl={8} className=''>
+            <Col xl={12} xxl={8} className='pb-0'>
               <Row>
-                <Col md={6} className=''>
+                <Col md={6} className='pb-0'>
                   <Form.Group>
                     <Row className='d-flex align-items-center'>
                       <Col md={4} className=''>
-                        <Form.Label className=''>Min</Form.Label>
+                        <Form.Label className='settings-label'>Min</Form.Label>
                       </Col>
                       <Col md={8} className='pl-0'>
                         <Form.Control
@@ -116,7 +131,7 @@ const SettingsForm = ({
                   <Form.Group>
                     <Row className='d-flex align-items-center'>
                       <Col md={4}>
-                        <Form.Label>Sec</Form.Label>
+                        <Form.Label className='settings-label'>Sec</Form.Label>
                       </Col>
                       <Col md={8} className='pl-0'>
                         <Form.Control
