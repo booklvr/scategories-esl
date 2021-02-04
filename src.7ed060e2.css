@@ -15,132 +15,22 @@
   box-sizing: border-box;
 }
 
-#root {
-  height: 100%;
-  min-width: 100%;
-  margin: 0;
+main {
+  overflow-x: "hidden";
 }
 
-.createGameContainer {
-  margin: 30px 40px;
-}
-.createGameContainer h2 {
+h2 {
   text-align: center;
 }
-.createGameContainer h3 {
+
+h3 {
   text-align: center;
   padding: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-.createGameContainer .category-column {
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  max-height: calc(100vh - 295px);
-  overflow: scroll;
-}
-.createGameContainer table .letter-column {
-  text-align: center;
-  width: 100px;
-  padding: 0;
-}
-.createGameContainer table .letter-column .letter-input {
-  text-align: center;
-  font-size: 20px;
-}
-.createGameContainer table tr {
-  text-align: center;
-  height: 20px;
-  padding: 0 20px;
-}
-
-.remove-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #f7f7f9;
-}
-
-.play-btn-row {
-  display: flex;
-  align-items: center;
-}
-.play-btn-row .play-btn-container {
-  padding: 10px 20px;
-  display: flex;
-}
-.play-btn-row .play-btn-container .play-btn {
-  flex: 1;
-}
-
-.timerAndCheckbox {
-  display: flex;
-  align-items: center;
-}
-
-.form-input-container .form-input-col {
-  padding: 0;
-  margin: 0;
-}
-
-.timer-check-group {
-  height: 45px;
-  padding: 15px 0;
-  padding-right: 0;
-  margin-right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.timer-check-group .form-group {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-}
-.timer-check-group .form-group .form-label {
-  margin-top: 10px;
-}
-.timer-check-group p {
-  margin-bottom: 0;
-  margin-right: 10px;
-  display: inline-block;
-}
-
-.timer-minutes,
-.timer-seconds {
-  display: flex;
-}
-.timer-minutes .timer-row,
-.timer-seconds .timer-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f7f7f9;
-}
-.timer-minutes .timer-row .form-label,
-.timer-seconds .timer-row .form-label {
-  margin-bottom: 0;
-}
-.timer-minutes .timer-row .timer-input,
-.timer-seconds .timer-row .timer-input {
-  padding: 0 0 0 10px !important;
-  margin: 0;
-}
-
-.timer-minutes {
-  padding-right: 10px;
 }
 
 .modal {
   padding: 50px;
   font-size: 20px;
-}
-.modal h3 {
-  margin: 60px 0;
 }
 .modal h4 {
   font-weight: bold;
@@ -178,7 +68,6 @@
 }
 .modal .instruction-group span {
   background-color: lightgrey;
-  padding: 5px 10px;
 }
 
 /* The switch - the box around the slider */
@@ -188,7 +77,6 @@
   width: 40px;
   height: 25px;
   margin-top: 9px;
-  margin-left: 5px;
 }
 .switch input {
   opacity: 0;
@@ -248,6 +136,7 @@ input:checked + .slider:before {
   justify-content: space-between;
   margin-bottom: 20px;
   border: 1px solid #000;
+  height: 120px;
 }
 .playGameContainer .header-container .random-category {
   display: flex;
@@ -255,7 +144,7 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-around;
   height: 100%;
-  font-size: 60px;
+  font-size: 40px;
   margin: 0 30px;
 }
 .playGameContainer .header-container .header-btn {
@@ -322,13 +211,61 @@ input:checked + .slider:before {
 
 .timer {
   height: 92px;
-  font-size: 50px;
+  font-size: 40px;
 }
 .timer .seconds {
   text-align: left;
 }
 .timer .minutes {
   text-align: right;
+}
+
+.play-btn {
+  flex: 1;
+  font-size: 15px;
+  height: 100%;
+}
+
+.container-container .category-container {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  height: calc(100vh - 335px);
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.container-container .remove-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #f7f7f9;
+}
+
+table .letter-column {
+  text-align: center;
+  width: 100px;
+  padding: 0;
+}
+table .letter-column .letter-input {
+  text-align: center;
+  font-size: 20px;
+}
+table tr {
+  text-align: center;
+  height: 20px;
+  padding: 0 20px;
+}
+table tr th {
+  padding: 0 !important;
+}
+
+.team-name {
+  text-align: center;
+  font-size: 20px;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */
