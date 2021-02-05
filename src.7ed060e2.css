@@ -137,8 +137,9 @@ h3 {
   border: 3px solid #4bbf73;
 }
 .playGameContainer table .table-word {
-  font-size: 60px;
+  font-size: 40px;
   padding: 0;
+  padding-top: 12px;
   margin: 0;
   text-align: center;
   background-color: lightgrey;
@@ -146,10 +147,18 @@ h3 {
   position: relative;
 }
 .playGameContainer table .table-word .remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   right: 0;
   background-color: grey;
+  padding: 10px;
+  margin: 0;
+  max-width: 10px;
+  max-height: 10px;
+  font-size: 10px;
 }
 .playGameContainer table .table-word .remove-btn:hover {
   background-color: black;
