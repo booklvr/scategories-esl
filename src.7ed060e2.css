@@ -70,112 +70,8 @@ h3 {
   background-color: lightgrey;
 }
 
-.playGameContainer {
+.play-game-container {
   box-sizing: border-box;
-  min-width: 100%;
-  padding: 0px 30px;
-}
-.playGameContainer .header-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  border: 1px solid #000;
-  height: 120px;
-}
-.playGameContainer .header-container .random-category {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: space-around;
-  height: 100%;
-  font-size: 40px;
-  margin: 0 30px;
-}
-.playGameContainer .header-container .header-btn {
-  width: 150px;
-  font-size: 20px;
-  padding: 20px 10px;
-  margin: 0 20px;
-}
-.playGameContainer table {
-  text-align: center;
-}
-.playGameContainer table th {
-  font-size: 40px;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-.playGameContainer table th .header-letter {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-right: 30px;
-  text-transform: lowercase;
-  margin-right: 25px;
-}
-.playGameContainer table td {
-  padding: 3px;
-}
-.playGameContainer table .letter {
-  display: inline-block;
-  height: 100%;
-  font-size: 55px;
-  margin: 0 15px;
-  border: 0;
-}
-.playGameContainer table .table-input {
-  font-size: 40px;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  border: 3px solid #cfeed9;
-}
-.playGameContainer table .table-input:focus {
-  border: 3px solid #4bbf73;
-}
-.playGameContainer table .table-word {
-  font-size: 40px;
-  padding: 0;
-  padding-top: 12px;
-  margin: 0;
-  text-align: center;
-  background-color: lightgrey;
-  color: #55595c;
-  position: relative;
-}
-.playGameContainer table .table-word .remove-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: grey;
-  padding: 10px;
-  margin: 0;
-  max-width: 10px;
-  max-height: 10px;
-  font-size: 10px;
-}
-.playGameContainer table .table-word .remove-btn:hover {
-  background-color: black;
-}
-.playGameContainer .letter-col {
-  width: 40px;
-}
-
-.timer {
-  height: 92px;
-  font-size: 40px;
-}
-.timer .seconds {
-  text-align: left;
-}
-.timer .minutes {
-  text-align: right;
 }
 
 .play-btn {
@@ -281,6 +177,127 @@ input:checked + .slider:before {
   -webkit-transform: translateX(18px);
   -ms-transform: translateX(18px);
   transform: translateX(18px);
+}
+
+.game-header .header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  height: 120px;
+}
+.game-header .header-container .header-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 150px;
+  font-size: 20px;
+}
+
+.timer {
+  height: 100%;
+  font-size: 40px;
+}
+
+.random-category {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  font-size: 40px;
+}
+
+.is-modal {
+  font-size: 18px;
+}
+
+.table-container {
+  overflow-y: auto;
+  max-height: 605px;
+  margin-top: 20px;
+}
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+.table-container table {
+  text-align: center;
+  table-layout: fixed;
+}
+.table-container table .letter-column {
+  width: 100px;
+}
+.table-container table thead {
+  border: 1px solid #000;
+}
+.table-container table thead tr {
+  background-color: white;
+  border: 1px solid #000;
+}
+.table-container table thead tr th {
+  font-size: 40px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 2;
+  border: 1px solid #000;
+}
+.table-container table tbody {
+  z-index: -1;
+}
+.table-container table tbody tr td {
+  padding: 0;
+  width: 40px;
+}
+.table-container table tbody tr td + td {
+  width: auto;
+}
+.table-container table tbody tr .letter {
+  width: 120px;
+  height: 100%;
+  font-size: 55px;
+}
+.table-container table tbody tr .table-word {
+  font-size: 40px;
+  padding: 0;
+  padding-top: 12px;
+  margin: 0;
+  text-align: center;
+  background-color: lightgrey;
+  position: relative;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: normal;
+}
+.table-container table tbody tr .table-word .remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: grey;
+  padding: 10px;
+  margin: 0;
+  max-width: 10px;
+  max-height: 10px;
+  font-size: 10px;
+}
+.table-container table tbody tr .table-word .remove-btn:hover {
+  background-color: black;
+}
+
+.table-input {
+  display: inline-block;
+  font-size: 40px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  border: 3px solid #cfeed9;
+}
+.table-input:focus {
+  border: 3px solid #4bbf73;
 }
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */

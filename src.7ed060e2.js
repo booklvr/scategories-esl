@@ -53431,8 +53431,8 @@ var RandomCategory = function RandomCategory(_ref) {
     disabled: start === false ? true : false,
     onClick: handleBackClick
   }, "Back"), randomCategories && /*#__PURE__*/_react.default.createElement("div", {
-    className: "random-category"
-  }, randomCategories[index].category), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    className: "random-category ".concat(isModal ? 'is-modal' : '')
+  }, !start ? 'Press Start to Begin' : randomCategories[index].category), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
     className: "header-btn btn-success",
     onClick: handleNextClick
   }, start ? 'Next' : 'Start'));
@@ -53745,7 +53745,189 @@ var CreateGameScreen = function CreateGameScreen() {
 
 var _default = CreateGameScreen;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/categoryActions":"../src/actions/categoryActions.js","../actions/alphabetActions":"../src/actions/alphabetActions.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TeamName":"../src/components/TeamName.js","../components/Categories":"../src/components/Categories.js","../components/PlayGameButtons":"../src/components/PlayGameButtons.js","../components/Template":"../src/components/Template.js","../components/SettingsForm":"../src/components/SettingsForm.js","../components/InstructionModal":"../src/components/InstructionModal.js"}],"../src/components/TableInput.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/categoryActions":"../src/actions/categoryActions.js","../actions/alphabetActions":"../src/actions/alphabetActions.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TeamName":"../src/components/TeamName.js","../components/Categories":"../src/components/Categories.js","../components/PlayGameButtons":"../src/components/PlayGameButtons.js","../components/Template":"../src/components/Template.js","../components/SettingsForm":"../src/components/SettingsForm.js","../components/InstructionModal":"../src/components/InstructionModal.js"}],"../src/components/Timer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _reactBootstrap = require("react-bootstrap");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Timer = function Timer() {
+  var timer = (0, _reactRedux.useSelector)(function (state) {
+    return state.timer;
+  });
+
+  var _useState = (0, _react.useState)(timer.timeLeft),
+      _useState2 = _slicedToArray(_useState, 2),
+      timeLeft = _useState2[0],
+      setTimeLeft = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(timer.start),
+      _useState4 = _slicedToArray(_useState3, 2),
+      start = _useState4[0],
+      setStart = _useState4[1];
+
+  (0, _react.useEffect)(function () {
+    // exit early when we reach 0
+    if (!timeLeft) return;
+    if (!timer.start) return; // save intervalId to clear the interval when the
+    // component re-renders
+
+    var intervalId = setInterval(function () {
+      setTimeLeft(timeLeft - 1);
+    }, 1000); // clear interval on re-render to avoid memory leaks
+
+    return function () {
+      return clearInterval(intervalId);
+    }; // add timeLeft as a dependency to re-rerun the effect
+    // when we update it
+  }, [timeLeft, timer]);
+  (0, _react.useEffect)(function () {
+    setTimeLeft(timer.timeLeft);
+    setStart(timer.start);
+  }, [timer]);
+  (0, _react.useEffect)(function () {});
+  return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, {
+    className: "timer"
+  }, timer.showTimer ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
+    className: " header-container d-flex justify-content-center"
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    className: "d-flex justify-content-center",
+    md: 3
+  }, Math.floor(timeLeft / 60)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    className: "d-flex justify-content-center",
+    md: 1
+  }, ":"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    className: "d-flex justify-content-center",
+    md: 3
+  }, timeLeft % 60)) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
+    className: "header-container",
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '120px'
+    }
+  }, /*#__PURE__*/_react.default.createElement("h2", {
+    style: {
+      fontSize: '20px'
+    }
+  }, "Scategories")));
+};
+
+var _default = Timer;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"../src/components/GameHeader.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+var _reactRedux = require("react-redux");
+
+var _reactBootstrap = require("react-bootstrap");
+
+var _reactRouterBootstrap = require("react-router-bootstrap");
+
+var _teamActions = require("../actions/teamActions");
+
+var _RandomCategory = _interopRequireDefault(require("../components/RandomCategory"));
+
+var _Timer = _interopRequireDefault(require("../components/Timer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var GameHeader = function GameHeader() {
+  var dispatch = (0, _reactRedux.useDispatch)();
+
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      isRandom = _useState2[0],
+      setIsRandom = _useState2[1];
+
+  function useQuery() {
+    return new URLSearchParams((0, _reactRouterDom.useLocation)().search);
+  }
+
+  var query = useQuery();
+  var queryResult = query.get('random');
+  (0, _react.useEffect)(function () {
+    dispatch((0, _teamActions.startNewGame)());
+
+    if (queryResult === 'true') {
+      setIsRandom(true);
+    } else {
+      setIsRandom(false);
+    }
+  }, []);
+  return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, {
+    fluid: true,
+    className: "game-header"
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    md: 2,
+    className: "header-container d-flex justify-content-center p-3"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
+    to: "/"
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    className: "header-btn btn-info"
+  }, "Settings"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    md: 8
+  }, /*#__PURE__*/_react.default.createElement(_RandomCategory.default, {
+    isRandom: isRandom
+  })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+    md: 2,
+    className: "p-0"
+  }, /*#__PURE__*/_react.default.createElement(_Timer.default, null))));
+};
+
+var _default = GameHeader;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","../actions/teamActions":"../src/actions/teamActions.js","../components/RandomCategory":"../src/components/RandomCategory.js","../components/Timer":"../src/components/Timer.js"}],"../src/components/TableInput.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53814,7 +53996,7 @@ var TableInput = function TableInput(_ref) {
   };
 
   return /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
-    className: "px-2 table-input",
+    className: "table-input",
     value: word,
     onChange: function onChange(e) {
       return handleChangeWord(e);
@@ -53832,7 +54014,7 @@ TableInput.propTypes = {
 };
 var _default = TableInput;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/components/Timer.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/components/GameTable.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53840,140 +54022,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
-
-var _reactRedux = require("react-redux");
-
-var _reactBootstrap = require("react-bootstrap");
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var Timer = function Timer() {
-  var timer = (0, _reactRedux.useSelector)(function (state) {
-    return state.timer;
-  });
-
-  var _useState = (0, _react.useState)(timer.timeLeft),
-      _useState2 = _slicedToArray(_useState, 2),
-      timeLeft = _useState2[0],
-      setTimeLeft = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(timer.start),
-      _useState4 = _slicedToArray(_useState3, 2),
-      start = _useState4[0],
-      setStart = _useState4[1];
-
-  console.log(timer);
-  (0, _react.useEffect)(function () {
-    // exit early when we reach 0
-    if (!timeLeft) return;
-    if (!timer.start) return; // save intervalId to clear the interval when the
-    // component re-renders
-
-    var intervalId = setInterval(function () {
-      setTimeLeft(timeLeft - 1);
-    }, 1000); // clear interval on re-render to avoid memory leaks
-
-    return function () {
-      return clearInterval(intervalId);
-    }; // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
-  }, [timeLeft, timer]);
-  (0, _react.useEffect)(function () {
-    setTimeLeft(timer.timeLeft);
-    setStart(timer.start);
-  }, [timer]);
-  (0, _react.useEffect)(function () {});
-  return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    md: 2
-  }, timer.showTimer ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
-    className: "timer header-container d-flex justify-content-center"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    className: "minutes",
-    md: 5
-  }, Math.floor(timeLeft / 60)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    md: 1
-  }, ":"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    className: "seconds",
-    md: 5
-  }, timeLeft % 60)) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
-    className: "header-container",
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '120px'
-    }
-  }, /*#__PURE__*/_react.default.createElement("h2", {
-    style: {
-      fontSize: '20px'
-    }
-  }, "Scategories")));
-};
-
-var _default = Timer;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"../src/screens/PlayGameScreen.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _reactRouterBootstrap = require("react-router-bootstrap");
-
-var _reactRedux = require("react-redux");
-
-var _reactRouterDom = require("react-router-dom");
-
-var _reactBootstrap = require("react-bootstrap");
+var _react = _interopRequireDefault(require("react"));
 
 var _reactUuid = _interopRequireDefault(require("react-uuid"));
+
+var _reactRedux = require("react-redux");
+
+var _reactBootstrap = require("react-bootstrap");
 
 var _teamActions = require("../actions/teamActions");
 
 var _TableInput = _interopRequireDefault(require("../components/TableInput"));
 
-var _RandomCategory = _interopRequireDefault(require("../components/RandomCategory"));
-
-var _Timer = _interopRequireDefault(require("../components/Timer"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var PlayGameScreen = function PlayGameScreen() {
+// actions
+// components
+var GameTable = function GameTable() {
   var dispatch = (0, _reactRedux.useDispatch)();
   var letters = (0, _reactRedux.useSelector)(function (state) {
     return state.alphabet;
@@ -53981,56 +54046,18 @@ var PlayGameScreen = function PlayGameScreen() {
   var teams = (0, _reactRedux.useSelector)(function (state) {
     return state.teams;
   });
-
-  var _useState = (0, _react.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      loadTeams = _useState2[0],
-      setLoadTeams = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isRandom = _useState4[0],
-      setIsRandom = _useState4[1];
-
-  function useQuery() {
-    return new URLSearchParams((0, _reactRouterDom.useLocation)().search);
-  }
-
-  var query = useQuery();
-  var queryResult = query.get('random');
-  (0, _react.useEffect)(function () {
-    dispatch((0, _teamActions.startNewGame)());
-    setLoadTeams(true);
-
-    if (queryResult === 'true') {
-      setIsRandom(true);
-    } else {
-      setIsRandom(false);
-    }
-  }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "playGameContainer"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    md: 2,
-    className: "header-container d-flex justify-content-center"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterBootstrap.LinkContainer, {
-    to: "/"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-    className: "header-btn btn-info"
-  }, "Settings"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
-    md: 8
-  }, /*#__PURE__*/_react.default.createElement(_RandomCategory.default, {
-    isRandom: isRandom
-  })), /*#__PURE__*/_react.default.createElement(_Timer.default, null)), loadTeams && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Table, {
+    className: "table-container"
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Table, {
     striped: true,
     bordered: true
-  }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", {
-    className: "letter-col"
+  }, /*#__PURE__*/_react.default.createElement("col", {
+    span: "1",
+    className: "letter-column"
+  }), /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", {
+    className: "letter"
   }), teams.map(function (_ref) {
-    var name = _ref.name,
-        index = _ref.index,
-        id = _ref.id,
-        alphabet = _ref.alphabet;
+    var name = _ref.name;
     return /*#__PURE__*/_react.default.createElement("th", {
       className: "px-1",
       key: (0, _reactUuid.default)()
@@ -54070,9 +54097,82 @@ var PlayGameScreen = function PlayGameScreen() {
   }))));
 };
 
+var _default = GameTable;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TableInput":"../src/components/TableInput.js"}],"../src/screens/PlayGameScreen.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _reactRouterDom = require("react-router-dom");
+
+var _reactBootstrap = require("react-bootstrap");
+
+var _reactUuid = _interopRequireDefault(require("react-uuid"));
+
+var _teamActions = require("../actions/teamActions");
+
+var _GameHeader = _interopRequireDefault(require("../components/GameHeader"));
+
+var _GameTable = _interopRequireDefault(require("../components/GameTable"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var PlayGameScreen = function PlayGameScreen() {
+  var dispatch = (0, _reactRedux.useDispatch)();
+
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loadTeams = _useState2[0],
+      setLoadTeams = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isRandom = _useState4[0],
+      setIsRandom = _useState4[1];
+
+  function useQuery() {
+    return new URLSearchParams((0, _reactRouterDom.useLocation)().search);
+  }
+
+  var query = useQuery();
+  var queryResult = query.get('random');
+  (0, _react.useEffect)(function () {
+    // dispatch(startNewGame())
+    setLoadTeams(true);
+  }, []);
+  return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, {
+    className: " play-game-container",
+    fluid: true
+  }, /*#__PURE__*/_react.default.createElement(_GameHeader.default, null), loadTeams && /*#__PURE__*/_react.default.createElement(_GameTable.default, null));
+};
+
 var _default = PlayGameScreen;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-bootstrap":"../node_modules/react-router-bootstrap/lib/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TableInput":"../src/components/TableInput.js","../components/RandomCategory":"../src/components/RandomCategory.js","../components/Timer":"../src/components/Timer.js"}],"../src/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","../actions/teamActions":"../src/actions/teamActions.js","../components/GameHeader":"../src/components/GameHeader.js","../components/GameTable":"../src/components/GameTable.js"}],"../src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54180,7 +54280,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11549" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1652" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
