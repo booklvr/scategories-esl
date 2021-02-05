@@ -33,6 +33,8 @@ const Timer = () => {
     setStart(timer.start)
   }, [timer])
 
+  useEffect(() => {})
+
   return (
     <Col md={2}>
       {timer.showTimer ? (

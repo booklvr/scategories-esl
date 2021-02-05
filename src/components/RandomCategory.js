@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { reloadSeconds } from '../actions/timerActions'
+import { reloadSeconds, startTimer } from '../actions/timerActions'
 
 const RandomCategory = ({ isModal }) => {
   const dispatch = useDispatch()
@@ -61,6 +61,7 @@ const RandomCategory = ({ isModal }) => {
     } else {
       setRandomCategories(shuffle(categories))
     }
+    dispatch(startTimer())
   }, [])
 
   return (
