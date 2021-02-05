@@ -33736,13 +33736,15 @@ exports.teamsReducer = teamsReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TOGGLE_SHOW_TIMER = exports.RESET_TIMER = exports.SET_SECONDS = void 0;
+exports.TOGGLE_START_TIMER = exports.TOGGLE_SHOW_TIMER = exports.RESET_TIMER = exports.SET_SECONDS = void 0;
 var SET_SECONDS = 'SET_SECONDS';
 exports.SET_SECONDS = SET_SECONDS;
 var RESET_TIMER = 'RESET_TIMER';
 exports.RESET_TIMER = RESET_TIMER;
 var TOGGLE_SHOW_TIMER = 'TOGGLE_SHOW_TIMER';
 exports.TOGGLE_SHOW_TIMER = TOGGLE_SHOW_TIMER;
+var TOGGLE_START_TIMER = 'TOGGLE_START_TIMER';
+exports.TOGGLE_START_TIMER = TOGGLE_START_TIMER;
 },{}],"../src/reducers/timerReducer.js":[function(require,module,exports) {
 "use strict";
 
@@ -33783,6 +33785,11 @@ var timerReducer = function timerReducer() {
     case _timerConstants.TOGGLE_SHOW_TIMER:
       return _objectSpread(_objectSpread({}, state), {}, {
         showTimer: payload === true ? true : false
+      });
+
+    case _timerConstants.TOGGLE_START_TIMER:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        start: false
       });
 
     default:
@@ -53003,7 +53010,7 @@ var Template = function Template() {
     className: "letter-column"
   }), teams && teams.map(function (team) {
     return /*#__PURE__*/_react.default.createElement("th", {
-      className: "px-1",
+      className: "px-0",
       key: (0, _reactUuid.default)()
     }, /*#__PURE__*/_react.default.createElement(_TeamName.default, {
       id: team.id,
@@ -53035,7 +53042,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.toggleShowTimer = exports.reloadSeconds = exports.loadSeconds = void 0;
+exports.startTimer = exports.toggleShowTimer = exports.reloadSeconds = exports.loadSeconds = void 0;
 
 var _timerConstants = require("../constants/timerConstants");
 
@@ -53072,6 +53079,16 @@ var toggleShowTimer = function toggleShowTimer(showTimer) {
 };
 
 exports.toggleShowTimer = toggleShowTimer;
+
+var startTimer = function startTimer() {
+  return function (dispatch) {
+    dispatch({
+      type: _timerConstants.TOGGLE_START_TIMER
+    });
+  };
+};
+
+exports.startTimer = startTimer;
 },{"../constants/timerConstants":"../src/constants/timerConstants.js"}],"../src/components/SettingsForm.js":[function(require,module,exports) {
 "use strict";
 
@@ -53135,7 +53152,7 @@ var SettingsForm = function SettingsForm() {
       numberOfTeams = _useState6[0],
       setNumberOfTeams = _useState6[1];
 
-  var _useState7 = (0, _react.useState)(letters.length),
+  var _useState7 = (0, _react.useState)(letters.length > 0 ? letters.length : 10),
       _useState8 = _slicedToArray(_useState7, 2),
       numberOfRounds = _useState8[0],
       setNumberOfRounds = _useState8[1];
@@ -53404,6 +53421,8 @@ var RandomCategory = function RandomCategory(_ref) {
     } else {
       setRandomCategories(shuffle(categories));
     }
+
+    dispatch((0, _timerActions.startTimer)());
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "header-container p-3"
@@ -53878,6 +53897,7 @@ var Timer = function Timer() {
     setTimeLeft(timer.timeLeft);
     setStart(timer.start);
   }, [timer]);
+  (0, _react.useEffect)(function () {});
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     md: 2
   }, timer.showTimer ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
@@ -54160,7 +54180,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14081" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8895" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
