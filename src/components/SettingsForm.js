@@ -18,7 +18,9 @@ const SettingsForm = () => {
   const [seconds, setSeconds] = useState(timer.timeLeft % 60)
 
   const [numberOfTeams, setNumberOfTeams] = useState(teams.length)
-  const [numberOfRounds, setNumberOfRounds] = useState(letters.length)
+  const [numberOfRounds, setNumberOfRounds] = useState(
+    letters.length > 0 ? letters.length : 10
+  )
 
   const handleTimerBlurEvent = () => {
     const totalSeconds = parseInt(seconds) + parseInt(minutes * 60)

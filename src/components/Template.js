@@ -18,7 +18,7 @@ const Template = () => {
             <th className='letter-column'></th>
             {teams &&
               teams.map((team) => (
-                <th className='px-1' key={uuid()}>
+                <th className='px-0' key={uuid()}>
                   <TeamName id={team.id} teamName={team.name} />
                 </th>
               ))}
