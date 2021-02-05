@@ -1,0 +1,12 @@
+.table-input {
+  display: inline-block;
+  font-size: 40px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  border: 3px solid lighten(#4bbf73, 35%);
+
+  &:focus {
+    border: 3px solid #4bbf73;
+  }
+}

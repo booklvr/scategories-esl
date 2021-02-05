@@ -37,7 +37,7 @@ const TableInput = ({ teamId, letter }) => {
   return (
     <td>
       <FormControl
-        className='px-2 table-input'
+        className='table-input'
         value={word}
         onChange={(e) => handleChangeWord(e)}
         onBlur={() => handleBlurEvent()}

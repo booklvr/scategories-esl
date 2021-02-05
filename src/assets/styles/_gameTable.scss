@@ -1,0 +1,90 @@
+.table-container {
+  overflow-y: auto;
+  max-height: 605px;
+  margin-top: 20px;
+  // position: fixed;
+  // top: 210px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  table {
+    text-align: center;
+    table-layout: fixed;
+
+    .letter-column {
+      width: 100px;
+    }
+
+    thead {
+      border: 1px solid #000;
+      tr {
+        background-color: white;
+        border: 1px solid #000;
+        th {
+          font-size: 40px;
+          position: sticky;
+          top: 0;
+          background-color: white;
+          z-index: 2;
+          border: 1px solid #000;
+        }
+      }
+    }
+
+    tbody {
+      z-index: -1;
+      tr {
+        td {
+          padding: 0;
+          width: 40px;
+        }
+
+        td + td {
+          width: auto;
+        }
+
+        .letter {
+          width: 120px;
+          height: 100%;
+          font-size: 55px;
+          // border: 1px solid #000;
+        }
+
+        .table-word {
+          font-size: 40px;
+          padding: 0;
+          padding-top: 12px;
+
+          margin: 0;
+          text-align: center;
+          background-color: lightgrey;
+          position: relative;
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          overflow-wrap: normal;
+
+          .remove-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: grey;
+            padding: 10px;
+            margin: 0;
+            max-width: 10px;
+            max-height: 10px;
+            font-size: 10px;
+
+            &:hover {
+              background-color: black;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -74,8 +74,8 @@ const RandomCategory = ({ isModal }) => {
         Back
       </Button>
       {randomCategories && (
-        <div className='random-category'>
-          {randomCategories[index].category}
+        <div className={`random-category ${isModal ? 'is-modal' : ''}`}>
+          {!start ? 'Press Start to Begin' : randomCategories[index].category}
         </div>
       )}
       <Button className='header-btn btn-success' onClick={handleNextClick}>

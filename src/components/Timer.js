@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Col, Form, Row } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { Col, Row, Container } from 'react-bootstrap'
 
 const Timer = () => {
   const timer = useSelector((state) => state.timer)
 
   const [timeLeft, setTimeLeft] = useState(timer.timeLeft)
   const [start, setStart] = useState(timer.start)
-
-  console.log(timer)
 
   useEffect(() => {
     // exit early when we reach 0
@@ -36,14 +34,16 @@ const Timer = () => {
   useEffect(() => {})
 
   return (
-    <Col md={2}>
+    <Container className='timer'>
       {timer.showTimer ? (
-        <Row className='timer header-container d-flex justify-content-center'>
-          <Col className='minutes' md={5}>
+        <Row className=' header-container d-flex justify-content-center'>
+          <Col className='d-flex justify-content-center' md={3}>
             {Math.floor(timeLeft / 60)}
           </Col>
-          <Col md={1}>:</Col>
-          <Col className='seconds' md={5}>
+          <Col className='d-flex justify-content-center' md={1}>
+            :
+          </Col>
+          <Col className='d-flex justify-content-center' md={3}>
             {timeLeft % 60}
           </Col>
         </Row>
@@ -60,7 +60,7 @@ const Timer = () => {
           <h2 style={{ fontSize: '20px' }}>Scategories</h2>
         </Row>
       )}
-    </Col>
+    </Container>
   )
 }
 
