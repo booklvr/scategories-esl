@@ -183,7 +183,7 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #000;
+  border: 3px solid #000;
   height: 120px;
 }
 .game-header .header-container .header-btn {
@@ -224,16 +224,11 @@ input:checked + .slider:before {
 .table-container table {
   text-align: center;
   table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 .table-container table .letter-column {
   width: 100px;
-}
-.table-container table thead {
-  border: 1px solid #000;
-}
-.table-container table thead tr {
-  background-color: white;
-  border: 1px solid #000;
 }
 .table-container table thead tr th {
   font-size: 40px;
@@ -241,7 +236,7 @@ input:checked + .slider:before {
   top: 0;
   background-color: white;
   z-index: 2;
-  border: 1px solid #000;
+  border-color: rgba(0, 0, 0, 0.05);
 }
 .table-container table tbody {
   z-index: -1;
@@ -287,6 +282,16 @@ input:checked + .slider:before {
 .table-container table tbody tr .table-word .remove-btn:hover {
   background-color: black;
 }
+.table-container .isModal th {
+  font-size: 25px;
+}
+.table-container .isModal .letter {
+  padding-top: 15px;
+  font-size: 20px;
+}
+.table-container .isModal .table-word {
+  font-size: 20px;
+}
 
 .table-input {
   display: inline-block;
@@ -298,6 +303,23 @@ input:checked + .slider:before {
 }
 .table-input:focus {
   border: 3px solid #4bbf73;
+}
+
+.is-modal {
+  font-size: 20px;
+}
+
+.blink {
+  border: 2px black solid;
+  animation: blink 0.5s;
+  animation-iteration-count: 4;
+}
+
+@keyframes blink {
+  50% {
+    border-color: #d9534f;
+    border-width: 10px;
+  }
 }
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */
