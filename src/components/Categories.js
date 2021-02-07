@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import uuid from 'react-uuid'
+import PropTypes from 'prop-types'
 import { Row, Col, Form, Button, Container, ListGroup } from 'react-bootstrap'
 import {
   addCategory,
@@ -9,7 +10,7 @@ import {
 } from '../actions/categoryActions'
 import categories from '../data/categories'
 
-const Categories = () => {
+const Categories = ({ isModal }) => {
   const dispatch = useDispatch()
 
   const categoryList = useSelector((state) => state.categoryList)
@@ -51,7 +52,7 @@ const Categories = () => {
                     className='d-flex justify-content-between mx-2'
                     key={id}
                   >
-                    {category}{' '}
+                    {category}
                     <div
                       className='remove-btn'
                       onClick={() => removeCategory(id)}
@@ -78,7 +79,7 @@ const Categories = () => {
                   />
                 </Col>
 
-                <Col md={3}>
+                <Col md={4}>
                   <Button className='bg-primary' onClick={handleAddButtonClick}>
                     Add
                   </Button>
@@ -108,6 +109,14 @@ const Categories = () => {
       </Row>
     </Container>
   )
+}
+
+Categories.propTypes = {
+  isModal: PropTypes.bool.isRequired,
+}
+
+Categories.defaultProps = {
+  isModal: false,
 }
 
 export default Categories

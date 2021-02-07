@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import uuid from 'react-uuid'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Table } from 'react-bootstrap'
 import LetterInput from '../components/LetterInput'
 import TeamName from '../components/TeamName'

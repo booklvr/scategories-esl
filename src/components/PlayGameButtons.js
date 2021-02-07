@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { resetTeams } from '../actions/teamActions'
 import { resetCategories } from '../actions/categoryActions'
+import { resetTime } from '../actions/timerActions'
+import { loadLetters } from '../actions/alphabetActions'
 
 const PlayGameButtons = ({
   setNumberOfRounds,
@@ -19,6 +21,8 @@ const PlayGameButtons = ({
     setNumberOfTeams(2)
     dispatch(resetTeams())
     dispatch(resetCategories())
+    dispatch(loadLetters(10))
+    dispatch(resetTime())
   }
   return (
     <Container className=''>

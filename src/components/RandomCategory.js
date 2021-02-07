@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
 
 import { Button } from 'react-bootstrap'
@@ -13,6 +14,7 @@ const RandomCategory = ({ isModal }) => {
   const [randomCategories, setRandomCategories] = useState(null)
   const [index, setIndex] = useState(0)
   const [start, setStart] = useState(false)
+  const [timerFinished, setTimerFinished] = useState(false)
 
   function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -64,8 +66,31 @@ const RandomCategory = ({ isModal }) => {
     dispatch(startTimer())
   }, [])
 
+  useEffect(() => {
+    if (timer.end) {
+      setTimerFinished(true)
+    } else {
+      setTimerFinished(false)
+    }
+  }, [timer])
+
+  // useEffect(() => {
+  //   let timer1
+  //   if (timer.end) {
+  //     setTimerFinished(true)
+  //     timer1 = setTimeout(() => {
+  //       setTimerFinished(false)
+  //     }, 3000)
+  //   }
+  //   return () => clearTimeout(timer1)
+  // }, [timer])
+
   return (
-    <div className='header-container p-3'>
+    <div
+      className={
+        timerFinished ? 'header-container blink p-3' : 'header-container p-3'
+      }
+    >
       <Button
         className='header-btn btn-success '
         disabled={start === false ? true : false}
@@ -83,6 +108,14 @@ const RandomCategory = ({ isModal }) => {
       </Button>
     </div>
   )
+}
+
+RandomCategory.propTypes = {
+  isModal: PropTypes.bool.isRequired,
+}
+
+RandomCategory.defaultProps = {
+  isModal: false,
 }
 
 export default RandomCategory

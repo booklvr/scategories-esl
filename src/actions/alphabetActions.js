@@ -48,3 +48,5 @@ export const changeLetter = (letter, index) => (dispatch, getState) => {
   dispatch({ type: CHANGE_LETTER, payload: { letter, index } })
   localStorage.setItem('alphabet', JSON.stringify(getState().alphabet))
 }
+
+

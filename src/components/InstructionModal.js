@@ -17,6 +17,7 @@ import SettingsForm from '../components/SettingsForm'
 import RandomCategory from '../components/RandomCategory'
 import TeamName from '../components/TeamName'
 import Categories from '../components/Categories'
+import GameTable from '../components/GameTable'
 
 const InstructionModal = ({ handleCloseModal, showModal }) => {
   // const timer = useSelector((state) => state.timer)
@@ -76,68 +77,6 @@ const InstructionModal = ({ handleCloseModal, showModal }) => {
             </Col>
           </Row>
         </Container>
-        {/* <Container className='instruction-group'>
-          <h4>Step 2</h4>
-          <p>Choose whether or not to use a timer, and set your countdown.</p>
-          <Row>
-            <Col md={4} className='timer-check-group'>
-              <Form.Group
-                as={Row}
-                checked={timer.showTimer}
-                controlId='formBasicCheckbox'
-                className='timerAndCheckbox'
-                onChange={handleCheckboxClick}
-              >
-                <Form.Label className='timer-label' column sm={12} md={6}>
-                  Timer
-                </Form.Label>
-                <Col></Col>
-              </Form.Group>
-            </Col>
-
-            <Fragment>
-              <Col md={4} className='timer-minutes'>
-                <Form.Group>
-                  <Row className='timer-row'>
-                    <Col md={3}>
-                      <Form.Label>Min</Form.Label>
-                    </Col>
-                    <Col md={9}>
-                      <Form.Control
-                        className='timer-input'
-                        md={8}
-                        value={minutes}
-                        type='number'
-                        onChange={(e) => setMinutes(e.target.value)}
-                        onBlur={handleTimerBlurEvent}
-                      />
-                    </Col>
-                  </Row>
-                </Form.Group>
-              </Col>
-
-              <Col md={4} className='timer-seconds'>
-                <Form.Group>
-                  <Row className='timer-row'>
-                    <Col md={3}>
-                      <Form.Label>Sec</Form.Label>
-                    </Col>
-                    <Col md={9}>
-                      <Form.Control
-                        className='timer-input'
-                        value={seconds}
-                        type='number'
-                        min={5}
-                        onChange={(e) => setSeconds(e.target.value)}
-                        onBlur={handleTimerBlurEvent}
-                      />
-                    </Col>
-                  </Row>
-                </Form.Group>
-              </Col>
-            </Fragment>
-          </Row>
-        </Container> */}
 
         <Container className='instruction-group'>
           <Row>
@@ -162,7 +101,7 @@ const InstructionModal = ({ handleCloseModal, showModal }) => {
               </p>
             </Col>
             <Col md={8}>
-              <Categories />
+              <Categories isModal={true} />
             </Col>
           </Row>
         </Container>
@@ -209,7 +148,8 @@ const InstructionModal = ({ handleCloseModal, showModal }) => {
             </Col>
             <Col md={6}>
               <RandomCategory isModal={true} />
-
+              <GameTable isModal={true} />
+              {/*
               <Table striped bordered>
                 <thead>
                   <tr>
@@ -234,6 +174,7 @@ const InstructionModal = ({ handleCloseModal, showModal }) => {
                     ))}
                 </tbody>
               </Table>
+                        */}
             </Col>
           </Row>
         </Container>

@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Container } from 'react-bootstrap'
+import {
+  timerDoneAnimationStart,
+  timerDoneAnimationEnd,
+} from '../actions/timerActions'
 
 const Timer = () => {
+  const dispatch = useDispatch()
   const timer = useSelector((state) => state.timer)
 
   const [timeLeft, setTimeLeft] = useState(timer.timeLeft)
   const [start, setStart] = useState(timer.start)
+  const [timerFinished, setTimerFinished] = useState()
 
   useEffect(() => {
     // exit early when we reach 0
-    if (!timeLeft) return
+    if (!timeLeft) {
+      return
+    }
 
     if (!timer.start) return
 
@@ -31,12 +39,28 @@ const Timer = () => {
     setStart(timer.start)
   }, [timer])
 
-  useEffect(() => {})
+  useEffect(() => {
+    if (timeLeft === 0) {
+      dispatch(timerDoneAnimationStart())
+      setTimerFinished(true)
+      setTimeout(() => {
+        setTimerFinished(false)
+        dispatch(timerDoneAnimationEnd())
+      }, 3000)
+    }
+    // return () => clearTimeout(timer1)
+  }, [timeLeft])
 
   return (
     <Container className='timer'>
       {timer.showTimer ? (
-        <Row className=' header-container d-flex justify-content-center'>
+        <Row
+          className={
+            timerFinished
+              ? 'blink header-container d-flex justify-content-center'
+              : 'header-container d-flex justify-content-center'
+          }
+        >
           <Col className='d-flex justify-content-center' md={3}>
             {Math.floor(timeLeft / 60)}
           </Col>
@@ -44,7 +68,10 @@ const Timer = () => {
             :
           </Col>
           <Col className='d-flex justify-content-center' md={3}>
-            {timeLeft % 60}
+            {(() => {
+              const time = timeLeft % 60
+              return time.toLocaleString(undefined, { minimumIntegerDigits: 2 })
+            })()}
           </Col>
         </Row>
       ) : (

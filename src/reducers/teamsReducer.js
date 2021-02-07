@@ -10,8 +10,6 @@ import {
   RESET_TEAMS,
 } from '../constants/teamsConstants'
 
-// import { LOAD_ALPHABET } from '../constants/alphabetConstants'
-
 export const teamsReducer = (
   state = [
     {
@@ -41,7 +39,7 @@ export const teamsReducer = (
       return [...state].slice(0, payload * -1)
     case ADD_TEAMS:
       return [...state, ...payload]
-    // case LOAD_ALPHABET:
+    // case :
     //   return [...state].map((team) => ({
     //     ...team,
     //     alphabet: payload.map((letter) => ({

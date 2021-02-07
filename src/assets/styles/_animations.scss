@@ -1,0 +1,13 @@
+.blink {
+  border: 2px black solid;
+
+  animation: blink 0.5s;
+  animation-iteration-count: 4;
+}
+
+@keyframes blink {
+  50% {
+    border-color: #d9534f;
+    border-width: 10px;
+  }
+}

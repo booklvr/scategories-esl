@@ -9,25 +9,31 @@ import GameHeader from '../components/GameHeader'
 import GameTable from '../components/GameTable'
 
 const PlayGameScreen = () => {
-  const dispatch = useDispatch()
-  const [loadTeams, setLoadTeams] = useState(false)
-  const [isRandom, setIsRandom] = useState(false)
+  // const dispatch = useDispatch()
+  // const [loadTeams, setLoadTeams] = useState(false)
+  // const [isRandom, setIsRandom] = useState(false)
 
-  function useQuery() {
-    return new URLSearchParams(useLocation().search)
-  }
-  let query = useQuery()
-  const queryResult = query.get('random')
+  // function useQuery() {
+  //   return new URLSearchParams(useLocation().search)
+  // }
+  // let query = useQuery()
+  // const queryResult = query.get('random')
 
-  useEffect(() => {
-    // dispatch(startNewGame())
-    setLoadTeams(true)
-  }, [])
+  // useEffect(() => {
+  //   // dispatch(startNewGame())
+  //   setLoadTeams(true)
+  // }, [])
 
+  // return (
+  //   <Container className=' play-game-container' fluid>
+  //     <GameHeader />
+  //     {loadTeams && <GameTable />}
+  //   </Container>
+  // )
   return (
     <Container className=' play-game-container' fluid>
       <GameHeader />
-      {loadTeams && <GameTable />}
+      <GameTable />
     </Container>
   )
 }

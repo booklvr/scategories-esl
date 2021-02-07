@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import { changeWord } from '../actions/teamActions'
 
-const TableInput = ({ teamId, letter }) => {
+const TableInput = ({ teamId, letter, isModal }) => {
   const dispatch = useDispatch()
 
   const [word, setWord] = useState('')
@@ -37,7 +37,7 @@ const TableInput = ({ teamId, letter }) => {
   return (
     <td>
       <FormControl
-        className='table-input'
+        className={isModal ? 'table-input is-modal' : 'table-input'}
         value={word}
         onChange={(e) => handleChangeWord(e)}
         onBlur={() => handleBlurEvent()}
@@ -50,6 +50,10 @@ const TableInput = ({ teamId, letter }) => {
 TableInput.propTypes = {
   teamId: PropTypes.string.isRequired,
   letter: PropTypes.string.isRequired,
+  isModal: PropTypes.bool.isRequired,
 }
 
+TableInput.defaultProps = {
+  isModal: false,
+}
 export default TableInput

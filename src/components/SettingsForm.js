@@ -11,9 +11,10 @@ import { loadLetters } from '../actions/alphabetActions'
 
 const SettingsForm = () => {
   const dispatch = useDispatch()
-  const timer = useSelector((state) => state.timer)
+
   const teams = useSelector((state) => state.teams)
   const letters = useSelector((state) => state.alphabet)
+  const timer = useSelector((state) => state.timer)
   const [minutes, setMinutes] = useState(Math.floor(timer.timeLeft / 60))
   const [seconds, setSeconds] = useState(timer.timeLeft % 60)
 
@@ -44,6 +45,13 @@ const SettingsForm = () => {
       setSeconds(0)
     }
   }, [seconds])
+
+  useEffect(() => {
+    setNumberOfRounds(10)
+    setNumberOfTeams(teams.length)
+    setMinutes(Math.floor(timer.timeLeft / 60))
+    setSeconds(timer.timeLeft % 60)
+  }, [teams, letters, timer])
 
   return (
     <Container>

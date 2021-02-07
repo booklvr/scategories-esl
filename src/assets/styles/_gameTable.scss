@@ -12,29 +12,31 @@
   table {
     text-align: center;
     table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
 
     .letter-column {
       width: 100px;
     }
 
     thead {
-      border: 1px solid #000;
       tr {
-        background-color: white;
-        border: 1px solid #000;
+        // background-color: white;
+
         th {
           font-size: 40px;
           position: sticky;
           top: 0;
           background-color: white;
           z-index: 2;
-          border: 1px solid #000;
+          border-color: rgba(0, 0, 0, 0.05);
         }
       }
     }
 
     tbody {
       z-index: -1;
+
       tr {
         td {
           padding: 0;
@@ -85,6 +87,19 @@
           }
         }
       }
+    }
+  }
+
+  .isModal {
+    th {
+      font-size: 25px;
+    }
+    .letter {
+      padding-top: 15px;
+      font-size: 20px;
+    }
+    .table-word {
+      font-size: 20px;
     }
   }
 }

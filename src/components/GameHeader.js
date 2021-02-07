@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -14,7 +14,10 @@ import Timer from '../components/Timer'
 
 const GameHeader = () => {
   const dispatch = useDispatch()
+  const timer = useSelector((state) => state.timer)
+
   const [isRandom, setIsRandom] = useState(false)
+  const [timerFinished, setTimerFinished] = useState(false)
 
   function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -31,12 +34,35 @@ const GameHeader = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (timer.end) {
+      setTimerFinished(true)
+    } else {
+      setTimerFinished(false)
+    }
+  }, [timer])
+
+  // useEffect(() => {
+  //   let timer1
+  //   if (timer.end) {
+  //     setTimerFinished(true)
+  //     timer1 = setTimeout(() => {
+  //       setTimerFinished(false)
+  //     }, 3000)
+  //   }
+  //   return () => clearTimeout(timer1)
+  // }, [timer])
+
   return (
     <Container fluid className='game-header'>
       <Row>
         <Col
           md={2}
-          className='header-container d-flex justify-content-center p-3'
+          className={
+            timerFinished
+              ? 'blink header-container d-flex justify-content-center p-3'
+              : 'header-container d-flex justify-content-center p-3'
+          }
         >
           <LinkContainer to='/'>
             <Button className='header-btn btn-info'>Settings</Button>
