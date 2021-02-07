@@ -1,21 +1,11 @@
 import React from 'react'
-import uuid from 'react-uuid'
-import {
-  Modal,
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Table,
-} from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import { Modal, Container, Row, Col, Button } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
 import PropTypes from 'prop-types'
 
 import SettingsForm from '../components/SettingsForm'
 import RandomCategory from '../components/RandomCategory'
-import TeamName from '../components/TeamName'
 import Categories from '../components/Categories'
 import GameTable from '../components/GameTable'
 

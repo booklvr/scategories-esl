@@ -51,7 +51,7 @@ const SettingsForm = () => {
     setNumberOfTeams(teams.length)
     setMinutes(Math.floor(timer.timeLeft / 60))
     setSeconds(timer.timeLeft % 60)
-  }, [teams, letters, timer])
+  }, [teams, timer])
 
   return (
     <Container>
