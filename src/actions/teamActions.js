@@ -9,6 +9,8 @@ import {
   REMOVE_WORD,
   START_NEW_GAME,
   RESET_TEAMS,
+  RESET_TEAMS_INDEX,
+  CHANGE_TEAM_INDEX,
 } from '../constants/teamsConstants'
 
 export const loadTeams = () => (dispatch) => {
@@ -50,9 +52,16 @@ export const startNewGame = () => (dispatch, getState) => {
   dispatch({ type: START_NEW_GAME, payload: getState().alphabet })
 }
 
-export const changeWord = (teamId, word, letter) => (dispatch) => {
+export const changeWord = (teamId, word, letter, index) => (
+  dispatch,
+  getState
+) => {
   dispatch({ type: ADD_WORD, payload: { teamId, word, letter } })
   dispatch({ type: CHANGE_INDEX, payload: { teamId, sign: 1 } })
+  dispatch({
+    type: CHANGE_TEAM_INDEX,
+    payload: { index, length: getState().teams.length },
+  })
 }
 
 export const removeWord = (teamId, letter) => (dispatch) => {
@@ -71,3 +80,11 @@ export const resetTeams = () => (dispatch, getState) => {
 //     payload: { teams: getState().teams, letters: getState().alphabet },
 //   })
 // }
+
+export const resetTeamsIndex = () => (dispatch) => {
+  dispatch({ type: RESET_TEAMS_INDEX })
+}
+
+export const changeTeamIndex = (index) => (dispatch) => {
+  dispatch({ type: CHANGE_TEAM_INDEX, payload: { index } })
+}

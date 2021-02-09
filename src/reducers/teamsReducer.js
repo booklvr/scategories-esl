@@ -8,6 +8,8 @@ import {
   CHANGE_INDEX,
   START_NEW_GAME,
   RESET_TEAMS,
+  RESET_TEAMS_INDEX,
+  CHANGE_TEAM_INDEX,
 } from '../constants/teamsConstants'
 
 export const teamsReducer = (
@@ -39,15 +41,7 @@ export const teamsReducer = (
       return [...state].slice(0, payload * -1)
     case ADD_TEAMS:
       return [...state, ...payload]
-    // case :
-    //   return [...state].map((team) => ({
-    //     ...team,
-    //     alphabet: payload.map((letter) => ({
-    //       letter: letter,
-    //       complete: false,
-    //       word: '',
-    //     })),
-    //   }))
+
     case START_NEW_GAME:
       return [...state].map((team) => ({
         ...team,
@@ -126,6 +120,22 @@ export const teamsReducer = (
           alphabet: [],
         },
       ]
+    default:
+      return state
+  }
+}
+
+export const teamsIndexReducer = (state = { index: 0 }, action) => {
+  const { type, payload } = action
+
+  switch (type) {
+    case RESET_TEAMS_INDEX:
+      return { ...state, index: 0 }
+    case CHANGE_TEAM_INDEX:
+      return {
+        ...state,
+        index: payload.index,
+      }
     default:
       return state
   }

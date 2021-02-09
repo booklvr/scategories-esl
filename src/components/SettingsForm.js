@@ -30,12 +30,28 @@ const SettingsForm = () => {
     dispatch(toggleShowTimer(!timer.showTimer))
   }
 
+  const handleTeamChangeEvent = (e) => {
+    setNumberOfTeams(e.target.value > 6 ? 6 : e.target.value)
+  }
+
+  const handleRoundChangeEvent = (e) => {}
+
+  const handleTeamBlurEvent = (e) => {
+    if (numberOfTeams == '') {
+      setNumberOfTeams(teams.length)
+    }
+  }
+
   useEffect(() => {
     dispatch(loadLetters(numberOfRounds))
   }, [numberOfRounds])
 
   useEffect(() => {
-    dispatch(changeNumberOfTeams(teams.length, numberOfTeams))
+    if (numberOfTeams !== '' && numberOfTeams > 0) {
+      dispatch(changeNumberOfTeams(teams.length, numberOfTeams))
+    } else {
+      dispatch(changeNumberOfTeams(teams.length, teams.length))
+    }
   }, [numberOfTeams])
 
   useEffect(() => {
@@ -67,9 +83,8 @@ const SettingsForm = () => {
                   max={6}
                   type='number'
                   value={numberOfTeams}
-                  onChange={(e) =>
-                    setNumberOfTeams(e.target.value > 6 ? 6 : e.target.value)
-                  }
+                  onChange={(e) => handleTeamChangeEvent(e)}
+                  onBlur={(e) => handleTeamBlurEvent(e)}
                 />
               </Col>
             </Form.Group>
@@ -77,7 +92,7 @@ const SettingsForm = () => {
           <Col lg={12} xl={6} className='p-2 p-xl-3'>
             <Form.Group as={Row} className='align-items-center'>
               <Col md={4} className='pl-1'>
-                <Form.Label className='settings-label'>Rounds</Form.Label>
+                <Form.Label className='settings-label'>Letters</Form.Label>
               </Col>
               <Col md={8}>
                 <Form.Control

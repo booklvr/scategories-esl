@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { reloadSeconds, startTimer } from '../actions/timerActions'
+import { resetTeamsIndex } from '../actions/teamActions'
 
 const RandomCategory = ({ isModal }) => {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const RandomCategory = ({ isModal }) => {
 
     if (timer.showTimer) {
       dispatch(reloadSeconds())
+      dispatch(resetTeamsIndex())
     }
   }
 
@@ -43,6 +45,7 @@ const RandomCategory = ({ isModal }) => {
       setStart(true)
       if (timer.showTimer) {
         dispatch(reloadSeconds())
+        dispatch(resetTeamsIndex())
       }
     }
 
@@ -73,17 +76,6 @@ const RandomCategory = ({ isModal }) => {
       setTimerFinished(false)
     }
   }, [timer])
-
-  // useEffect(() => {
-  //   let timer1
-  //   if (timer.end) {
-  //     setTimerFinished(true)
-  //     timer1 = setTimeout(() => {
-  //       setTimerFinished(false)
-  //     }, 3000)
-  //   }
-  //   return () => clearTimeout(timer1)
-  // }, [timer])
 
   return (
     <div

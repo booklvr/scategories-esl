@@ -15,8 +15,10 @@ const GameTable = ({ isModal }) => {
   const dispatch = useDispatch()
 
   const letters = useSelector((state) => state.alphabet)
+  const teamsIndex = useSelector((state) => state.teamsIndex)
   const teams = useSelector((state) => state.teams)
   const [loadTeams, setLoadTeams] = useState(false)
+  const [teamIndex, setTeamIndex] = useState(0)
 
   useEffect(() => {
     if (isModal) {
@@ -47,12 +49,13 @@ const GameTable = ({ isModal }) => {
               letters.map((letter, letterIndex) => (
                 <tr key={uuid()}>
                   <td className='letter'>{letter}</td>
-                  {teams.map((team) => {
+                  {teams.map((team, index) => {
                     if (team.alphabet[letterIndex].complete) {
                       return (
                         <td key={uuid()} className='table-word'>
                           {team.alphabet[letterIndex].word}
                           <Button
+                            tabIndex={-1}
                             className='remove-btn'
                             onClick={() => {
                               dispatch(removeWord(team.id, letter))
@@ -68,6 +71,8 @@ const GameTable = ({ isModal }) => {
                     ) {
                       return (
                         <TableInput
+                          current={index === teamIndex}
+                          index={index}
                           isModal={isModal}
                           teamId={team.id}
                           letter={letter}
