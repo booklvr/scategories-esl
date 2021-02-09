@@ -71,8 +71,8 @@ const GameTable = ({ isModal }) => {
                     ) {
                       return (
                         <TableInput
-                          current={index === teamIndex}
                           index={index}
+                          current={team.current}
                           isModal={isModal}
                           teamId={team.id}
                           letter={letter}

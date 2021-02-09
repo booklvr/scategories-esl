@@ -19,12 +19,14 @@ export const teamsReducer = (
       id: uuid(),
       index: 0,
       alphabet: [],
+      current: false,
     },
     {
       name: 'team 2',
       id: uuid(),
       index: 0,
       alphabet: [],
+      current: false,
     },
   ],
   action
@@ -46,6 +48,7 @@ export const teamsReducer = (
       return [...state].map((team) => ({
         ...team,
         index: 0,
+        current: false,
         alphabet: payload.map((letter) => ({
           letter: letter,
           complete: false,
@@ -53,10 +56,15 @@ export const teamsReducer = (
         })),
       }))
     case ADD_WORD:
-      return [...state].map((team) => {
-        if (team.id === payload.teamId) {
+      return [...state].map((team, i, arr) => {
+        if (payload.index == i - 1) {
+          return { ...team, current: true }
+        } else if (i === 0 && payload.index === arr.length - 1) {
+          return { ...team, current: true }
+        } else if (team.id === payload.teamId) {
           return {
             ...team,
+            current: false,
             alphabet: [
               ...team.alphabet.map((lt) => {
                 if (lt.letter === payload.letter) {
@@ -72,7 +80,7 @@ export const teamsReducer = (
             ],
           }
         } else {
-          return team
+          return { ...team, current: false }
         }
       })
     case CHANGE_INDEX:
@@ -82,6 +90,20 @@ export const teamsReducer = (
         }
         return { ...team }
       })
+    case CHANGE_TEAM_INDEX:
+      return [...state].map((team) => {
+        if (team.id === payload.teamId) {
+          return { ...team, current: true }
+        }
+        return { ...team, current: false }
+      })
+    // case RESET_TEAMS_INDEX:
+    //   return [...state].map((team, index) => {
+    //     if (index === 0) {
+    //       return { ...team, current: true }
+    //     }
+    //     return { ...team, current: false }
+    //   })
     case REMOVE_WORD:
       return [...state].map((team) => {
         if (team.id === payload.teamId) {
@@ -120,22 +142,6 @@ export const teamsReducer = (
           alphabet: [],
         },
       ]
-    default:
-      return state
-  }
-}
-
-export const teamsIndexReducer = (state = { index: 0 }, action) => {
-  const { type, payload } = action
-
-  switch (type) {
-    case RESET_TEAMS_INDEX:
-      return { ...state, index: 0 }
-    case CHANGE_TEAM_INDEX:
-      return {
-        ...state,
-        index: payload.index,
-      }
     default:
       return state
   }

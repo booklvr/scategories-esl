@@ -7,7 +7,7 @@ import {
   categoryListReducer,
 } from './reducers/categoryReducer'
 import { alphabetReducer } from './reducers/alphabetReducer'
-import { teamsReducer, teamsIndexReducer } from './reducers/teamsReducer'
+import { teamsReducer } from './reducers/teamsReducer'
 import { timerReducer } from './reducers/timerReducer'
 
 const reducer = combineReducers({
@@ -15,7 +15,6 @@ const reducer = combineReducers({
   categoryList: categoryListReducer,
   alphabet: alphabetReducer,
   teams: teamsReducer,
-  teamsIndex: teamsIndexReducer,
   timer: timerReducer,
 })
 

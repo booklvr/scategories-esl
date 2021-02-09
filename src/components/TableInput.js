@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { FormControl } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { changeWord, changeTeamIndex } from '../actions/teamActions'
+import {
+  changeWord,
+  changeTeamIndex,
+  nextTeamIndex,
+} from '../actions/teamActions'
 
-const TableInput = ({ teamId, letter, isModal, index, current }) => {
+const TableInput = ({ teamId, letter, isModal, current, index }) => {
   const inputEl = useRef(null)
   const dispatch = useDispatch()
-  const teamsIndex = useSelector((state) => state.teamsIndex)
-
-  console.log('teamsIndex', teamsIndex.index)
-  console.log('index', index)
+  const [background, setBackground] = useState(null)
+  if (current) {
+    console.log(teamId, current)
+  }
 
   const [word, setWord] = useState('')
 
@@ -27,43 +31,54 @@ const TableInput = ({ teamId, letter, isModal, index, current }) => {
     }
   }
 
-  const handleBlurEvent = (e) => {
-    setTimeout(() => {
-      if (word) {
-        dispatch(changeWord(teamId, word, letter, index))
-      }
-    }, 500)
+  const handleBlurEvent = () => {
+    if (word) {
+      console.log('index', index)
+      dispatch(changeWord(teamId, word, letter, index))
+    }
+    // else {
+    //   console.log('what the fuck')
+    //   dispatch(nextTeamIndex(teamId))
+    // }
   }
 
-  // const handleKeyEnter = (event) => {
-  //   if (event.key === 'Enter' && word) {
-  //     dispatch(changeWord(teamId, word, letter, index))
-  //   }
-  // }
-  const handleOnKeyPress = (event) => {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      console.log('tab or enter')
-      // dispatch(changeTeamIndex(index))
+  const handleKeyEnter = (event) => {
+    if (event.key === 'Enter' && word) {
+      console.log('index', index)
+      dispatch(changeWord(teamId, word, letter, index))
     }
   }
 
-  // const handleFocusEvent = (event) => {
-  //   inputEl.focus()
-  // }
-
-  const handleClick = () => {
-    dispatch(changeTeamIndex(index))
+  const onClickHandler = () => {
+    dispatch(changeTeamIndex(teamId))
   }
+
+  // const handleClick = () => {
+  //   dispatch(changeTeamIndex(index))
+  // }
 
   useEffect(() => {
-    if (teamsIndex.index === index) {
+    if (current) {
       inputEl.current.focus()
     }
-  }, [])
+  }, [current])
 
-  let t1 = teamsIndex.index === index ? 1 : null
-  let bgc =
-    teamsIndex.index === index ? { backgroundColor: 'lightgreen' } : null
+  // useEffect(() => {
+  //   setBackground(
+  //     document.activeElement === inputEl.current
+  //       ? { backgroundColor: '#4bbf73' }
+  //       : { backgroundColor: 'blue' }
+  //   )
+  // }, [inputEl, current])
+
+  let t1 = 1
+  // let bgc = current ? { backgroundColor: '#4bbf73' } : null
+  // console.log(document.activeElement)
+  // console.log(inputEl.current)
+  // let bgc =
+  //   document.activeElement === inputEl.current
+  //     ? { backgroundColor: '#4bbf73' }
+  //     : null
 
   return (
     <td>
@@ -73,11 +88,10 @@ const TableInput = ({ teamId, letter, isModal, index, current }) => {
         value={word}
         onChange={(e) => handleChangeWord(e)}
         onBlur={(e) => handleBlurEvent(e)}
-        onKeyPress={handleOnKeyPress}
-        onClick={() => handleClick()}
+        onKeyPress={handleKeyEnter}
+        onClick={onClickHandler}
+        style={background}
         tabIndex={t1}
-        // onFocus={handleFocusEvent}
-        style={bgc}
       ></FormControl>
     </td>
   )

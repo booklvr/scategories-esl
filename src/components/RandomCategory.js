@@ -41,11 +41,11 @@ const RandomCategory = ({ isModal }) => {
   }
 
   const handleNextClick = () => {
+    dispatch(resetTeamsIndex())
     if (!start) {
       setStart(true)
       if (timer.showTimer) {
         dispatch(reloadSeconds())
-        dispatch(resetTeamsIndex())
       }
     }
 
