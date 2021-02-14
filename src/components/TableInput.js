@@ -13,9 +13,6 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
   const inputEl = useRef(null)
   const dispatch = useDispatch()
   const [background, setBackground] = useState(null)
-  if (current) {
-    console.log(teamId, current)
-  }
 
   const [word, setWord] = useState('')
 
@@ -31,37 +28,48 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
     }
   }
 
-  const handleBlurEvent = () => {
+  const handleBlurEvent = (e) => {
+    // console.log(e.relatedTarget.classList.contains('table-input'))
+    console.log(e.relatedTarget)
+    if (e.relatedTarget !== null) {
+      console.log('its an input box')
+    } else {
+      console.log('you clicked something weird')
+    }
+    // if (e.nativeEvent.target == ) {
+    //   console.log('clicked another input')
+    // } else {
+    //   console.log('clicked something else')
+    // }
+    setBackground(setBackground({ backgroundColor: null }))
     if (word) {
-      console.log('index', index)
       dispatch(changeWord(teamId, word, letter, index))
     }
-    // else {
-    //   console.log('what the fuck')
-    //   dispatch(nextTeamIndex(teamId))
-    // }
   }
 
   const handleKeyEnter = (event) => {
     if (event.key === 'Enter' && word) {
-      console.log('index', index)
       dispatch(changeWord(teamId, word, letter, index))
     }
   }
 
-  const onClickHandler = () => {
-    dispatch(changeTeamIndex(teamId))
-  }
-
-  // const handleClick = () => {
-  //   dispatch(changeTeamIndex(index))
+  // const onClickHandler = () => {
+  //   // dispatch(changeTeamIndex(teamId))
   // }
+
+  const handleFocusEvent = () => {
+    setBackground({ backgroundColor: '#cfeed9' })
+  }
 
   useEffect(() => {
     if (current) {
       inputEl.current.focus()
     }
   }, [current])
+
+  useEffect(() => {
+    inputEl.current.addEventListener('focus', () => {})
+  }, [])
 
   // useEffect(() => {
   //   setBackground(
@@ -71,7 +79,7 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
   //   )
   // }, [inputEl, current])
 
-  let t1 = 1
+  // let t1 = 1
   // let bgc = current ? { backgroundColor: '#4bbf73' } : null
   // console.log(document.activeElement)
   // console.log(inputEl.current)
@@ -89,9 +97,10 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
         onChange={(e) => handleChangeWord(e)}
         onBlur={(e) => handleBlurEvent(e)}
         onKeyPress={handleKeyEnter}
-        onClick={onClickHandler}
+        // onClick={onClickHandler}
         style={background}
-        tabIndex={t1}
+        // tabIndex={t1}
+        onFocus={handleFocusEvent}
       ></FormControl>
     </td>
   )

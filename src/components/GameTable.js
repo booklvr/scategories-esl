@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import uuid from 'react-uuid'
+import PropTypes from 'prop-types'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Table, Button } from 'react-bootstrap'
 
 // actions
-import { removeWord, startNewGame } from '../actions/teamActions'
+import {
+  removeWord,
+  startNewGame,
+  changeTeamIndex,
+} from '../actions/teamActions'
 
 // components
 import TableInput from '../components/TableInput'
@@ -15,10 +20,10 @@ const GameTable = ({ isModal }) => {
   const dispatch = useDispatch()
 
   const letters = useSelector((state) => state.alphabet)
-  const teamsIndex = useSelector((state) => state.teamsIndex)
+  // const teamsIndex = useSelector((state) => state.teamsIndex)
   const teams = useSelector((state) => state.teams)
   const [loadTeams, setLoadTeams] = useState(false)
-  const [teamIndex, setTeamIndex] = useState(0)
+  // const [teamIndex, setTeamIndex] = useState(0)
 
   useEffect(() => {
     if (isModal) {
@@ -59,6 +64,7 @@ const GameTable = ({ isModal }) => {
                             className='remove-btn'
                             onClick={() => {
                               dispatch(removeWord(team.id, letter))
+                              dispatch(changeTeamIndex(team.id))
                             }}
                           >
                             <i className='fas fa-times'></i>
@@ -90,6 +96,14 @@ const GameTable = ({ isModal }) => {
       )}
     </div>
   )
+}
+
+GameTable.propTypes = {
+  isModal: PropTypes.bool.isRequired,
+}
+
+GameTable.defaultProps = {
+  isModal: false,
 }
 
 export default GameTable

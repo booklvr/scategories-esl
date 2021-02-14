@@ -19,7 +19,7 @@ const SettingsForm = () => {
   const [seconds, setSeconds] = useState(timer.timeLeft % 60)
 
   const [numberOfTeams, setNumberOfTeams] = useState(teams.length)
-  const [numberOfRounds, setNumberOfRounds] = useState()
+  const [numberOfRounds, setNumberOfRounds] = useState(letters.length)
 
   const handleTimerBlurEvent = () => {
     const totalSeconds = parseInt(seconds) + parseInt(minutes * 60)
@@ -34,16 +34,30 @@ const SettingsForm = () => {
     setNumberOfTeams(e.target.value > 6 ? 6 : e.target.value)
   }
 
-  const handleRoundChangeEvent = (e) => {}
+  const handleRoundsChangeEvent = (e) => {
+    if (e.target.value > 26) {
+      setNumberOfRounds(26)
+    } else {
+      setNumberOfRounds(e.target.value)
+    }
+  }
 
-  const handleTeamBlurEvent = (e) => {
+  const handleRoundBlurEvent = () => {
+    if (numberOfRounds === '') {
+      setNumberOfRounds(letters.length)
+    }
+  }
+
+  const handleTeamBlurEvent = () => {
     if (numberOfTeams == '') {
       setNumberOfTeams(teams.length)
     }
   }
 
   useEffect(() => {
-    dispatch(loadLetters(numberOfRounds))
+    if (numberOfRounds !== '') {
+      dispatch(loadLetters(numberOfRounds))
+    }
   }, [numberOfRounds])
 
   useEffect(() => {
@@ -101,7 +115,8 @@ const SettingsForm = () => {
                   type='number'
                   min={5}
                   max={26}
-                  onChange={(e) => setNumberOfRounds(e.target.value)}
+                  onChange={(e) => handleRoundsChangeEvent(e)}
+                  onBlur={handleRoundBlurEvent}
                 />
               </Col>
             </Form.Group>

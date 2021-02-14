@@ -97,13 +97,13 @@ export const teamsReducer = (
         }
         return { ...team, current: false }
       })
-    // case RESET_TEAMS_INDEX:
-    //   return [...state].map((team, index) => {
-    //     if (index === 0) {
-    //       return { ...team, current: true }
-    //     }
-    //     return { ...team, current: false }
-    //   })
+    case RESET_TEAMS_INDEX:
+      return [...state].map((team, index) => {
+        if (index === 0) {
+          return { ...team, current: true }
+        }
+        return { ...team, current: false }
+      })
     case REMOVE_WORD:
       return [...state].map((team) => {
         if (team.id === payload.teamId) {

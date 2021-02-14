@@ -53,7 +53,6 @@ export const startNewGame = () => (dispatch, getState) => {
 }
 
 export const changeWord = (teamId, word, letter, index) => (dispatch) => {
-  console.log('action index', index)
   dispatch({ type: ADD_WORD, payload: { teamId, word, letter, index } })
   dispatch({ type: CHANGE_INDEX, payload: { teamId, sign: 1 } })
   // dispatch({
@@ -80,18 +79,15 @@ export const resetTeams = () => (dispatch, getState) => {
 // }
 
 export const resetTeamsIndex = () => (dispatch) => {
-  console.log('lets fuck up this bitch')
   dispatch({ type: RESET_TEAMS_INDEX })
 }
 
 export const changeTeamIndex = (teamId) => (dispatch) => {
-  console.log('action teamId', teamId)
   dispatch({ type: CHANGE_TEAM_INDEX, payload: { teamId } })
 }
 export const nextTeamIndex = (teamId) => (dispatch, getState) => {
   const teams = getState().teams
   const index = teams.findIndex((team) => team.id === teamId)
-  console.log('index', index)
   const nextIndex = index < teams.length - 1 ? index + 1 : 0
 
   dispatch({
