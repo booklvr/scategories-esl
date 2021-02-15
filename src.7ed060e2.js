@@ -33553,7 +33553,7 @@ exports.alphabetReducer = alphabetReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RESET_TEAMS = exports.START_NEW_GAME = exports.CHANGE_INDEX = exports.REMOVE_WORD = exports.ADD_WORD = exports.ADD_TEAMS = exports.REMOVE_TEAMS = exports.LOAD_TEAMS_FOR_GAME = exports.CHANGE_TEAM_NAMES = exports.LOAD_TEAMS = void 0;
+exports.CHANGE_TEAM_INDEX = exports.RESET_TEAMS_INDEX = exports.RESET_TEAMS = exports.START_NEW_GAME = exports.CHANGE_INDEX = exports.REMOVE_WORD = exports.ADD_WORD = exports.ADD_TEAMS = exports.REMOVE_TEAMS = exports.LOAD_TEAMS_FOR_GAME = exports.CHANGE_TEAM_NAMES = exports.LOAD_TEAMS = void 0;
 var LOAD_TEAMS = 'LOAD_TEAMS';
 exports.LOAD_TEAMS = LOAD_TEAMS;
 var CHANGE_TEAM_NAMES = 'CHANGE_TEAM_NAMES';
@@ -33574,6 +33574,10 @@ var START_NEW_GAME = 'START_NEW_GAME';
 exports.START_NEW_GAME = START_NEW_GAME;
 var RESET_TEAMS = 'RESET_TEAMS';
 exports.RESET_TEAMS = RESET_TEAMS;
+var RESET_TEAMS_INDEX = 'RESET_TEAM_INDEX';
+exports.RESET_TEAMS_INDEX = RESET_TEAMS_INDEX;
+var CHANGE_TEAM_INDEX = 'CHANGE_TEAM_INDEX';
+exports.CHANGE_TEAM_INDEX = CHANGE_TEAM_INDEX;
 },{}],"../src/reducers/teamsReducer.js":[function(require,module,exports) {
 "use strict";
 
@@ -33611,12 +33615,14 @@ var teamsReducer = function teamsReducer() {
     name: 'team 1',
     id: (0, _reactUuid.default)(),
     index: 0,
-    alphabet: []
+    alphabet: [],
+    current: false
   }, {
     name: 'team 2',
     id: (0, _reactUuid.default)(),
     index: 0,
-    alphabet: []
+    alphabet: [],
+    current: false
   }];
   var action = arguments.length > 1 ? arguments[1] : undefined;
   var type = action.type,
@@ -33635,20 +33641,12 @@ var teamsReducer = function teamsReducer() {
 
     case _teamsConstants.ADD_TEAMS:
       return [].concat(_toConsumableArray(state), _toConsumableArray(payload));
-    // case :
-    //   return [...state].map((team) => ({
-    //     ...team,
-    //     alphabet: payload.map((letter) => ({
-    //       letter: letter,
-    //       complete: false,
-    //       word: '',
-    //     })),
-    //   }))
 
     case _teamsConstants.START_NEW_GAME:
       return _toConsumableArray(state).map(function (team) {
         return _objectSpread(_objectSpread({}, team), {}, {
           index: 0,
+          current: false,
           alphabet: payload.map(function (letter) {
             return {
               letter: letter,
@@ -33658,11 +33656,40 @@ var teamsReducer = function teamsReducer() {
           })
         });
       });
+    // case ADD_WORD:
+    //   return [...state].map((team, i, arr) => {
+    //     if (payload.index == i - 1) {
+    //       return { ...team, current: true }
+    //     } else if (i === 0 && payload.index === arr.length - 1) {
+    //       return { ...team, current: true }
+    //     } else if (team.id === payload.teamId) {
+    //       return {
+    //         ...team,
+    //         current: false,
+    //         alphabet: [
+    //           ...team.alphabet.map((lt) => {
+    //             if (lt.letter === payload.letter) {
+    //               return {
+    //                 ...lt,
+    //                 word: payload.word,
+    //                 complete: true,
+    //               }
+    //             } else {
+    //               return lt
+    //             }
+    //           }),
+    //         ],
+    //       }
+    //     } else {
+    //       return { ...team, current: false }
+    //     }
+    //   })
 
     case _teamsConstants.ADD_WORD:
-      return _toConsumableArray(state).map(function (team) {
+      return _toConsumableArray(state).map(function (team, i, arr) {
         if (team.id === payload.teamId) {
           return _objectSpread(_objectSpread({}, team), {}, {
+            current: false,
             alphabet: _toConsumableArray(team.alphabet.map(function (lt) {
               if (lt.letter === payload.letter) {
                 return _objectSpread(_objectSpread({}, lt), {}, {
@@ -33675,7 +33702,7 @@ var teamsReducer = function teamsReducer() {
             }))
           });
         } else {
-          return team;
+          return _objectSpread({}, team);
         }
       });
 
@@ -33688,6 +33715,32 @@ var teamsReducer = function teamsReducer() {
         }
 
         return _objectSpread({}, team);
+      });
+
+    case _teamsConstants.CHANGE_TEAM_INDEX:
+      return _toConsumableArray(state).map(function (team) {
+        if (team.id === payload.teamId) {
+          return _objectSpread(_objectSpread({}, team), {}, {
+            current: true
+          });
+        }
+
+        return _objectSpread(_objectSpread({}, team), {}, {
+          current: false
+        });
+      });
+
+    case _teamsConstants.RESET_TEAMS_INDEX:
+      return _toConsumableArray(state).map(function (team, index) {
+        if (index === 0) {
+          return _objectSpread(_objectSpread({}, team), {}, {
+            current: true
+          });
+        }
+
+        return _objectSpread(_objectSpread({}, team), {}, {
+          current: false
+        });
       });
 
     case _teamsConstants.REMOVE_WORD:
@@ -52479,7 +52532,7 @@ exports.changeLetter = changeLetter;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetTeams = exports.removeWord = exports.changeWord = exports.startNewGame = exports.changeNumberOfTeams = exports.changeTeamName = exports.loadTeams = void 0;
+exports.nextTeamIndex = exports.changeTeamIndex = exports.resetTeamsIndex = exports.resetTeams = exports.removeWord = exports.changeWord = exports.startNewGame = exports.changeNumberOfTeams = exports.changeTeamName = exports.loadTeams = void 0;
 
 var _reactUuid = _interopRequireDefault(require("react-uuid"));
 
@@ -52557,14 +52610,15 @@ var startNewGame = function startNewGame() {
 
 exports.startNewGame = startNewGame;
 
-var changeWord = function changeWord(teamId, word, letter) {
+var changeWord = function changeWord(teamId, word, letter, index) {
   return function (dispatch) {
     dispatch({
       type: _teamsConstants.ADD_WORD,
       payload: {
         teamId: teamId,
         word: word,
-        letter: letter
+        letter: letter,
+        index: index
       }
     });
     dispatch({
@@ -52573,7 +52627,10 @@ var changeWord = function changeWord(teamId, word, letter) {
         teamId: teamId,
         sign: 1
       }
-    });
+    }); // dispatch({
+    //   type: CHANGE_TEAM_INDEX,
+    //   payload: { index, length: getState().teams.length },
+    // })
   };
 };
 
@@ -52607,15 +52664,50 @@ var resetTeams = function resetTeams() {
     });
     localStorage.setItem('teams', JSON.stringify(getState().teams));
   };
-}; // export const loadTeamsForGame = () => (dispatch, getState) => {
-//   dispatch({
-//     type: CHANGE_TEAM_NAMES,
-//     payload: { teams: getState().teams, letters: getState().alphabet },
-//   })
-// }
-
+};
 
 exports.resetTeams = resetTeams;
+
+var resetTeamsIndex = function resetTeamsIndex() {
+  return function (dispatch) {
+    dispatch({
+      type: _teamsConstants.RESET_TEAMS_INDEX
+    });
+  };
+};
+
+exports.resetTeamsIndex = resetTeamsIndex;
+
+var changeTeamIndex = function changeTeamIndex(teamId) {
+  return function (dispatch) {
+    dispatch({
+      type: _teamsConstants.CHANGE_TEAM_INDEX,
+      payload: {
+        teamId: teamId
+      }
+    });
+  };
+};
+
+exports.changeTeamIndex = changeTeamIndex;
+
+var nextTeamIndex = function nextTeamIndex(teamId) {
+  return function (dispatch, getState) {
+    var teams = getState().teams;
+    var index = teams.findIndex(function (team) {
+      return team.id === teamId;
+    });
+    var nextIndex = index < teams.length - 1 ? index + 1 : 0;
+    dispatch({
+      type: _teamsConstants.CHANGE_TEAM_INDEX,
+      payload: {
+        teamId: teams[nextIndex].id
+      }
+    });
+  };
+};
+
+exports.nextTeamIndex = nextTeamIndex;
 },{"react-uuid":"../node_modules/react-uuid/uuid.js","../constants/teamsConstants":"../src/constants/teamsConstants.js"}],"../src/components/TeamName.js":[function(require,module,exports) {
 "use strict";
 
@@ -53226,7 +53318,7 @@ var SettingsForm = function SettingsForm() {
       numberOfTeams = _useState6[0],
       setNumberOfTeams = _useState6[1];
 
-  var _useState7 = (0, _react.useState)(letters.length > 0 ? letters.length : 10),
+  var _useState7 = (0, _react.useState)(letters.length),
       _useState8 = _slicedToArray(_useState7, 2),
       numberOfRounds = _useState8[0],
       setNumberOfRounds = _useState8[1];
@@ -53240,11 +53332,41 @@ var SettingsForm = function SettingsForm() {
     dispatch((0, _timerActions.toggleShowTimer)(!timer.showTimer));
   };
 
+  var handleTeamChangeEvent = function handleTeamChangeEvent(e) {
+    setNumberOfTeams(e.target.value > 6 ? 6 : e.target.value);
+  };
+
+  var handleRoundsChangeEvent = function handleRoundsChangeEvent(e) {
+    if (e.target.value > 26) {
+      setNumberOfRounds(26);
+    } else {
+      setNumberOfRounds(e.target.value);
+    }
+  };
+
+  var handleRoundBlurEvent = function handleRoundBlurEvent() {
+    if (numberOfRounds === '') {
+      setNumberOfRounds(letters.length);
+    }
+  };
+
+  var handleTeamBlurEvent = function handleTeamBlurEvent() {
+    if (numberOfTeams == '') {
+      setNumberOfTeams(teams.length);
+    }
+  };
+
   (0, _react.useEffect)(function () {
-    dispatch((0, _alphabetActions.loadLetters)(numberOfRounds));
+    if (numberOfRounds !== '') {
+      dispatch((0, _alphabetActions.loadLetters)(numberOfRounds));
+    }
   }, [numberOfRounds]);
   (0, _react.useEffect)(function () {
-    dispatch((0, _teamActions.changeNumberOfTeams)(teams.length, numberOfTeams));
+    if (numberOfTeams !== '' && numberOfTeams > 0) {
+      dispatch((0, _teamActions.changeNumberOfTeams)(teams.length, numberOfTeams));
+    } else {
+      dispatch((0, _teamActions.changeNumberOfTeams)(teams.length, teams.length));
+    }
   }, [numberOfTeams]);
   (0, _react.useEffect)(function () {
     if (seconds == 60) {
@@ -53252,7 +53374,7 @@ var SettingsForm = function SettingsForm() {
     }
   }, [seconds]);
   (0, _react.useEffect)(function () {
-    setNumberOfRounds(10);
+    setNumberOfRounds(letters.length > 0 ? letters.length : 10);
     setNumberOfTeams(teams.length);
     setMinutes(Math.floor(timer.timeLeft / 60));
     setSeconds(timer.timeLeft % 60);
@@ -53278,7 +53400,10 @@ var SettingsForm = function SettingsForm() {
     type: "number",
     value: numberOfTeams,
     onChange: function onChange(e) {
-      return setNumberOfTeams(e.target.value > 6 ? 6 : e.target.value);
+      return handleTeamChangeEvent(e);
+    },
+    onBlur: function onBlur(e) {
+      return handleTeamBlurEvent(e);
     }
   })))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     lg: 12,
@@ -53292,7 +53417,7 @@ var SettingsForm = function SettingsForm() {
     className: "pl-1"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, {
     className: "settings-label"
-  }, "Rounds")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+  }, "Letters")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     md: 8
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control, {
     className: "p-1",
@@ -53301,8 +53426,9 @@ var SettingsForm = function SettingsForm() {
     min: 5,
     max: 26,
     onChange: function onChange(e) {
-      return setNumberOfRounds(e.target.value);
-    }
+      return handleRoundsChangeEvent(e);
+    },
+    onBlur: handleRoundBlurEvent
   }))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
     xl: 12,
     xxl: 4,
@@ -53400,6 +53526,8 @@ var _reactRedux = require("react-redux");
 
 var _timerActions = require("../actions/timerActions");
 
+var _teamActions = require("../actions/teamActions");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -53481,10 +53609,13 @@ var RandomCategory = function RandomCategory(_ref) {
 
     if (timer.showTimer) {
       dispatch((0, _timerActions.reloadSeconds)());
+      dispatch((0, _teamActions.resetTeamsIndex)());
     }
   };
 
   var handleNextClick = function handleNextClick() {
+    dispatch((0, _teamActions.resetTeamsIndex)());
+
     if (!start) {
       setStart(true);
 
@@ -53519,17 +53650,7 @@ var RandomCategory = function RandomCategory(_ref) {
     } else {
       setTimerFinished(false);
     }
-  }, [timer]); // useEffect(() => {
-  //   let timer1
-  //   if (timer.end) {
-  //     setTimerFinished(true)
-  //     timer1 = setTimeout(() => {
-  //       setTimerFinished(false)
-  //     }, 3000)
-  //   }
-  //   return () => clearTimeout(timer1)
-  // }, [timer])
-
+  }, [timer]);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: timerFinished ? 'header-container blink p-3' : 'header-container p-3'
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
@@ -53552,7 +53673,7 @@ RandomCategory.defaultProps = {
 };
 var _default = RandomCategory;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/timerActions":"../src/actions/timerActions.js"}],"../src/components/TableInput.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/timerActions":"../src/actions/timerActions.js","../actions/teamActions":"../src/actions/teamActions.js"}],"../src/components/TableInput.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53591,53 +53712,103 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var TableInput = function TableInput(_ref) {
   var teamId = _ref.teamId,
       letter = _ref.letter,
-      isModal = _ref.isModal;
+      isModal = _ref.isModal,
+      current = _ref.current,
+      index = _ref.index;
+  var inputEl = (0, _react.useRef)(null);
   var dispatch = (0, _reactRedux.useDispatch)();
 
-  var _useState = (0, _react.useState)(''),
+  var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
-      word = _useState2[0],
-      setWord = _useState2[1];
+      background = _useState2[0],
+      setBackground = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      word = _useState4[0],
+      setWord = _useState4[1];
 
   var handleChangeWord = function handleChangeWord(e) {
     if (word.length === 1 && e.nativeEvent.inputType === 'deleteContentBackward') {
       setWord('');
     }
 
-    if (e.target.value.startsWith(letter)) {
+    if (e.target.value.toLowerCase().startsWith(letter)) {
       setWord(e.target.value);
     }
   };
 
-  var handleBlurEvent = function handleBlurEvent() {
+  var handleBlurEvent = function handleBlurEvent(e) {
+    setBackground({
+      backgroundColor: null
+    });
+
     if (word) {
-      dispatch((0, _teamActions.changeWord)(teamId, word, letter));
+      dispatch((0, _teamActions.changeWord)(teamId, word, letter, index));
     }
   };
 
-  var handleKeyEnter = function handleKeyEnter(event) {
-    if (event.key === 'Enter' && word) {
-      dispatch((0, _teamActions.changeWord)(teamId, word, letter));
+  var handleKeyDownEvent = function handleKeyDownEvent(e) {
+    e = e || event;
+
+    if (!word && (e.which || e.keyCode) == 9) {
+      dispatch((0, _teamActions.nextTeamIndex)(teamId));
+    } else if (word && (e.which || e.keyCode) == 9) {
+      dispatch((0, _teamActions.changeWord)(teamId, word, letter, index));
+      dispatch((0, _teamActions.nextTeamIndex)(teamId));
+    }
+
+    if (e.key === 'Enter' && word) {
+      dispatch((0, _teamActions.changeWord)(teamId, word, letter, index));
+      dispatch((0, _teamActions.nextTeamIndex)(teamId));
     }
   };
 
+  var handleClickEvent = function handleClickEvent(e) {
+    e.target.focus();
+    setBackground({
+      backgroundColor: '#cfeed9'
+    });
+  };
+
+  (0, _react.useEffect)(function () {
+    if (current) {
+      inputEl.current.focus();
+    }
+  }, [current]);
+  (0, _react.useEffect)(function () {
+    setBackground(document.activeElement === inputEl.current ? {
+      backgroundColor: '#cfeed9'
+    } : {
+      backgroundColor: null
+    });
+  }, [inputEl, current]);
   return /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+    ref: inputEl,
     className: isModal ? 'table-input is-modal' : 'table-input',
     value: word,
     onChange: function onChange(e) {
       return handleChangeWord(e);
     },
-    onBlur: function onBlur() {
-      return handleBlurEvent();
+    onBlur: function onBlur(e) {
+      return handleBlurEvent(e);
     },
-    onKeyPress: handleKeyEnter
+    onKeyDown: function onKeyDown(e) {
+      return handleKeyDownEvent(e);
+    },
+    onMouseUp: function onMouseUp(e) {
+      return handleClickEvent(e);
+    },
+    style: background
   }));
 };
 
 TableInput.propTypes = {
   teamId: _propTypes.default.string.isRequired,
   letter: _propTypes.default.string.isRequired,
-  isModal: _propTypes.default.bool.isRequired
+  isModal: _propTypes.default.bool.isRequired,
+  current: _propTypes.default.bool.isRequired,
+  index: _propTypes.default.number.isRequired
 };
 TableInput.defaultProps = {
   isModal: false
@@ -53655,6 +53826,8 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _reactUuid = _interopRequireDefault(require("react-uuid"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRedux = require("react-redux");
 
@@ -53687,7 +53860,8 @@ var GameTable = function GameTable(_ref) {
   var dispatch = (0, _reactRedux.useDispatch)();
   var letters = (0, _reactRedux.useSelector)(function (state) {
     return state.alphabet;
-  });
+  }); // const teamsIndex = useSelector((state) => state.teamsIndex)
+
   var teams = (0, _reactRedux.useSelector)(function (state) {
     return state.teams;
   });
@@ -53695,7 +53869,8 @@ var GameTable = function GameTable(_ref) {
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       loadTeams = _useState2[0],
-      setLoadTeams = _useState2[1];
+      setLoadTeams = _useState2[1]; // const [teamIndex, setTeamIndex] = useState(0)
+
 
   (0, _react.useEffect)(function () {
     if (isModal) {
@@ -53726,21 +53901,25 @@ var GameTable = function GameTable(_ref) {
       key: (0, _reactUuid.default)()
     }, /*#__PURE__*/_react.default.createElement("td", {
       className: "letter"
-    }, letter), teams.map(function (team) {
+    }, letter), teams.map(function (team, index) {
       if (team.alphabet[letterIndex].complete) {
         return /*#__PURE__*/_react.default.createElement("td", {
           key: (0, _reactUuid.default)(),
           className: "table-word"
         }, team.alphabet[letterIndex].word, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          tabIndex: -1,
           className: "remove-btn",
           onClick: function onClick() {
             dispatch((0, _teamActions.removeWord)(team.id, letter));
+            dispatch((0, _teamActions.changeTeamIndex)(team.id));
           }
         }, /*#__PURE__*/_react.default.createElement("i", {
           className: "fas fa-times"
         })));
       } else if (letterIndex === 0 || team.alphabet[letterIndex - 1].complete) {
         return /*#__PURE__*/_react.default.createElement(_TableInput.default, {
+          index: index,
+          current: team.current,
           isModal: isModal,
           teamId: team.id,
           letter: letter,
@@ -53755,9 +53934,15 @@ var GameTable = function GameTable(_ref) {
   }))));
 };
 
+GameTable.propTypes = {
+  isModal: _propTypes.default.bool.isRequired
+};
+GameTable.defaultProps = {
+  isModal: false
+};
 var _default = GameTable;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TableInput":"../src/components/TableInput.js"}],"../src/components/InstructionModal.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-uuid":"../node_modules/react-uuid/uuid.js","prop-types":"../node_modules/prop-types/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../actions/teamActions":"../src/actions/teamActions.js","../components/TableInput":"../src/components/TableInput.js"}],"../src/components/InstructionModal.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54437,7 +54622,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "12164" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9005" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
