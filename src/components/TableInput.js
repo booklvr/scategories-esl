@@ -3,11 +3,7 @@ import { FormControl } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import {
-  changeWord,
-  changeTeamIndex,
-  nextTeamIndex,
-} from '../actions/teamActions'
+import { changeWord, nextTeamIndex } from '../actions/teamActions'
 
 const TableInput = ({ teamId, letter, isModal, current, index }) => {
   const inputEl = useRef(null)
@@ -23,41 +19,36 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
     ) {
       setWord('')
     }
-    if (e.target.value.startsWith(letter)) {
+    if (e.target.value.toLowerCase().startsWith(letter)) {
       setWord(e.target.value)
     }
   }
 
   const handleBlurEvent = (e) => {
-    // console.log(e.relatedTarget.classList.contains('table-input'))
-    console.log(e.relatedTarget)
-    if (e.relatedTarget !== null) {
-      console.log('its an input box')
-    } else {
-      console.log('you clicked something weird')
-    }
-    // if (e.nativeEvent.target == ) {
-    //   console.log('clicked another input')
-    // } else {
-    //   console.log('clicked something else')
-    // }
-    setBackground(setBackground({ backgroundColor: null }))
+    setBackground({ backgroundColor: null })
     if (word) {
       dispatch(changeWord(teamId, word, letter, index))
     }
   }
 
-  const handleKeyEnter = (event) => {
-    if (event.key === 'Enter' && word) {
+  const handleKeyDownEvent = (e) => {
+    e = e || event
+
+    if (!word && (e.which || e.keyCode) == 9) {
+      dispatch(nextTeamIndex(teamId))
+    } else if (word && (e.which || e.keyCode) == 9) {
       dispatch(changeWord(teamId, word, letter, index))
+      dispatch(nextTeamIndex(teamId))
+    }
+
+    if (e.key === 'Enter' && word) {
+      dispatch(changeWord(teamId, word, letter, index))
+      dispatch(nextTeamIndex(teamId))
     }
   }
 
-  // const onClickHandler = () => {
-  //   // dispatch(changeTeamIndex(teamId))
-  // }
-
-  const handleFocusEvent = () => {
+  const handleClickEvent = (e) => {
+    e.target.focus()
     setBackground({ backgroundColor: '#cfeed9' })
   }
 
@@ -68,25 +59,12 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
   }, [current])
 
   useEffect(() => {
-    inputEl.current.addEventListener('focus', () => {})
-  }, [])
-
-  // useEffect(() => {
-  //   setBackground(
-  //     document.activeElement === inputEl.current
-  //       ? { backgroundColor: '#4bbf73' }
-  //       : { backgroundColor: 'blue' }
-  //   )
-  // }, [inputEl, current])
-
-  // let t1 = 1
-  // let bgc = current ? { backgroundColor: '#4bbf73' } : null
-  // console.log(document.activeElement)
-  // console.log(inputEl.current)
-  // let bgc =
-  //   document.activeElement === inputEl.current
-  //     ? { backgroundColor: '#4bbf73' }
-  //     : null
+    setBackground(
+      document.activeElement === inputEl.current
+        ? { backgroundColor: '#cfeed9' }
+        : { backgroundColor: null }
+    )
+  }, [inputEl, current])
 
   return (
     <td>
@@ -96,11 +74,9 @@ const TableInput = ({ teamId, letter, isModal, current, index }) => {
         value={word}
         onChange={(e) => handleChangeWord(e)}
         onBlur={(e) => handleBlurEvent(e)}
-        onKeyPress={handleKeyEnter}
-        // onClick={onClickHandler}
+        onKeyDown={(e) => handleKeyDownEvent(e)}
+        onMouseUp={(e) => handleClickEvent(e)}
         style={background}
-        // tabIndex={t1}
-        onFocus={handleFocusEvent}
       ></FormControl>
     </td>
   )
@@ -110,6 +86,8 @@ TableInput.propTypes = {
   teamId: PropTypes.string.isRequired,
   letter: PropTypes.string.isRequired,
   isModal: PropTypes.bool.isRequired,
+  current: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 TableInput.defaultProps = {

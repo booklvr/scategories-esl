@@ -71,13 +71,6 @@ export const resetTeams = () => (dispatch, getState) => {
   localStorage.setItem('teams', JSON.stringify(getState().teams))
 }
 
-// export const loadTeamsForGame = () => (dispatch, getState) => {
-//   dispatch({
-//     type: CHANGE_TEAM_NAMES,
-//     payload: { teams: getState().teams, letters: getState().alphabet },
-//   })
-// }
-
 export const resetTeamsIndex = () => (dispatch) => {
   dispatch({ type: RESET_TEAMS_INDEX })
 }

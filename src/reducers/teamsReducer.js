@@ -55,13 +55,37 @@ export const teamsReducer = (
           word: '',
         })),
       }))
+    // case ADD_WORD:
+    //   return [...state].map((team, i, arr) => {
+    //     if (payload.index == i - 1) {
+    //       return { ...team, current: true }
+    //     } else if (i === 0 && payload.index === arr.length - 1) {
+    //       return { ...team, current: true }
+    //     } else if (team.id === payload.teamId) {
+    //       return {
+    //         ...team,
+    //         current: false,
+    //         alphabet: [
+    //           ...team.alphabet.map((lt) => {
+    //             if (lt.letter === payload.letter) {
+    //               return {
+    //                 ...lt,
+    //                 word: payload.word,
+    //                 complete: true,
+    //               }
+    //             } else {
+    //               return lt
+    //             }
+    //           }),
+    //         ],
+    //       }
+    //     } else {
+    //       return { ...team, current: false }
+    //     }
+    //   })
     case ADD_WORD:
       return [...state].map((team, i, arr) => {
-        if (payload.index == i - 1) {
-          return { ...team, current: true }
-        } else if (i === 0 && payload.index === arr.length - 1) {
-          return { ...team, current: true }
-        } else if (team.id === payload.teamId) {
+        if (team.id === payload.teamId) {
           return {
             ...team,
             current: false,
@@ -80,7 +104,7 @@ export const teamsReducer = (
             ],
           }
         } else {
-          return { ...team, current: false }
+          return { ...team }
         }
       })
     case CHANGE_INDEX:
