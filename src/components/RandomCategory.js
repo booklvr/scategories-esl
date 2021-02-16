@@ -84,7 +84,9 @@ const RandomCategory = ({ isModal }) => {
       }
     >
       <Button
-        className='header-btn btn-success '
+        className={
+          start === false ? 'header-btn btn-primary' : 'header-btn btn-success'
+        }
         disabled={start === false ? true : false}
         onClick={handleBackClick}
       >

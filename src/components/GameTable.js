@@ -59,16 +59,19 @@ const GameTable = ({ isModal }) => {
                       return (
                         <td key={uuid()} className='table-word'>
                           {team.alphabet[letterIndex].word}
-                          <Button
-                            tabIndex={-1}
-                            className='remove-btn'
-                            onClick={() => {
-                              dispatch(removeWord(team.id, letter))
-                              dispatch(changeTeamIndex(team.id))
-                            }}
-                          >
-                            <i className='fas fa-times'></i>
-                          </Button>
+                          {!team.alphabet[letterIndex + 1].complete &&
+                            team.alphabet[letterIndex].complete && (
+                              <Button
+                                tabIndex={-1}
+                                className='remove-btn'
+                                onClick={() => {
+                                  dispatch(removeWord(team.id, letter))
+                                  dispatch(changeTeamIndex(team.id))
+                                }}
+                              >
+                                <i className='fas fa-times'></i>
+                              </Button>
+                            )}
                         </td>
                       )
                     } else if (
