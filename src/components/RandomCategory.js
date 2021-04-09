@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { reloadSeconds, startTimer } from '../actions/timerActions'
 import { resetTeamsIndex } from '../actions/teamActions'
 
+import { nextSound } from '../assets/sounds/audio'
+
 const RandomCategory = ({ isModal }) => {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.category)
@@ -28,6 +30,8 @@ const RandomCategory = ({ isModal }) => {
   }
 
   const handleBackClick = () => {
+    nextSound.play()
+
     if (index > 0) {
       setIndex(index - 1)
     } else {
@@ -41,6 +45,7 @@ const RandomCategory = ({ isModal }) => {
   }
 
   const handleNextClick = () => {
+    nextSound.play()
     dispatch(resetTeamsIndex())
     if (!start) {
       setStart(true)

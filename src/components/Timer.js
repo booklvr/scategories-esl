@@ -6,6 +6,9 @@ import {
   timerDoneAnimationEnd,
 } from '../actions/timerActions'
 
+// SOUNDS
+import { timesUpSound, endSound } from '../assets/sounds/audio'
+
 const Timer = () => {
   const dispatch = useDispatch()
   const timer = useSelector((state) => state.timer)
@@ -17,10 +20,17 @@ const Timer = () => {
   useEffect(() => {
     // exit early when we reach 0
     if (!timeLeft) {
+      endSound.play()
       return
     }
 
     if (!timer.start) return
+
+    // sound
+    if (timeLeft === 20) {
+      timesUpSound.fade(0.01, 0.25, 20000)
+      timesUpSound.play()
+    }
 
     // save intervalId to clear the interval when the
     // component re-renders
