@@ -198,6 +198,7 @@ input:checked + .slider:before {
 .timer {
   height: 100%;
   font-size: 40px;
+  position: relative;
 }
 
 .random-category {
@@ -262,9 +263,9 @@ input:checked + .slider:before {
   text-align: center;
   background-color: lightgrey;
   position: relative;
-  overflow-x: hidden;
   text-overflow: ellipsis;
-  overflow-wrap: normal;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .table-container table tbody tr .table-word .remove-btn {
   display: flex;
@@ -321,6 +322,21 @@ input:checked + .slider:before {
     border-color: #d9534f;
     border-width: 10px;
   }
+}
+.mute-btn {
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
 }
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */
