@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { reloadSeconds, startTimer } from '../actions/timerActions'
 import { resetTeamsIndex } from '../actions/teamActions'
 
-import { nextSound } from '../assets/sounds/audio'
+import { backSound, startSound, timesUpSound } from '../assets/sounds/audio'
 
 const RandomCategory = ({ isModal }) => {
   const dispatch = useDispatch()
@@ -30,7 +30,7 @@ const RandomCategory = ({ isModal }) => {
   }
 
   const handleBackClick = () => {
-    nextSound.play()
+    backSound.play()
 
     if (index > 0) {
       setIndex(index - 1)
@@ -41,11 +41,19 @@ const RandomCategory = ({ isModal }) => {
     if (timer.showTimer) {
       dispatch(reloadSeconds())
       dispatch(resetTeamsIndex())
+
+      if (timer.timeLeft < 20) {
+        timesUpSound.stop()
+        timesUpSound.seek(20 - timer.timeLeft)
+        timesUpSound.fade(0.01, 0.25, 20 - timer.timeLeft)
+        timesUpSound.play()
+      }
     }
   }
 
   const handleNextClick = () => {
-    nextSound.play()
+    startSound.play()
+
     dispatch(resetTeamsIndex())
     if (!start) {
       setStart(true)
@@ -62,6 +70,13 @@ const RandomCategory = ({ isModal }) => {
 
     if (timer.showTimer) {
       dispatch(reloadSeconds())
+
+      if (timer.timeLeft < 20) {
+        timesUpSound.stop()
+        timesUpSound.seek(20 - timer.timeLeft)
+        timesUpSound.fade(0.01, 0.25, 20 - timer.timeLeft)
+        timesUpSound.play()
+      }
     }
   }
 

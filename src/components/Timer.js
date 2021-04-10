@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Container } from 'react-bootstrap'
+
+// COMPONENTS
+import MuteButton from './MuteButton'
+
 import {
   timerDoneAnimationStart,
   timerDoneAnimationEnd,
@@ -71,6 +75,7 @@ const Timer = () => {
               : 'header-container d-flex justify-content-center'
           }
         >
+          <MuteButton></MuteButton>
           <Col className='d-flex justify-content-center' md={3}>
             {Math.floor(timeLeft / 60)}
           </Col>

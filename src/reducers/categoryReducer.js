@@ -2,9 +2,6 @@ import uuid from 'react-uuid'
 import {
   ADD_CATEGORY,
   ADD_CATEGORY_BY_CHECKBOX,
-  CHECKBOX_CATEGORY_LIST,
-  LOAD_CATEGORY_LIST,
-  REMOVE_CATEGORY_BY_CHECKBOX,
   REMOVE_CATEGORY,
   RESET_CATEGORIES,
 } from '../constants/categoryConstants'

@@ -12,6 +12,9 @@ import { startNewGame } from '../actions/teamActions'
 import RandomCategory from '../components/RandomCategory'
 import Timer from '../components/Timer'
 
+// SOUNDS
+import { exitSound, timesUpSound } from '../assets/sounds/audio'
+
 const GameHeader = () => {
   const dispatch = useDispatch()
   const timer = useSelector((state) => state.timer)
@@ -24,6 +27,11 @@ const GameHeader = () => {
   }
   let query = useQuery()
   const queryResult = query.get('random')
+
+  const handleClick = () => {
+    exitSound.play();
+    timesUpSound.stop()
+  }
 
   useEffect(() => {
     dispatch(startNewGame())
@@ -65,7 +73,12 @@ const GameHeader = () => {
           }
         >
           <LinkContainer to='/'>
-            <Button className='header-btn btn-info'>Settings</Button>
+            <Button
+              className='header-btn btn-info'
+              onClick={() => handleClick()}
+            >
+              Settings
+            </Button>
           </LinkContainer>
         </Col>
 

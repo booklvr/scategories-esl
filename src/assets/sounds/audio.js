@@ -1,20 +1,10 @@
 import { Howl } from 'howler'
-// import {useSelector} from 'react-redux'
-// const startSound = new Audio('../../audio/start')
-// import correct from '../../audio/correct.wav'
-import next from './next.wav'
+
 import timesUp from './timesUp.flac'
 import end from './end.wav'
-
-// const correctSound = new Howl({
-//   src: [correct],
-//   volume: 0.5,
-// })
-
-const nextSound = new Howl({
-  src: [next],
-  volume: 0.7,
-})
+import back from './back.wav'
+import exit from './exit.wav'
+import start from './start.flac'
 
 const timesUpSound = new Howl({
   src: [timesUp],
@@ -26,43 +16,20 @@ const endSound = new Howl({
   volume: 5,
 })
 
-// const skipSound = new Howl({
-//   src: ['../../audio/skip.mp3'],
-//   volume: 0.7,
-//   rate: 1.5,
-// })
+const backSound = new Howl({
+  src: [back],
+  volume: 0.5,
+})
 
-// const backSound = new Howl({
-//   src: ['../../audio/back.wav'],
-//   volume: 0.5,
-// })
+const exitSound = new Howl({
+  src: [exit],
+  volume: 0.2,
+})
 
-// const exitSound = new Howl({
-//   src: ['../../audio/exit.wav'],
-//   volume: 0.2,
-// })
+const startSound = new Howl({
+  src: [start],
+  rate: 0.9,
+  volume: 0.6,
+})
 
-// const startSound = new Howl({
-//   src: ['../../audio/start.wav'],
-//   rate: 0.9,
-//   volume: 0.6,
-// })
-
-// const startBellSound = new Howl({
-//   src: ['../../audio/startBell.flac'],
-//   volume: 1,
-// })
-
-// const correctSound = new Audio('../../audio/correct.wav')
-
-export {
-  // correctSound,
-  // skipSound,
-  // backSound,
-  endSound,
-  nextSound,
-  timesUpSound,
-  // exitSound,
-  // startSound,
-  // startBellSound,
-}
+export { backSound, endSound, timesUpSound, exitSound, startSound }
