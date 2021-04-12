@@ -284,6 +284,9 @@ input:checked + .slider:before {
 .table-container table tbody tr .table-word .remove-btn:hover {
   background-color: black;
 }
+.table-container table tbody tr .table-word-complete {
+  background-color: #1f9bcf;
+}
 .table-container .isModal th {
   font-size: 25px;
 }

@@ -57218,8 +57218,8 @@ var GameTable = function GameTable(_ref) {
       if (team.alphabet[letterIndex].complete) {
         return /*#__PURE__*/_react.default.createElement("td", {
           key: (0, _reactUuid.default)(),
-          className: "table-word"
-        }, team.alphabet[letterIndex].word, !team.alphabet[letterIndex + 1].complete && team.alphabet[letterIndex].complete && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          className: team.alphabet[letterIndex].complete && letterIndex === letters.length - 1 ? 'table-word table-word-complete' : 'table-word'
+        }, team.alphabet[letterIndex].word, (!team.alphabet[letterIndex + 1] || !team.alphabet[letterIndex + 1].complete) && team.alphabet[letterIndex].complete && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
           tabIndex: -1,
           className: "remove-btn",
           onClick: function onClick() {
@@ -57701,15 +57701,20 @@ var Timer = function Timer() {
     setStart(timer.start);
   }, [timer]);
   (0, _react.useEffect)(function () {
+    var timer1;
+
     if (timeLeft === 0) {
       dispatch((0, _timerActions.timerDoneAnimationStart)());
       setTimerFinished(true);
-      setTimeout(function () {
+      timer1 = setTimeout(function () {
         setTimerFinished(false);
         dispatch((0, _timerActions.timerDoneAnimationEnd)());
       }, 3000);
-    } // return () => clearTimeout(timer1)
+    }
 
+    return function () {
+      return clearTimeout(timer1);
+    };
   }, [timeLeft]);
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, {
     className: "timer"
@@ -58035,7 +58040,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54663" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39623" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
