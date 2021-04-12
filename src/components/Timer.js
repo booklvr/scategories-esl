@@ -54,15 +54,17 @@ const Timer = () => {
   }, [timer])
 
   useEffect(() => {
+    let timer1;
+
     if (timeLeft === 0) {
       dispatch(timerDoneAnimationStart())
       setTimerFinished(true)
-      setTimeout(() => {
+      timer1 = setTimeout(() => {
         setTimerFinished(false)
         dispatch(timerDoneAnimationEnd())
       }, 3000)
     }
-    // return () => clearTimeout(timer1)
+    return () => clearTimeout(timer1)
   }, [timeLeft])
 
   return (

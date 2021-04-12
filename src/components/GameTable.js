@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Modal } from 'react-bootstrap'
 
 // actions
 import {
@@ -57,9 +57,18 @@ const GameTable = ({ isModal }) => {
                   {teams.map((team, index) => {
                     if (team.alphabet[letterIndex].complete) {
                       return (
-                        <td key={uuid()} className='table-word'>
+                        <td
+                          key={uuid()}
+                          className={
+                            team.alphabet[letterIndex].complete &&
+                            letterIndex === letters.length - 1
+                              ? 'table-word table-word-complete'
+                              : 'table-word'
+                          }
+                        >
                           {team.alphabet[letterIndex].word}
-                          {!team.alphabet[letterIndex + 1].complete &&
+                          {(!team.alphabet[letterIndex + 1] ||
+                            !team.alphabet[letterIndex + 1].complete) &&
                             team.alphabet[letterIndex].complete && (
                               <Button
                                 tabIndex={-1}
